@@ -1,0 +1,60 @@
+<template>
+    <div class="victory mb-5 container w-100">
+        <div class="row container w-100">
+            <div class="col-md-3 mb-3">
+                <router-link to="/home-winnergalleryAll">
+                    <img src="../../../../public/frontend/images/winner.png" width="279" height="120" alt="Winner">
+                </router-link>
+                <!-- <div class="winner_image gap-3 d-flex justify-content-center">
+                    <img src="../../../../public/frontend/images/winner.png" width="279" height="120" alt="">
+                </div> -->
+            </div>
+            <div v-for="item in displayData" :key="item.id" class="col-md-3 mb-3 mt-1">
+                <div class="winner_image_sub d-flex justify-content-center gap-3">
+                    <div class="winner_image">
+                        <img :src="`/backend/images/winnergallery/${item.image}`" width="100px" height="100px" alt="">
+                    </div>
+                    <div class="subject_details">
+                        <p class="no-space">{{ item.event_name }}</p>
+                        <p class="no-space">{{ item.name }}</p>
+                        <p class="no-space">Class: {{ item.class }}</p>
+                        <p class="no-space">Roll/UID: {{ item.roll_or_uid }}</p>
+                        <p class="no-space">Lavel: {{ item.winning_place }}</p>
+                        <p class="no-space">Price: {{ item.price }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import axios from 'axios';
+import { computed, onMounted, ref } from 'vue';
+
+export default {
+    name: "WinnerGallery",
+    setup() {
+        const WinnerGallery = ref([]);
+
+        const winnerGalleryData = async () => {
+            const response = await axios.get('/api/academy/winneergallery');
+            if (response.data.data) {
+                WinnerGallery.value = response.data.data;
+            }
+        }
+
+        const displayData = computed(() => WinnerGallery.value.slice(0, 3));
+
+        onMounted(() => {
+            winnerGalleryData()
+        })
+        return {
+            winnerGalleryData,
+            displayData
+        }
+    }
+}
+</script>
+
+<style scoped></style>
