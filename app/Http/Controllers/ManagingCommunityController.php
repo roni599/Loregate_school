@@ -15,6 +15,8 @@ class ManagingCommunityController extends Controller
         $managingCummunity=ManagingCommunity::all();
         return ResponseHelper::success($managingCummunity,'ManagingCommunity data retrive successfully');
     }
+
+    
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [

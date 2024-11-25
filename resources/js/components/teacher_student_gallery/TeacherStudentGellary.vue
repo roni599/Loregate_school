@@ -61,7 +61,6 @@ import Swal from 'sweetalert2';
 
 export default {
     setup() {
-        const staffData_id = ref(null);
         const teacherStaffQty = ref('');
         const studentQty = ref('');
         const loading = ref(false);
@@ -94,13 +93,13 @@ export default {
         const submitForm = async () => {
             loading.value = true;
             try {
-                const response = await axios.post('/api/academy/staff-data/update', {
+                const response = await axios.post('/api/academy/staff-data/store-update', {
                     teacher_staff_qty: teacherStaffQty.value,
                     student_qty: studentQty.value,
-                    staffData_id:staffData_id.value
                 });
                 if (response.data) {
-                    resetForm();
+                    console.log(response)
+                    findStaffData()
                     Swal.fire({
                         icon: "success",
                         title: response.data.message,
@@ -122,9 +121,7 @@ export default {
         };
 
         const findStaffData = async () => {
-            const staffDataId = 1;
-            const response = await axios.get(`/api/academy/staff-data/${staffDataId}`)
-            staffData_id.value = response.data.data.id;
+            const response = await axios.get(`/api/academy/staff-data`)
             teacherStaffQty.value = response.data.data.teacher_staff_qty;
             studentQty.value = response.data.data.student_qty
 
@@ -139,7 +136,7 @@ export default {
             loading,
             submitForm,
             resetForm,
-            findStaffData
+            findStaffData,
         };
     },
 };

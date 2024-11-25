@@ -175,7 +175,7 @@ export default {
 
         const fetchData = async () => {
             try {
-                const response = await axios.get(`/api/academy/header/find/${academy_id.value}`);
+                const response = await axios.get(`/api/academy/header`);
                 if (response.data) {
                     academy_details.value = response.data.data;
                 }

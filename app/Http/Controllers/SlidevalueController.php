@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ImageValidator;
+use App\Helpers\ResponseHelper;
 use App\Models\Slidevalue;
 use Illuminate\Http\Request;
 
@@ -10,6 +11,12 @@ use function Laravel\Prompts\alert;
 
 class SlidevalueController extends Controller
 {
+    public function index()
+    {
+        $slidepicture = Slidevalue::first();
+        // return response()->json($slidepicture);
+        return ResponseHelper::success($slidepicture, "SlidePicture Data retrive successfully");
+    }
     public function store(Request $request)
     {
         if (!$request->has('images') || !is_array($request->images)) {
@@ -45,7 +52,7 @@ class SlidevalueController extends Controller
         $slidepicture = Slidevalue::where('academy_id', $id)->first();
         return response()->json($slidepicture);
     }
-    
+
     public function deleteImage(Request $request)
     {
         $validated = $request->validate([

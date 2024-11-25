@@ -80,10 +80,10 @@ export default {
 
         const submitForm = async () => {
             try {
-                const response = await axios.post('/api/academy/history/update', {
+                const response = await axios.post('/api/academy/history/store-update', {
                     history: history.value,
-                    academyHistory_id: academyHistory_id.value
                 })
+                console.log(response)
                 if (response) {
                     findacademyHistory();
                     Swal.fire({
@@ -100,9 +100,8 @@ export default {
         }
 
         const findacademyHistory = async () => {
-            const history_id = 1;
             try {
-                const response = await axios.get(`/api/academy/history/${history_id}`)
+                const response = await axios.get(`/api/academy/history`)
                 if (response) {
                     academyHistory_id.value = response.data.data.id;
                     history.value = response.data.data.history;

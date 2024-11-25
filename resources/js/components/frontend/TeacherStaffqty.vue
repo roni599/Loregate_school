@@ -25,9 +25,8 @@ export default {
     name: "TeacherStaffqty",
     setup() {
         const teacherStaffqty = ref({})
-        const academy_id = ref(1);
         const teacherStaffqtyData = async () => {
-            const response = await axios.get(`/api/academy/staff-data/${academy_id.value}`)
+            const response = await axios.get(`/api/academy/staff-data`)
             if (response.data.data) {
                 teacherStaffqty.value = response.data.data
             }
@@ -39,7 +38,6 @@ export default {
 
         return {
             teacherStaffqty,
-            academy_id
         };
     },
 };

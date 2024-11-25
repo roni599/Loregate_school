@@ -16,8 +16,9 @@ class AcademyController extends Controller
     public function index()
     {
         try {
-            $academy = Academy::all();
-            if ($academy->isEmpty()) {
+            $academy = Academy::first();
+
+            if (!$academy) {
                 return ResponseHelper::notFound('No academy data found');
             }
             return ResponseHelper::success($academy, 'Academy data retrieved successfully');
@@ -25,12 +26,8 @@ class AcademyController extends Controller
             return ResponseHelper::internalServerError('Failed to retrieve academy data', ['exception' => $e->getMessage()]);
         }
     }
-    public function allusers()
-    {
-        $allusers = User::all();
-        return response()->json($allusers);
-    }
-    public function store(Request $request)
+
+    public function storeUpdate(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'academy_name' => 'required|string|max:100',
@@ -38,66 +35,50 @@ class AcademyController extends Controller
             'academy_mobile_number' => 'required|string|max:15',
             'academy_logo' => 'nullable|string',
         ]);
-
         if ($validator->fails()) {
             return ResponseHelper::unprocessableEntity('Validation Error', $validator->errors());
         }
-        $academy = new Academy();
 
-        if ($request->has('academy_logo') && $request->academy_logo) {
-            $saveImage = ImageValidator::saveBase64Image($request->academy_logo, 'backend/images/academy/');
+        $academy_heading = Academy::first();
 
-            if (!$saveImage['status']) {
-                return ResponseHelper::unprocessableEntity($saveImage['message']);
+        if ($academy_heading) {
+            if (!$academy_heading) {
+                return ResponseHelper::unprocessableEntity('Academy not found');
             }
+            if ($request->has('academy_logo') && $request->academy_logo) {
+                if ($academy_heading->academy_logo) {
+                    ImageValidator::deleteImage('backend/images/academy/' . $academy_heading->academy_logo);
+                }
+                $saveImage = ImageValidator::saveBase64Image($request->academy_logo, 'backend/images/academy/');
+                if (!$saveImage['status']) {
+                    return ResponseHelper::unprocessableEntity($saveImage['message']);
+                }
+                $academy_heading->academy_logo = $saveImage['image_name'];
+            }
+            $academy_heading->academy_name = $request->academy_name;
+            $academy_heading->academy_address = $request->academy_address;
+            $academy_heading->academy_mobile_number = $request->academy_mobile_number;
+            $academy_heading->save();
+            return ResponseHelper::success($academy_heading, 'Academy Header updated successfully!');
+        } else {
+            $academy = new Academy();
 
-            $academy->academy_logo = $saveImage['image_name'];
+            if ($request->has('academy_logo') && $request->academy_logo) {
+                $saveImage = ImageValidator::saveBase64Image($request->academy_logo, 'backend/images/academy/');
+
+                if (!$saveImage['status']) {
+                    return ResponseHelper::unprocessableEntity($saveImage['message']);
+                }
+
+                $academy->academy_logo = $saveImage['image_name'];
+            }
+            $academy->academy_name = $request->academy_name;
+            $academy->academy_address = $request->academy_address;
+            $academy->academy_mobile_number = $request->academy_mobile_number;
+            $academy->save();
+            return ResponseHelper::success($academy, 'Academy Header saved successfully!');
         }
-
-        $academy->academy_name = $request->academy_name;
-        $academy->academy_address = $request->academy_address;
-        $academy->academy_mobile_number = $request->academy_mobile_number;
-        $academy->save();
-
-        return ResponseHelper::success($academy, 'Academy Header saved successfully!');
     }
-
-    public function update(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            // 'academy_id' => 'required',
-            'academy_name' => 'required|string|max:100',
-            'academy_address' => 'required|string|max:100',
-            'academy_mobile_number' => 'required|string|max:15',
-            'academy_logo' => 'nullable|string',
-        ]);
-
-        //for image insert into database
-        if ($validator->fails()) {
-            return ResponseHelper::unprocessableEntity('Validation Error', $validator->errors());
-        }
-        $academy = Academy::find($request->academy_id);
-
-        if (!$academy) {
-            return ResponseHelper::unprocessableEntity('Academy not found');
-        }
-        if ($request->has('academy_logo') && $request->academy_logo) {
-            if ($academy->academy_logo) {
-                ImageValidator::deleteImage('backend/images/academy/' . $academy->academy_logo);
-            }
-            $saveImage = ImageValidator::saveBase64Image($request->academy_logo, 'backend/images/academy/');
-            if (!$saveImage['status']) {
-                return ResponseHelper::unprocessableEntity($saveImage['message']);
-            }
-            $academy->academy_logo = $saveImage['image_name'];
-        }
-        $academy->academy_name = $request->academy_name;
-        $academy->academy_address = $request->academy_address;
-        $academy->academy_mobile_number = $request->academy_mobile_number;
-        $academy->save();
-        return ResponseHelper::success($academy, 'Academy Header updated successfully!');
-    }
-
 
     public function find($id)
     {
@@ -111,6 +92,14 @@ class AcademyController extends Controller
         }
     }
 
+    public function allusers()
+    {
+        $allusers = User::all();
+        return response()->json($allusers);
+    }
+
+
+    
     public function userSelfUpdate(Request $request)
     {
         $request->validate([

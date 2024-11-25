@@ -191,21 +191,21 @@ export default {
         const fullHistory = ref('');
 
         const educationBoardData = async () => {
-            const response = await axios.get(`/api/academy/education-board/${academy_id.value}`)
+            const response = await axios.get(`/api/academy/education-board`)
             if (response.data.data) {
                 educationBoard.value = response.data.data
             }
         }
 
         const primePresedentData = async () => {
-            const response = await axios.get(`/api/academy/prime-presedent/${academy_id.value}`)
+            const response = await axios.get(`/api/academy/prime-presedent`)
             if (response.data.data) {
                 primePresedent.value = response.data.data
             }
         }
 
         const academyHistoryData = async () => {
-            const response = await axios.get(`/api/academy/history/${academy_id.value}`);
+            const response = await axios.get(`/api/academy/history`);
             if (response.data.data) {
                 fullHistory.value = response.data.data.history;
                 const words = fullHistory.value.split(' ');

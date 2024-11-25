@@ -2,8 +2,8 @@
     <div class="container-fluid">
         <div class="card mt-4 mb-2">
             <div class="card-header border-bottom-0 p-4">
-                <router-link class="text-decoration-none text-info h5" to="/admin-dashboard">Dashboard</router-link><span
-                    class="text-muted h5"> / MediaLink</span>
+                <router-link class="text-decoration-none text-info h5"
+                    to="/admin-dashboard">Dashboard</router-link><span class="text-muted h5"> / MediaLink</span>
             </div>
         </div>
         <div class="row">
@@ -99,7 +99,8 @@ export default {
             formData.append("youtube_link", youtubeLink.value);
 
             try {
-                const response = await axios.post("/api/media-links/update", formData);
+                const response = await axios.post("/api/media-links/store-update", formData);
+                console.log(response)
                 if (response) {
                     loadURL()
                     Swal.fire({
@@ -114,8 +115,7 @@ export default {
 
         const loadURL = async () => {
             try {
-                const id = 1;
-                const response = await axios.get(`/api/media-find/${id}`);
+                const response = await axios.get(`/api/media-links`);
                 locationLink.value = response.data.links.location_link;
                 facebookLink.value = response.data.links.facebook_link;
                 youtubeLink.value = response.data.links.youtube_link;

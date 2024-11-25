@@ -8,31 +8,81 @@ use Illuminate\Support\Facades\Validator;
 
 class MediaLinkController extends Controller
 {
-    public function store(Request $request)
+    public function index()
     {
-        // Validate the request
-        // $validated = $request->validate([
-        //     'location_link' => 'required|url',
-        //     'facebook_link' => 'required|url',
-        //     'youtube_link' => 'required|url',
-        // ]);
+        $links = MediaLink::first();
+        return response()->json($links);
+    }
+    public function storeUpdate(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'location_link' => 'nullable|string|max:255',
+            'facebook_link' => 'nullable|url|max:255',
+            'youtube_link' => 'nullable|url|max:255',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+        $mediaLink = MediaLink::first();
 
-        // Save the data as an array
-        $mediaLink = new MediaLink();
-        $mediaLink->links = [
-            'location_link' => $request['location_link'],
-            'facebook_link' => $request['facebook_link'],
-            'youtube_link' => $request['youtube_link'],
-        ];
-        $mediaLink->save();
+        if ($mediaLink) {
+            $links = $mediaLink->links ?? [];
+            $links['location_link'] = $request->input('location_link', null);
+            $links['facebook_link'] = $request->input('facebook_link', null);
+            $links['youtube_link'] = $request->input('youtube_link', null);
 
-        return response()->json(['message' => 'Media links saved successfully!']);
+            $mediaLink->links = $links;
+            $mediaLink->save();
+
+            return response()->json([
+                'message' => 'Media link updated successfully',
+                'data' => $mediaLink,
+            ]);
+        } else {
+            $mediaLink = new MediaLink();
+            $mediaLink->links = [
+                'location_link' => $request['location_link'],
+                'facebook_link' => $request['facebook_link'],
+                'youtube_link' => $request['youtube_link'],
+            ];
+            $mediaLink->save();
+
+            return response()->json(['message' => 'Media links saved successfully!']);
+        }
     }
     public function getLinks($id)
     {
         $links = MediaLink::find($id);
         return response()->json($links);
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     public function update(Request $request)
     {
         // $mediaLink = MediaLink::find(1);

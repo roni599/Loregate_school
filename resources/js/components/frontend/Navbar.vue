@@ -48,12 +48,10 @@ import { onMounted, ref } from 'vue';
 export default {
     name: "Navbar-vue",
     setup() {
-        const academy_id = ref(5);
         const academy_details = ref({})
-
         const fetchData = async () => {
             try {
-                const response = await axios.get(`/api/academy/header/find/${academy_id.value}`);
+                const response = await axios.get(`/api/academy/header`);
                 if (response.data) {
                     academy_details.value = response.data.data;
                 }
@@ -65,14 +63,12 @@ export default {
             fetchData()
         })
         return {
-            academy_id,
             fetchData,
             academy_details
         }
     }
 }
 </script>
-
 <style scoped>
 .education_font {
     font-size: 14px;

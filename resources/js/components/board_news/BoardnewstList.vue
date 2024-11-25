@@ -52,7 +52,7 @@ export default {
 
         const fetchBoardNewsData = async () => {
             try {
-                const Response = await axios.get(`/api/academy/boardnews/find/${academy_id.value}`);
+                const Response = await axios.get(`/api/academy/boardnewsindex`);
                 if (Response.data) {
                     boardnesDataList.value = Response.data.data
                 }

@@ -22,7 +22,7 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-white" id="navbarDropdown" href="#" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        <img v-show="!loading" @load="handleImageLoad" :src="`/backend/images/users/${usersProfile.image}`"
+                        <img v-if="usersProfile.image" v-show="!loading" @load="handleImageLoad" :src="`/backend/images/users/${usersProfile.image}`"
                             class="images" alt="">
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">

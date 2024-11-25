@@ -160,7 +160,7 @@ export default {
         }
 
         const findData = async () => {
-            const response = await axios.get(`/api/academy/education-board/${academy_id.value}`)
+            const response = await axios.get(`/api/academy/education-board`)
             form.value.education_minister_name = response.data.data.eminister_name;
             form.value.education_minister_designation = response.data.data.edesignation;
             form.value.board_chairman_name = response.data.data.bminister_name;
@@ -171,7 +171,6 @@ export default {
             Object.keys(form.value).forEach(async (key) => {
                 if (key === 'education_minister_image' || key === 'board_chairman_image') {
                     const imagePath = `/backend/images/educationboard/${form.value[key]}`;
-
                     try {
                         const imageResponse = await fetch(imagePath);
                         const imageBlob = await imageResponse.blob();
@@ -196,9 +195,8 @@ export default {
             formData.append("board_chairman_name", form.value.board_chairman_name);
             formData.append("board_chairman_designation", form.value.board_chairman_designation);
             formData.append("board_chairman_image", form.value.board_chairman_image);
-            formData.append("academy_id", academy_id.value);
             try {
-                const response = await axios.post('/api/academyeducation-board/update', formData, {
+                const response = await axios.post('/api/academy/education-board/store-update', formData, {
                     headers: { "Content-Type": "multipart/form-data" },
                 })
                 if (response.data) {

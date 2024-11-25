@@ -9,7 +9,12 @@ use Illuminate\Http\Request;
 
 class RightPictureController extends Controller
 {
-    public function store(Request $request)
+    public function index()
+    {
+        $rightpicture = RightPicture::first();
+        return ResponseHelper::success($rightpicture, 'RightPicture retrive data successfully');
+    }
+    public function storeUpdate(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
@@ -17,25 +22,46 @@ class RightPictureController extends Controller
             'image' => 'nullable|string',
         ]);
 
-        if ($request->has('image') && $request->image) {
-            $image = $request->image;
-            $saveImage = ImageValidator::saveBase64Image($image, 'backend/images/rightpicture/');
+        $rightpicture = RightPicture::first();
+        
+        if ($rightpicture) {
+            if ($request->has('image') && $request->image) {
+                if ($rightpicture->image) {
+                    ImageValidator::deleteImage('backend/images/rightpicture/' . $rightpicture->image);
+                }
+                $saveImage = ImageValidator::saveBase64Image($request->image, 'backend/images/rightpicture/');
+                if (!$saveImage['status']) {
+                    return ResponseHelper::unprocessableEntity($saveImage['message']);
+                }
+                $rightpicture->image = $saveImage['image_name'];
+            }
+            $rightpicture->name = $request->name;
+            $rightpicture->designation = $request->designation;
+            $rightpicture->academy_id = 1;
+            $rightpicture->save();
+            return ResponseHelper::success($rightpicture, 'Leftpictrue updated successfully!');
+        } else {
 
-            if (!$saveImage['status']) {
-                return response()->json(['message' => $saveImage['message']], 422);
+            if ($request->has('image') && $request->image) {
+                $image = $request->image;
+                $saveImage = ImageValidator::saveBase64Image($image, 'backend/images/rightpicture/');
+
+                if (!$saveImage['status']) {
+                    return response()->json(['message' => $saveImage['message']], 422);
+                }
+
+                $imagePath = $saveImage['image_name'];
             }
 
-            $imagePath = $saveImage['image_name'];
+            RightPicture::create([
+                'name' => $request->name,
+                'designation' => $request->designation,
+                'image' => $imagePath,
+                'academy_id' => 1
+            ]);
+
+            return response()->json('Data saved successfully');
         }
-
-        RightPicture::create([
-            'name' => $request->name,
-            'designation' => $request->designation,
-            'image' => $imagePath,
-            'academy_id' => 1
-        ]);
-
-        return response()->json('Data saved successfully');
     }
 
     public function find($id)

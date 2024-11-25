@@ -2,8 +2,8 @@
     <div class="container-fluid">
         <div class="card mt-4 mb-2">
             <div class="card-header border-bottom-0 p-4">
-                <router-link class="text-decoration-none text-info h5" to="/admin-dashboard">Dashboard</router-link><span
-                    class="text-muted h5"> / Left-Picture</span>
+                <router-link class="text-decoration-none text-info h5"
+                    to="/admin-dashboard">Dashboard</router-link><span class="text-muted h5"> / Left-Picture</span>
             </div>
         </div>
         <div class="row">
@@ -100,38 +100,38 @@ export default {
             }
         };
 
-        const updateleftPicture = async () => {
-            loading.value = true;
-            const formData = new FormData();
-            formData.append("name", form.value.name);
-            formData.append("designation", form.value.designation);
-            formData.append("image", form.value.image);
-            try {
-                const response = await axios.post(
-                    "/api/academy/leftpicture",
-                    formData,
-                    {
-                        headers: {
-                            "Content-Type": "multipart/form-data",
-                        },
-                    }
-                );
-                if (response.data) {
-                    Swal.fire({
-                        icon: "success",
-                        title: response.data.message,
-                    });
-                }
-            } catch (error) {
-                console.error(error);
-                Swal.fire({
-                    icon: "error",
-                    title: error.response?.data?.message || "An error occurred",
-                });
-            } finally {
-                loading.value = false;
-            }
-        };
+        // const updateleftPicture = async () => {
+        //     loading.value = true;
+        //     const formData = new FormData();
+        //     formData.append("name", form.value.name);
+        //     formData.append("designation", form.value.designation);
+        //     formData.append("image", form.value.image);
+        //     try {
+        //         const response = await axios.post(
+        //             "/api/academy/leftpicture",
+        //             formData,
+        //             {
+        //                 headers: {
+        //                     "Content-Type": "multipart/form-data",
+        //                 },
+        //             }
+        //         );
+        //         if (response.data) {
+        //             Swal.fire({
+        //                 icon: "success",
+        //                 title: response.data.message,
+        //             });
+        //         }
+        //     } catch (error) {
+        //         console.error(error);
+        //         Swal.fire({
+        //             icon: "error",
+        //             title: error.response?.data?.message || "An error occurred",
+        //         });
+        //     } finally {
+        //         loading.value = false;
+        //     }
+        // };
 
         const submitForm = async () => {
             loading.value = true;
@@ -139,9 +139,8 @@ export default {
             formData.append("name", form.value.name);
             formData.append("designation", form.value.designation);
             formData.append("image", form.value.image);
-            formData.append('academy_id', academy_id.value);
             try {
-                const response = await axios.post('/api/academy/leftpicture/update',
+                const response = await axios.post('/api/academy/leftpicture/store-update',
                     formData,
                     {
                         headers: {
@@ -149,9 +148,8 @@ export default {
                         },
                     }
                 )
-                console.log(response)
                 if (response.data) {
-                    resetForm();
+                    findeleftPicture()
                     Swal.fire({
                         icon: "success",
                         title: response.data.message,
@@ -183,11 +181,11 @@ export default {
         const findeleftPicture = async () => {
             try {
                 const response = await axios.get(
-                    `/api/academy/findleft-picture/${academy_id.value}`
+                    `/api/academy/leftpicture`
                 );
-                form.value.name = response.data.name;
-                form.value.designation = response.data.designation;
-                form.value.image = response.data.image;
+                form.value.name = response.data.data.name;
+                form.value.designation = response.data.data.designation;
+                form.value.image = response.data.data.image;
                 const picturePath = `/backend/images/leftpicture/${form.value.image}`;
                 const imageResponse = await fetch(picturePath);
                 if (imageResponse.ok) {
@@ -213,7 +211,7 @@ export default {
             submitForm,
             academy_id,
             findeleftPicture,
-            updateleftPicture
+            // updateleftPicture
         };
     },
 };

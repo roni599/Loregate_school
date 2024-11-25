@@ -57,23 +57,23 @@ export default {
         const slidePicture = ref({});
 
         const leftPictureData = async () => {
-            const response = await axios.get(`/api/academy/findleft-picture/${academy_id.value}`);
+            const response = await axios.get(`/api/academy/leftpicture`);
             if (response.data) {
-                leftPicture.value = response.data;
+                leftPicture.value = response.data.data;
             }
         }
 
         const rightPictureData = async () => {
-            const response = await axios.get(`/api/academy/rightpicture-picture/${academy_id.value}`);
+            const response = await axios.get(`/api/academy/rightpicture`);
             if (response.data) {
-                rightPicture.value = response.data;
+                rightPicture.value = response.data.data;
             }
         }
 
         const slidePictureData = async () => {
-            const response = await axios.get(`/api/academy/slidevalue/${academy_id.value}`);
+            const response = await axios.get(`/api/academy/slidevalue`);
             if (response.data) {
-                slidePicture.value = response.data;
+                slidePicture.value = response.data.data;
             }
         }
 

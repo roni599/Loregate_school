@@ -142,9 +142,8 @@ export default {
             formData.append('president_name', form.value.president_name);
             formData.append('president_designation', form.value.president_designation);
             formData.append('president_image', form.value.president_image);
-            formData.append('academy_id', academy_id.value)
             try {
-                const response = await axios.post('/api/academy/prime-presedent/update', formData, {
+                const response = await axios.post('/api/academy/prime-presedent/store-update', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
                     },
@@ -158,10 +157,12 @@ export default {
                 }
             } catch (error) {
                 
+            }finally{
+                loading.value=false
             }
         }
         const findData = async () => {
-            const response = await axios.get(`/api/academy/prime-presedent/${academy_id.value}`)
+            const response = await axios.get(`/api/academy/prime-presedent`)
             form.value.prime_minister_name = response.data.data.prime_minister_name;
             form.value.prime_minister_designation = response.data.data.prime_minister_designation;
             form.value.president_name = response.data.data.president_name;

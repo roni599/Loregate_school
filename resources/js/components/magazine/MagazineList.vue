@@ -53,7 +53,7 @@ export default {
             try {
                 const response = await axios.get('/api/academy/magazine');
                 if (response.data) {
-                    magazineData.value = response.data
+                    magazineData.value = response.data.data
                 }
             } catch (error) {
                 console.log(error)

@@ -100,8 +100,8 @@ export default {
                         try {
                             const response = await axios.post('/api/academy/heading/delete', {
                                 heading: headingToDelete.heading,
-                                heading_id: heading_id.value,
                             });
+                            console.log(response)
                             inputFields.value.splice(index, 1);
                             Swal.fire({
                                 icon: "success",
@@ -123,9 +123,8 @@ export default {
         const submitHeading = () => {
             loading.value = true;
             const headings = [form.heading1, ...inputFields.value.map(field => field.heading)];
-            const headingId = heading_id.value;
-            const apiEndpoint = headingId ? '/api/academy/heading/update' : '/api/academy/heading/store';
-            const data = headingId ? { heading_id: headingId, headings: headings } : { headings: headings };
+            const apiEndpoint = '/api/academy/heading/store-update';
+            const data = { headings: headings };
             axios.post(apiEndpoint, data)
                 .then(response => {
                     Swal.fire({
@@ -146,8 +145,7 @@ export default {
         };
 
         const headingDataRetrive = () => {
-            const headingId = 3;
-            axios.get(`/api/academy/heading/find/${headingId}`)
+            axios.get(`/api/academy/heading`)
                 .then(response => {
                     heading_id.value = response.data.heading.id;
                     const headings = response.data.heading ? response.data.heading.headings : [];

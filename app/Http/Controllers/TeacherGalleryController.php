@@ -19,7 +19,7 @@ class TeacherGalleryController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
             'designation' => 'required|string',
-            'mobile' => 'required|digits:10',
+            'mobile' => 'required|digits:11',
             'email' => 'required|email',
             'religion' => 'required|string',
             'image' => 'nullable|string',

@@ -1,7 +1,7 @@
 <template>
     <div class="headline mb-4">
         <marquee>
-            <template v-for="(item, index) in headings" :key="index">
+            <template v-for="(item, index) in headings.headings" :key="index">
                 ** {{ item }} **
             </template>
         </marquee>
@@ -16,25 +16,21 @@ export default {
     name: "Headline",
     setup() {
         const headings = ref([]);
-        const academy_id = ref(3);
 
         const fetchData = async () => {
             try {
-                const response = await axios.get(`/api/academy/heading/find/${academy_id.value}`);
+                const response = await axios.get(`/api/academy/heading`);
                 if (response.data) {
-                    headings.value = response.data.heading.headings;
+                    headings.value = response.data.heading;
                 }
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         };
-
         onMounted(() => {
             fetchData();
         });
-
         return {
-            academy_id,
             headings,
         };
     },

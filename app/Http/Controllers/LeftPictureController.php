@@ -10,7 +10,14 @@ use Illuminate\Support\Facades\Validator;
 
 class LeftPictureController extends Controller
 {
-    public function store(Request $request)
+
+    public function index()
+    {
+        $leftPicture = LeftPicture::first();
+        return ResponseHelper::success($leftPicture, 'leftPicture data retrive successfully');
+    }
+
+    public function storeUpdate(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string',
@@ -22,25 +29,55 @@ class LeftPictureController extends Controller
             return ResponseHelper::unprocessableEntity('Validation Error', $validator->errors());
         }
 
-        if ($request->has('image') && $request->image) {
-            $image = $request->image;
-            $saveImage = ImageValidator::saveBase64Image($image, 'backend/images/leftpicture/');
+        $leftPictureCheck = LeftPicture::first();
 
-            if (!$saveImage['status']) {
-                return response()->json(['message' => $saveImage['message']], 422);
+        if ($leftPictureCheck) {
+            if ($request->has('image') && $request->image) {
+                if ($leftPictureCheck->image) {
+                    ImageValidator::deleteImage('backend/images/leftpicture/' . $leftPictureCheck->image);
+                }
+                $saveImage = ImageValidator::saveBase64Image($request->image, 'backend/images/leftpicture/');
+                if (!$saveImage['status']) {
+                    return ResponseHelper::unprocessableEntity($saveImage['message']);
+                }
+                $leftPictureCheck->image = $saveImage['image_name'];
             }
+            $leftPictureCheck->name = $request->name;
+            $leftPictureCheck->designation = $request->designation;
+            $leftPictureCheck->academy_id = 1;
+            $leftPictureCheck->save();
+            return ResponseHelper::success($leftPictureCheck, 'Leftpictrue updated successfully!');
+        } else {
+            if ($request->has('image') && $request->image) {
+                $image = $request->image;
+                $saveImage = ImageValidator::saveBase64Image($image, 'backend/images/leftpicture/');
 
-            $imagePath = $saveImage['image_name'];
+                if (!$saveImage['status']) {
+                    return response()->json(['message' => $saveImage['message']], 422);
+                }
+
+                $imagePath = $saveImage['image_name'];
+            }
+            $leftpicture = LeftPicture::create([
+                'name' => $request->name,
+                'designation' => $request->designation,
+                'image' => $imagePath,
+                'academy_id' => 1
+            ]);
+
+            return ResponseHelper::success($leftpicture, 'Leftpictrue details created successfully!');
         }
-        $leftpicture = LeftPicture::create([
-            'name' => $request->name,
-            'designation' => $request->designation,
-            'image' => $imagePath,
-            'academy_id' => 1
-        ]);
-
-        return ResponseHelper::success($leftpicture, 'Leftpictrue details created successfully!');
     }
+
+
+
+
+
+
+
+
+
+    
 
     public function find($id)
     {

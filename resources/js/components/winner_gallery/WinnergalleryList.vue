@@ -61,7 +61,7 @@ export default {
             try {
                 const response = await axios.get('/api/academy/winneergallery');
                 if (response.data) {
-                    winneergalleryData.value = response.data;
+                    winneergalleryData.value = response.data.data;
                 }
             } catch (error) {
                 console.log(error)

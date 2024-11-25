@@ -29,7 +29,7 @@
                                     <td>{{ item.reference }}</td> <!-- Display the reference -->
                                     <td>{{ item.subject }}</td> <!-- Display the subject -->
                                     <td>{{ item.description }}</td> <!-- Display the description -->
-                                    <td><img :src="'/backend/images/boardNotice/' + item.signature" alt="Signature"
+                                    <td><img v-if="item.signature" :src="'/backend/images/boardNotice/' + item.signature" alt="Signature"
                                             width="50" height="50" /></td> <!-- Display the signature -->
                                     <td>{{ formatDate(item.created_at) }}</td>
                                 </tr>
@@ -56,7 +56,7 @@ export default {
             try {
                 const response = await axios.get('/api/academy/board-notice');
                 if (response.data) {
-                    noticeBoardData.value = response.data
+                    noticeBoardData.value = response.data.data
                 }
             } catch (error) {
                 console.log(error)

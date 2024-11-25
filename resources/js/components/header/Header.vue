@@ -2,8 +2,8 @@
     <div class="container-fluid">
         <div class="card mt-3 mb-2">
             <div class="card-header border-bottom-0 p-4">
-                <router-link class="text-decoration-none text-info h5" to="/admin-dashboard">Dashboard</router-link><span
-                    class="text-muted h5"> /
+                <router-link class="text-decoration-none text-info h5"
+                    to="/admin-dashboard">Dashboard</router-link><span class="text-muted h5"> /
                     Header</span>
             </div>
         </div>
@@ -36,7 +36,8 @@
                                     <div class="form-floating mb-2 mb-md-0">
                                         <input class="form-control" v-model="form.academy_address" id="inputAddress"
                                             type="text" placeholder="Address" />
-                                        <small class="text-danger" v-if="errors.academy_address">{{ errors.academy_address[0]
+                                        <small class="text-danger" v-if="errors.academy_address">{{
+                                            errors.academy_address[0]
                                             }}</small>
                                     </div>
                                 </div>
@@ -103,7 +104,6 @@ export default {
         });
         const loading = ref(false);
         const fileInput = ref(null);
-        const academy_id = ref(null);
         const errors = ref({});
 
         const onFileSelect = (event) => {
@@ -125,7 +125,6 @@ export default {
         const submitForm = async () => {
             loading.value = true;
             const formData = new FormData();
-            formData.append('academy_id', academy_id.value);
             formData.append('academy_name', form.value.academy_name);
             formData.append('academy_address', form.value.academy_address);
             formData.append('academy_mobile_number', form.value.academy_mobile_number);
@@ -133,7 +132,7 @@ export default {
             if (form.value.academy_logo) {
                 formData.append('academy_logo', form.value.academy_logo);
             }
-            const url = academy_id.value ? '/api/academy/header/update' : '/api/academy/header/store';
+            const url = '/api/academy/header/store-update';
 
             axios.post(url, formData, {
                 headers: {
@@ -142,6 +141,7 @@ export default {
                 },
             })
                 .then(response => {
+                    console.log(response)
                     Swal.fire({
                         icon: "success",
                         title: response.data.message,
@@ -150,66 +150,21 @@ export default {
                     resetForm();
                 })
                 .catch(error => {
-                    errors.value=error.response.data.errors;
+                    errors.value = error.response.data.errors;
                 })
                 .finally(() => {
                     loading.value = false;
                 });
         };
 
-        const resetForm = () => {
-            form.value.academy_name = '';
-            form.value.academy_address = '';
-            form.value.academy_mobile_number = '';
-            form.value.academy_logo = null;
-        };
-
-        // const retriveData = async () => {
-        //     await axios.get('/api/academy/header/find/' + 5)
-        //         .then((response) => {
-        //             const data = response.data.data;
-        //             academy_id.value = data.id;
-        //             form.academy_name = data.academy_name;
-        //             form.academy_address = data.academy_address;
-        //             form.academy_mobile_number = data.academy_mobile_number;
-        //             form.academy_logo = `/backend/images/academy/${data.academy_logo}`;
-
-        //             Object.keys(form.value).forEach(async (key) => {
-        //                 if (key === 'academy_logo' || key === 'president_image') {
-        //                     const imagePath = `/backend/images/primepresedent/${form.value[key]}`;
-
-        //                     try {
-        //                         const imageResponse = await fetch(imagePath);
-        //                         const imageBlob = await imageResponse.blob();
-        //                         const reader = new FileReader();
-        //                         reader.onloadend = () => {
-        //                             form.value[key] = reader.result;
-        //                         };
-        //                         reader.readAsDataURL(imageBlob);
-        //                     } catch (error) {
-        //                         console.error(`Error fetching image for ${key}:`, error);
-        //                     }
-        //                 }
-        //             });
-        //         })
-        //         .catch((error) => {
-
-        //         });
-        // };
-
         const retriveData = async () => {
             try {
-                const response = await axios.get('/api/academy/header/find/' + 2);
+                const response = await axios.get('/api/academy/header');
                 const data = response.data.data;
-
-                // Assigning data to form fields
-                academy_id.value = data.id;
                 form.value.academy_name = data.academy_name;
                 form.value.academy_address = data.academy_address;
                 form.value.academy_mobile_number = data.academy_mobile_number;
                 form.value.academy_logo = data.academy_logo;
-
-                // Fetch and convert `academy_logo` to base64 format
                 const imagePath = `/backend/images/academy/${data.academy_logo}`;
                 const imageResponse = await fetch(imagePath);
                 const imageBlob = await imageResponse.blob();
@@ -224,6 +179,14 @@ export default {
                 console.error("Error retrieving data:", error);
             }
         };
+
+        const resetForm = () => {
+            form.value.academy_name = '';
+            form.value.academy_address = '';
+            form.value.academy_mobile_number = '';
+            form.value.academy_logo = null;
+        };
+
         onMounted(() => {
             retriveData();
         });
@@ -235,7 +198,6 @@ export default {
             onFileSelect,
             fileInput,
             retriveData,
-            academy_id,
             errors
         }
     }

@@ -2,8 +2,8 @@
     <div class="container-fluid">
         <div class="card mt-4 mb-2">
             <div class="card-header border-bottom-0 p-4">
-                <router-link class="text-decoration-none text-info h5" to="/admin-dashboard">Dashboard</router-link><span
-                    class="text-muted h5"> / Campus</span>
+                <router-link class="text-decoration-none text-info h5"
+                    to="/admin-dashboard">Dashboard</router-link><span class="text-muted h5"> / Campus</span>
             </div>
         </div>
 
@@ -75,7 +75,7 @@ export default {
         const preview1 = ref(null);
         const preview2 = ref(null);
         const loading = ref(false);
-        const campusPicture_id=ref(null);
+        const campusPicture_id = ref(null);
 
         const onFileSelect = (event, imageType) => {
             const file = event.target.files[0];
@@ -104,12 +104,11 @@ export default {
             const formData = new FormData();
             formData.append('picture1', form.picture1);
             formData.append('picture2', form.picture2);
-            
             try {
-                const response = await axios.post('/api/campus/store', formData, {
+                const response = await axios.post('/api/campus/picture/store-update', formData, {
                     headers: { 'Content-Type': 'multipart/form-data' },
                 });
-                if(response.data){
+                if (response.data) {
                     Swal.fire({
                         icon: 'success',
                         title: response.data.message,
@@ -149,14 +148,13 @@ export default {
         // }
 
         const findData = async () => {
-            const id = 6;
-            const response = await axios.get(`/api/campus/picture/${id}`)
+            const response = await axios.get(`/api/campus/pictureindex`)
             // console.log(response.data.id)
-            campusPicture_id.value=response.data.id;
-            form.picture1 = response.data.picture1;
-            form.picture2 = response.data.picture2;
-            preview1.value = `/backend/images/campus/${response.data.picture1}`;
-            preview2.value = `/backend/images/campus/${response.data.picture2}`;
+            campusPicture_id.value = response.data.data.id;
+            form.picture1 = response.data.data.picture1;
+            form.picture2 = response.data.data.picture2;
+            preview1.value = `/backend/images/campus/${response.data.data.picture1}`;
+            preview2.value = `/backend/images/campus/${response.data.data.picture2}`;
             Object.keys(form).forEach(async (key) => {
                 // console.log(`${key}: ${form[key]}`);
                 if (key === 'picture1' || key === 'picture2') {

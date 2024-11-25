@@ -9,7 +9,12 @@ use App\Helpers\ResponseHelper;
 
 class AcademyHistoryController extends Controller
 {
-    public function store(Request $request)
+    public function index()
+    {
+        $academyHistory = AcademyHistory::first();
+        return ResponseHelper::success($academyHistory, 'Academy History Data Retrive successfully!');
+    }
+    public function storeUpdate(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'history' => 'required|string|max:1000',
@@ -19,13 +24,49 @@ class AcademyHistoryController extends Controller
             return ResponseHelper::unprocessableEntity('Validation Error', $validator->errors());
         }
 
-        $academyHistory = AcademyHistory::create([
-            'history' => $request->input('history'),
-        ]);
+        $academyHistory = AcademyHistory::first();
 
-        return ResponseHelper::success($academyHistory, 'Academy History Created successfully!');
+        if ($academyHistory) {
+            $academyHistory->history = $request->input('history');
+            $academyHistory->save();
+            return ResponseHelper::success($academyHistory, 'Academy History Updated Successfully!');
+        } else {
+            $academyHistory = AcademyHistory::create([
+                'history' => $request->input('history'),
+            ]);
+            return ResponseHelper::success($academyHistory, 'Academy History Created successfully!');
+        }
     }
-    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     public function find($id)
     {
         $academyHistory = AcademyHistory::findOrFail($id);
@@ -36,7 +77,7 @@ class AcademyHistoryController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'history' => 'required|string|max:1000',
-            'academyHistory_id'=>'required'
+            'academyHistory_id' => 'required'
         ]);
 
         if ($validator->fails()) {

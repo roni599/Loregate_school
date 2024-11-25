@@ -141,9 +141,8 @@ export default {
             formData.append("name", form.value.name);
             formData.append("designation", form.value.designation);
             formData.append("image", form.value.image);
-            formData.append('academy_id', academy_id.value);
             try {
-                const response = await axios.post('/api/academy/rightpicture/update',
+                const response = await axios.post('/api/academy/rightpicture/store-update',
                     formData,
                     {
                         headers: {
@@ -151,8 +150,9 @@ export default {
                         },
                     }
                 )
+                console.log(response)
                 if (response.data) {
-                    resetForm();
+                    findrightPicture()
                     Swal.fire({
                         icon: "success",
                         title: response.data.message,
@@ -173,11 +173,11 @@ export default {
         const findrightPicture = async () => {
             try {
                 const response = await axios.get(
-                    `/api/academy/rightpicture-picture/${academy_id.value}`
+                    `/api/academy/rightpicture`
                 );
-                form.value.name = response.data.name;
-                form.value.designation = response.data.designation;
-                form.value.image = response.data.image;
+                form.value.name = response.data.data.name;
+                form.value.designation = response.data.data.designation;
+                form.value.image = response.data.data.image;
                 const picturePath = `/backend/images/rightpicture/${form.value.image}`;
                 const imageResponse = await fetch(picturePath);
                 if (imageResponse.ok) {

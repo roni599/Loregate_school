@@ -9,22 +9,71 @@ use Illuminate\Support\Facades\Validator;
 
 class HeadingController extends Controller
 {
-    public function store(Request $request)
+
+    public function index()
+    {
+        try {
+            $heading = Heading::first();
+            if (!$heading) {
+                return ResponseHelper::notFound('No heading data found');
+            }
+            return response()->json(['heading' => $heading]);
+        } catch (\Exception $e) {
+            return ResponseHelper::internalServerError('An error occurred while retrieving heading data', [
+                'exception' => $e->getMessage(),
+            ]);
+        }
+    }
+    public function storeUpdate(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'headings' => 'required|array|min:1',
             'headings.*' => 'required|string|max:255',
         ]);
-
         if ($validator->fails()) {
             return ResponseHelper::unprocessableEntity('Validation Error', $validator->errors());
         }
-        $validated = $validator->validated();
-        $heading = new Heading();
-        $heading->headings = $validated['headings'];
-        $heading->save();
-        return ResponseHelper::success($heading, 'Academy Header saved successfully!');
+
+        $heading = Heading::first();
+
+        if ($heading) {
+            $heading->headings = $request->input('headings');
+            $heading->save();
+            return ResponseHelper::success(['heading' => $heading], 'Heading updated successfully!');
+        } else {
+            $validated = $validator->validated();
+            $heading = new Heading();
+            $heading->headings = $validated['headings'];
+            $heading->save();
+            return ResponseHelper::success($heading, 'Academy Header saved successfully!');
+        }
     }
+
+    public function delete(Request $request)
+    {
+        $headingToDelete = $request->input('heading');
+        $heading = Heading::first();
+        if (!$heading) {
+            return response()->json(['error' => 'Heading not found'], 404);
+        }
+        $updatedHeadings = array_filter($heading->headings, function ($heading) use ($headingToDelete) {
+            return $heading !== $headingToDelete;
+        });
+        $heading->headings = array_values($updatedHeadings);
+        $heading->save();
+        return response()->json(['message' => 'Heading deleted successfully']);
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     public function update(Request $request)
     {
@@ -53,56 +102,5 @@ class HeadingController extends Controller
             return response()->json(['error' => 'Heading not found'], 404);
         }
         return response()->json(['heading' => $heading]);
-    }
-
-    // public function delete(Request $request)
-    // {
-    //     $heading = Heading::find($request->heading_id);
-    //     return response()->json($heading);
-    //     $headingText = $request->input('heading'); 
-
-    //     // Validate heading is provided
-    //     if (!$headingText) {
-    //         return response()->json(['error' => 'Heading text is required'], 422);
-    //     }
-
-    //     // Find the heading in the database by text
-    //     $heading = Heading::where('headings', $headingText)->first();
-
-    //     if (!$heading) {
-    //         return response()->json(['error' => 'Heading not found'], 404);
-    //     }
-
-    //     // Delete the heading from the database
-    //     $heading->delete();
-
-    //     return response()->json(['message' => 'Heading deleted successfully!']);
-    // }
-
-    public function delete(Request $request)
-    {
-        // Get the heading and heading_id from the request
-        $headingToDelete = $request->input('heading');
-        $headingId = $request->input('heading_id');
-
-        // Find the heading record by its ID
-        $heading = Heading::find($headingId);
-
-        // If the heading is not found, return an error
-        if (!$heading) {
-            return response()->json(['error' => 'Heading not found'], 404);
-        }
-
-        // Remove the specific heading from the headings array
-        $updatedHeadings = array_filter($heading->headings, function ($heading) use ($headingToDelete) {
-            return $heading !== $headingToDelete;
-        });
-
-        // Reindex the array and update the record
-        $heading->headings = array_values($updatedHeadings);
-        $heading->save();
-
-        // Return success response
-        return response()->json(['message' => 'Heading deleted successfully']);
     }
 }

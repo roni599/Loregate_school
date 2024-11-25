@@ -9,7 +9,13 @@ use Illuminate\Support\Facades\Validator;
 
 class StaffDataController extends Controller
 {
-    public function store(Request $request)
+    public function index()
+    {
+        $staffDataId = StaffData::first();
+        return ResponseHelper::success($staffDataId, 'Academy StaffData Retrive successfully!');
+    }
+    
+    public function storeUpdate(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'teacher_staff_qty' => 'required|integer',
@@ -20,13 +26,31 @@ class StaffDataController extends Controller
             return ResponseHelper::unprocessableEntity('Validation Error', $validator->errors());
         }
 
-        StaffData::create([
-            'teacher_staff_qty' => $request->input('teacher_staff_qty'),
-            'student_qty' => $request->input('student_qty'),
-        ]);
+        $staffData = StaffData::first();
 
-        return response()->json(['message' => 'Data saved successfully']);
+        if ($staffData) {
+            $staffData->update([
+                'teacher_staff_qty' => $request->input('teacher_staff_qty'),
+                'student_qty' => $request->input('student_qty'),
+            ]);
+            return ResponseHelper::success($staffData, 'Academy StaffData Updated successfully!');
+        } else {
+            StaffData::create([
+                'teacher_staff_qty' => $request->input('teacher_staff_qty'),
+                'student_qty' => $request->input('student_qty'),
+            ]);
+            return response()->json(['message' => 'Data saved successfully']);
+        }
     }
+
+
+
+
+
+
+
+
+
 
     public function find($id)
     {
