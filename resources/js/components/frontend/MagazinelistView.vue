@@ -44,7 +44,6 @@ export default {
         const magazineSingleData = async () => {
             try {
                 const response = await axios.get(`/api/academy/magazinefind/${props.id}`);
-                console.log(response);
                 if (response.data.data) {
                     magazineSingledata.value = response.data.data
                 }

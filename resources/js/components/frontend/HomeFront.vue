@@ -60,7 +60,6 @@ export default {
   setup() {
     const route = useRoute();
     const router = useRouter();
-    // Computed property to control visibility based on route meta
     const hideMainContent = computed(() => route.meta.hideMainContent);
     onMounted(async () => {
       if (await User.loggedIn()) {

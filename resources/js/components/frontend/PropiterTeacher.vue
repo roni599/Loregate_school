@@ -26,14 +26,14 @@
         </div>
         <div class="tableforDetails col-12 col-lg-8 px-lg-0 px-md-0 px-sm-5">
             <p class="text-center fw-bold fs-5 text-primary">Notice Board</p>
-            <!-- Add a wrapper for the table -->
-            <div style="max-height: 300px; overflow-y: auto;">
+            <!-- Add a wrapper for the table with a fixed height and scroll -->
+            <div style="max-height: 400px; overflow-y: auto;">
                 <table class="table table-responsive table-striped table-hover table-bordered">
                     <thead>
                         <tr>
-                            <th class="bg-info">Publish Date</th>
-                            <th class="bg-info text-center">Subject</th>
-                            <th class="bg-info text-center">View</th>
+                            <th class="bg-info text-center text-white">Publish Date</th>
+                            <th class="bg-info text-center text-white">Subject</th>
+                            <th class="bg-info text-center text-white">View</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -47,6 +47,7 @@
                 </table>
             </div>
         </div>
+
     </div>
     <div class="modal fade" id="exampleModalToggleuu" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
         tabindex="-1">

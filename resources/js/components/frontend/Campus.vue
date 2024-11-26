@@ -35,7 +35,6 @@ export default {
                 const response = await axios.get("/api/campus/pictureindex");
                 if (response.data) {
                     campusPicture.value = response.data;
-                    console.log(campusPicture.value)
                 }
             } catch (error) { }
         };

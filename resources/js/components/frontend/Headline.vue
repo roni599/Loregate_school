@@ -1,5 +1,5 @@
 <template>
-    <div class="headline mb-4">
+    <div class="headline mb-3">
         <marquee>
             <template v-for="(item, index) in headings.headings" :key="index">
                 ** {{ item }} **

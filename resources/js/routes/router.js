@@ -8,6 +8,15 @@ import TeacherGalleryfrontend from '../components/frontend/TeacherGallery.vue';
 import BoardNewsfrontend from '../components/frontend/BoardNews.vue';
 import WinnergalleryAll from '../components/frontend/WinnergalleryAll.vue';
 import MagazineAll from '../components/frontend/MagazineAll.vue';
+import MagazinelistView from '../components/frontend/MagazinelistView.vue';
+import EducatonView from '../components/frontend/EducatonView.vue';
+import HealthView from '../components/frontend/HealthView.vue';
+import ReligionView from '../components/frontend/ReligionView.vue';
+import NewsView from '../components/frontend/NewsView.vue';
+import StoryView from '../components/frontend/StoryView.vue';
+import PoemView from '../components/frontend/PoemView.vue';
+import JokesView from '../components/frontend/JokesView.vue';
+import MagicView from '../components/frontend/MagicView.vue';
 
 // login components
 import Login from '../components/auth/Login.vue';
@@ -35,6 +44,7 @@ import WinnerGallery from '../components/winner_gallery/WinnerGallery.vue';
 import Magazine from '../components/magazine/Magazine.vue';
 import Campus from '../components/campus/Campus.vue';
 import MediaLink from '../components/media_link/MediaLink.vue';
+
 
 //route start
 const routes = [
@@ -95,13 +105,95 @@ const routes = [
                 meta: { hideMainContent: true },
                 props: { content: true },
             },
+            {
+                path: 'home-magazinelistview/:id',
+                name: 'MagazinelistView',
+                components: {
+                    default: HomeFront,
+                    content: MagazinelistView,
+                },
+                meta: { hideMainContent: true },
+                props: { content: true },
+            },
+            {
+                path: 'education_view',
+                name: 'EducatonView',
+                components: {
+                    default: HomeFront,
+                    content: EducatonView,
+                },
+                meta: { hideMainContent: true }
+            },
+            {
+                path: 'health_view',
+                name: 'HealthView',
+                components: {
+                    default: HomeFront,
+                    content: HealthView,
+                },
+                meta: { hideMainContent: true }
+            },
+            {
+                path: 'religion_view',
+                name: 'ReligionView',
+                components: {
+                    default: HomeFront,
+                    content: ReligionView,
+                },
+                meta: { hideMainContent: true }
+            },
+            {
+                path: 'news_view',
+                name: 'NewsView',
+                components: {
+                    default: HomeFront,
+                    content: NewsView,
+                },
+                meta: { hideMainContent: true }
+            },
+            {
+                path: 'story_view',
+                name: 'StoryView',
+                components: {
+                    default: HomeFront,
+                    content: StoryView,
+                },
+                meta: { hideMainContent: true }
+            },
+            {
+                path: 'poem_view',
+                name: 'PoemView',
+                components: {
+                    default: HomeFront,
+                    content: PoemView,
+                },
+                meta: { hideMainContent: true }
+            },
+            {
+                path: 'jokes_view',
+                name: 'JokesView',
+                components: {
+                    default: HomeFront,
+                    content: JokesView,
+                },
+                meta: { hideMainContent: true }
+            },
+            {
+                path: 'magic_view',
+                name: 'MagicView',
+                components: {
+                    default: HomeFront,
+                    content: MagicView,
+                },
+                meta: { hideMainContent: true }
+            },
         ],
     },
 
     //login part
     { name: 'Login', component: Login, path: '/login' },
     { name: 'Logout', component: Logout, path: '/logout' },
-    
+
     //backend part
     {
         path: '/admin-dashboard',
@@ -299,4 +391,3 @@ const router = createRouter({
 });
 
 export default router;
-

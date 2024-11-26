@@ -1,5 +1,5 @@
 <template>
-    <div class="teacher_student container d-flex justify-content-center align-items-center gap-5 mb-3">
+    <div class="teacher_student container d-flex justify-content-center align-items-center gap-5 mb-4">
         <div class="teacher d-flex justify-content-center align-items-center">
             <img src="../../../../public/frontend//images//meeting.png" width="40" height="40" alt="" />
             <div class="no-line-height mx-1">

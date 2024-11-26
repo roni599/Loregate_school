@@ -6,9 +6,9 @@
                 <table class="table table-responsive table-striped table-hover table-bordered">
                     <thead>
                         <tr>
-                            <th class="bg-info">Publish Date</th>
-                            <th class="bg-info text-center">Subject</th>
-                            <th class="bg-info text-center">View</th>
+                            <th class="bg-info text-white">Publish Date</th>
+                            <th class="bg-info text-center text-white">Subject</th>
+                            <th class="bg-info text-center text-white">View</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -23,8 +23,6 @@
             </div>
         </div>
 
-
-
         <!-- Modal 1 -->
         <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
             tabindex="-1">
@@ -36,7 +34,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="container notice_view">
-                            <h4 class="text-center mb-4">Notice view</h4>
+                            <h4 class="text-center mb-4 prime_text_color">Notice view</h4>
                             <div class="collage_photo mb-4">
                                 <img :src="`/backend/images/academy/${academy_details.academy_logo}`" width="70px"
                                     height="70px" alt="">
@@ -199,5 +197,8 @@ export default {
     .hide-on-print {
         display: none !important;
     }
+}
+.prime_text_color{
+    color: rgb(0,74,173);
 }
 </style>

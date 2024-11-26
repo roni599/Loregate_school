@@ -84,6 +84,7 @@ Route::post('/academy/history/update',[AcademyHistoryController::class,'update']
 Route::post('/academy/magazine/store', [MagazineController::class, 'store']);
 Route::get('/academy/magazine',[MagazineController::class,'index']);
 Route::get('/academy/magazinefind/{id}',[MagazineController::class,'find']);
+Route::get('/academy/educationview/{id}',[MagazineController::class,'eduationfind']);
 
 
 

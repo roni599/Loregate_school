@@ -13,7 +13,7 @@
                 </div>
             </div>
             <!-- Website Table -->
-            <div class="website_link_table w-100">
+            <div class="website_link_table w-100" style="max-height: 300px; overflow-y: auto; overflow-x: hidden;">
                 <table class="table text-center table-striped table-hover table-bordered">
                     <tbody>
                         <tr v-for="item in webLinks" :key="item.id">
@@ -26,20 +26,20 @@
             </div>
         </div>
 
-        <!-- Board News with Cards -->
+
         <div class="col-12 col-md-6 d-flex flex-column align-items-center">
             <!-- Board News -->
-            <div class="college_log_notice_bord d-flex gap-3 align-items-center justify-content-center mb-3">
+            <div class="college_log_notice_bord d-flex gap-3 align-items-center justify-content-center">
                 <div class="college_logo">
                     <img src="../../../../public/frontend/images/Dhaka_College_Seal.svg.png" width="50px"
                         alt="Board News">
                 </div>
                 <div class="notice_text">
-                    <p class="text-info fw-bold fs-5 mb-0">Board News</p>
+                    <p class="text-info fw-bold fs-5">Board News</p>
                 </div>
             </div>
             <!-- Board News Cards -->
-            <div class="education_all_news w-100">
+            <div class="education_all_news w-100" style="max-height: 300px; overflow-y: auto; overflow-x: hidden;">
                 <div v-for="boardnews in displayData" :key="boardnews.id" class="card mb-2 gap-2 education_light">
                     <router-link :to="'/home-boardnews/' + boardnews.id" class="text-decoration-none">
                         <div class="card-body text-center bg-info">
@@ -52,6 +52,8 @@
                 </div>
             </div>
         </div>
+
+
     </div>
 
 </template>
@@ -105,6 +107,10 @@ export default {
 <style scoped>
 .padding {
     padding: 18px;
+}
+
+.education_all_news {
+    margin-top: 10px;
 }
 
 .router-link-active,
