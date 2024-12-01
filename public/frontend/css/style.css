@@ -1,0 +1,177 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+
+.nav_color {
+    background-color: #06a8e1;
+}
+
+.no-line-height {
+    line-height: 1;
+}
+
+.details_name p {
+    line-height: normal;
+    margin: 0;
+}
+
+.teacher_student {
+    width: 100%;
+    height: 70px;
+    background-image: linear-gradient(to left, #fdcbf1 0%, #fdcbf1 1%, #e6dee9 100%);
+}
+
+.no-line-height p {
+    line-height: 1;
+    margin: 0;
+}
+
+.education_minister_name,
+.prime_minister_name {
+    width: 150px;
+    height: 50px;
+    background-color: blue;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.education_minister_name p,
+.prime_minister_name p {
+    margin: 0;
+    text-align: center;
+}
+
+.institute_history_details {
+    text-align: center;
+    padding: 10px 5px;
+}
+
+.institute_history_details p {
+    text-align: justify;
+    line-height: 35px;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .institutute_history_div {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .education_minister,
+    .prime_minister {
+        margin-bottom: 20px;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+.website_link_table {
+    width: 100%;
+}
+
+.new_ducation {
+    text-align: justify;
+}
+
+.education_light {
+    width: 100%;
+}
+
+.education_bord_table_link_news {
+    width: 100%;
+}
+
+.card-body p {
+    margin: 0;
+    line-height: 1;
+}
+
+@media (min-width: 768px) {
+    .website_link_table {
+        width: 550px;
+    }
+
+    .education_light {
+        width: 670px;
+    }
+}
+
+.no-space {
+    margin: 0;
+    line-height: 1;
+}
+
+.footer_details {
+    width: 100%;
+    height: 25vh;
+    background-color: #06a8e1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+}
+
+.footer_details .address,
+.footer_details .logo,
+.footer_details .map {
+    flex: 1;
+}
+
+
+@media (max-width: 768px) {
+    .footer_details {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .footer_details .address,
+    .footer_details .logo,
+    .footer_details .map {
+        margin-bottom: 20px;
+    }
+}
+
+.address p {
+    text-align: justify;
+    color: white;
+}
+
+.main-div {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.main.container-fluid {
+    flex: 1;
+}
+
+@media (max-width: 768px) {
+    .footer_details {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .footer_details .address,
+    .footer_details .logo,
+    .footer_details .map {
+        margin-bottom: 20px;
+    }
+}
