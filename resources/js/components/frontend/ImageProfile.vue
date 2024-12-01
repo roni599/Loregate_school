@@ -5,23 +5,23 @@
                 <div class="carousel-inner">
                     <div v-if="slidePicture.image1" class="carousel-item active">
                         <img :src="`/backend/images/slidevalue/${slidePicture.image1}`" class="d-block w-100"
-                            width="100" height="230" alt="School 1">
+                            alt="School 1">
                     </div>
                     <div v-if="slidePicture.image2" class="carousel-item">
                         <img :src="`/backend/images/slidevalue/${slidePicture.image2}`" class="d-block w-100"
-                            width="100" height="230" alt="School 2">
+                            alt="School 2">
                     </div>
-                    <div class="carousel-item" v-if="slidePicture.image3">
+                    <div v-if="slidePicture.image3" class="carousel-item">
                         <img :src="`/backend/images/slidevalue/${slidePicture.image3}`" class="d-block w-100"
-                            width="100" height="230" alt="School 3">
+                            alt="School 3">
                     </div>
                 </div>
             </div>
         </div>
         <div
             class="col-6 col-md-3 text-center mt-4 mb-3 mb-md-0 order-2 order-md-1 d-flex flex-column align-items-center">
-            <img v-if="leftPicture.image" :src="`/backend/images/leftpicture/${leftPicture.image}`" width="150"
-                height="100" alt="" class="img-fluid">
+            <img v-if="leftPicture.image" :src="`/backend/images/leftpicture/${leftPicture.image}`" class="img-fluid profile-img"
+                alt="">
             <div class="details_name py-3">
                 <p>{{ leftPicture.name }}</p>
                 <p>{{ leftPicture.designation }}</p>
@@ -29,8 +29,8 @@
         </div>
         <div
             class="col-6 col-md-3 text-center mb-3 mb-md-0 mt-4 order-3 order-md-3 d-flex flex-column align-items-center">
-            <img v-if="rightPicture.image" :src="`/backend/images/rightpicture/${rightPicture.image}`" width="150"
-                height="100" alt="" class="img-fluid">
+            <img v-if="rightPicture.image" :src="`/backend/images/rightpicture/${rightPicture.image}`" class="img-fluid profile-img"
+                alt="">
             <div class="details_name py-3">
                 <p>{{ rightPicture.name }}</p>
                 <p>{{ rightPicture.designation }}</p>
@@ -45,27 +45,33 @@ export default {
     props: {
         slidePicture: {
             type: Object,
-            required: true
+            required: true,
         },
         leftPicture: {
             type: Object,
-            required: true
+            required: true,
         },
         rightPicture: {
             type: Object,
-            required: true
-        }
+            required: true,
+        },
     },
-    setup() {
-        return {
-        }
-    }
-}
+};
 </script>
+
 <style scoped>
+.carousel-inner img {
+    height: 230px;
+    object-fit: cover;
+}
+.profile-img {
+    width: 150px;
+    height: 100px;
+    object-fit: cover;
+}
 @media (max-width: 767px) {
     .carousel-inner img {
-        height: 300px;
+        height: 150px;
     }
 
     .d-flex {
@@ -76,6 +82,7 @@ export default {
 
     .col-6 {
         flex: 0 0 50%;
+        max-width: 50%;
     }
 }
 </style>
