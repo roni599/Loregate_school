@@ -17,7 +17,7 @@ class AcademyHistoryController extends Controller
     public function storeUpdate(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'history' => 'required|string|max:1000',
+            'history' => 'required|string|max:5000',
         ]);
 
         if ($validator->fails()) {

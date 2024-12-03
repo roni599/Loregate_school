@@ -6,9 +6,19 @@
             ? false
             : true
             ">
-            <router-link class="navbar-brand ps-3" to="/admin-dashboard">
-                <h5 class="text-white">Dhaka College</h5>
+            <!-- <router-link class="navbar-brand ps-3 w-25" to="/admin-dashboard">
+                <h5 class="text-white">{{ academy_details.academy_name }}</h5>
+            </router-link> -->
+            <router-link class="navbar-brand" to="/admin-dashboard">
+                <h5 class="text-white">
+                    <span
+                        v-if="academy_details && academy_details.academy_name && academy_details.academy_name.length > 26">
+                        <marquee>{{ academy_details.academy_name }}</marquee>
+                    </span>
+                    <span v-else>{{ academy_details ? academy_details.academy_name : '' }}</span>
+                </h5>
             </router-link>
+
             <button class="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0" id="sidebarToggle" href="#!">
                 <i class="fas fa-bars text-white fs-4"></i>
             </button>
@@ -22,8 +32,8 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-white" id="navbarDropdown" href="#" role="button"
                         data-bs-toggle="dropdown" aria-expanded="false">
-                        <img v-if="usersProfile.image" v-show="!loading" @load="handleImageLoad" :src="`/backend/images/users/${usersProfile.image}`"
-                            class="images" alt="">
+                        <img v-if="usersProfile.image" v-show="!loading" @load="handleImageLoad"
+                            :src="`/backend/images/users/${usersProfile.image}`" class="images" alt="">
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li><router-link class="dropdown-item" to="/edit_profile">Settings</router-link></li>
@@ -63,6 +73,50 @@
                                 </div>
                                 User Create
                             </router-link>
+
+                            <a class="nav-link collapsed" href="#" data-bs-toggle="collapse"
+                                data-bs-target="#collapsePayment" aria-expanded="false" aria-controls="collapseLayouts">
+                                <div class="sb-nav-link-icon">
+                                    <i class="fas fa-credit-card"></i>
+                                </div>
+                                Addmission Setting
+                                <div class="sb-sidenav-collapse-arrow">
+                                    <i class="fas fa-angle-down"></i>
+                                </div>
+                            </a>
+                            <div class="collapse" id="collapsePayment" aria-labelledby="headingOne"
+                                data-bs-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <router-link class="nav-link" to="/admission_class">Admission Class</router-link>
+                                    <router-link class="nav-link" to="/admission_assign">Admission Assign</router-link>
+                                    <a class="nav-link" href="">Father,Mothers & Gerdian Info</a>
+                                    <a class="nav-link" href="">Previous Academy Information</a>
+                                    <a class="nav-link" href="">Payment Gateway</a>
+                                    <a class="nav-link" href="">Information</a>
+                                    <a class="nav-link" href="">Application Repot</a>
+                                </nav>
+                            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                             <router-link class="nav-link rounded-end mb-1" to="/header">
                                 <div class="sb-nav-link-icon">
@@ -238,7 +292,8 @@ export default {
     setup() {
         const router = useRouter();
         const usersProfile = ref({});
-        const loading=ref(true);
+        const loading = ref(true);
+        const academy_details = ref({})
 
         const userdataFetch = async () => {
             const token = localStorage.getItem('token');
@@ -247,14 +302,29 @@ export default {
                     'Authorization': `Bearer ${token}`
                 }
             })
-            .then((res) => {
-                usersProfile.value=res.data;
-            })
-            .catch((error) => {
-                console.log(error);
-            });
+                .then((res) => {
+                    usersProfile.value = res.data;
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         }
-        const handleImageLoad=()=>{
+
+        const fetchData = async () => {
+            try {
+                const response = await axios.get(`/api/academy/header`);
+                if (response.data) {
+                    academy_details.value = response.data.data;
+                    const faviconElement = document.getElementById('dynamic-favicon');
+                    if (academy_details.value.academy_logo && faviconElement) {
+                        faviconElement.href = `/backend/images/academy/${academy_details.value.academy_logo}`;
+                    }
+                }
+            } catch (error) {
+                console.log('something wrong')
+            }
+        }
+        const handleImageLoad = () => {
             loading.value = false;
         };
 
@@ -264,12 +334,14 @@ export default {
             }
             else {
                 userdataFetch();
+                fetchData()
             }
         });
         return {
             usersProfile,
             handleImageLoad,
-            loading
+            loading,
+            academy_details
         };
     },
 };

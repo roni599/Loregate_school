@@ -1,6 +1,6 @@
 <template>
     <div class="row align-items-center">
-        <div class="col-12 col-md-6 mb-3 order-1 order-md-2">
+        <!-- <div class="col-12 col-md-6 mb-3 order-1 order-md-2">
             <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-inner">
                     <div v-if="slidePicture.image1" class="carousel-item active">
@@ -9,15 +9,34 @@
                     </div>
                     <div v-if="slidePicture.image2" class="carousel-item">
                         <img :src="`/backend/images/slidevalue/${slidePicture.image2}`" class="d-block w-100"
-                            width="100" height="230" alt="School 2">
+                            width="100" height="250" alt="School 2">
                     </div>
                     <div class="carousel-item" v-if="slidePicture.image3">
                         <img :src="`/backend/images/slidevalue/${slidePicture.image3}`" class="d-block w-100"
-                            width="100" height="230" alt="School 3">
+                            width="100" height="250" alt="School 3">
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <div class="col-12 col-md-6 mb-3 order-1 order-md-2">
+            <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div v-if="slidePicture.image1" class="carousel-item active">
+                        <img :src="`/backend/images/slidevalue/${slidePicture.image1}`"
+                            class="carousel-img d-block w-100" alt="School 1">
+                    </div>
+                    <div v-if="slidePicture.image2" class="carousel-item">
+                        <img :src="`/backend/images/slidevalue/${slidePicture.image2}`"
+                            class="carousel-img d-block w-100" alt="School 2">
+                    </div>
+                    <div class="carousel-item" v-if="slidePicture.image3">
+                        <img :src="`/backend/images/slidevalue/${slidePicture.image3}`"
+                            class="carousel-img d-block w-100" alt="School 3">
                     </div>
                 </div>
             </div>
         </div>
+
         <div
             class="col-6 col-md-3 text-center mt-4 mb-3 mb-md-0 order-2 order-md-1 d-flex flex-column align-items-center">
             <img v-if="leftPicture.image" :src="`/backend/images/leftpicture/${leftPicture.image}`" width="150"
@@ -77,5 +96,13 @@ export default {
     .col-6 {
         flex: 0 0 50%;
     }
+}
+
+.carousel-img {
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+    object-position: center;
+    /* Centers the image to avoid cutting important parts */
 }
 </style>

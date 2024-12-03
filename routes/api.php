@@ -10,6 +10,7 @@ use App\Http\Controllers\AcademyHistoryController;
 use App\Http\Controllers\BoardNewsController;
 use App\Http\Controllers\BoardNoticeController;
 use App\Http\Controllers\CampusController;
+use App\Http\Controllers\ClassController;
 use App\Http\Controllers\EducationBoardController;
 use App\Http\Controllers\LeftPictureController;
 use App\Http\Controllers\MagazineController;
@@ -160,3 +161,8 @@ Route::get('/page-title', function () {
 Route::get('allusers',[AcademyController::class,'allusers']);
 Route::put('/userSelfUpdate', [AcademyController::class, 'userSelfUpdate']);
 Route::put('/userSelfUpdaePassword', [AcademyController::class, 'userSelfUpdatePassword']);
+
+
+Route::get('/classes', [ClassController::class, 'index']);
+Route::post('/classes/store', [ClassController::class, 'store']);
+Route::post('/classes/update-status/{id}', [ClassController::class, 'updateStatus']);

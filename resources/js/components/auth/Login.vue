@@ -7,8 +7,11 @@
             <div class="col-lg-5">
               <div class="card shadow border-0 rounded-lg">
                 <div class="text-center mt-4">
-                  <img src="../../../../public/frontend/images/loregate.png" width="60px" height="60px" alt="images"
-                    class="img-fluid mb-2">
+                  <!-- <img src="../../../../public/frontend/images/loregate.png" width="60px" height="60px" alt="images"
+                    class="img-fluid mb-2"> -->
+                  <img v-if="academy_details.academy_logo" :src="`/backend/images/academy/${academy_details.academy_logo}`" alt="Academy Logo"
+                    width="60" height="60" class="img-fluid mb-2 rounded-circle">
+
                   <h4 class="f-w-500 mb-2">Login with your email</h4>
                 </div>
                 <div class="card-body">
@@ -76,6 +79,7 @@ export default {
     const loading = ref(false);
     const showPassword = ref(false);
     const router = useRouter();
+    const academy_details = ref({})
 
     const togglePasswordVisibility = () => {
       showPassword.value = !showPassword.value;
@@ -111,10 +115,26 @@ export default {
       }
     };
 
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`/api/academy/header`);
+        if (response.data) {
+          academy_details.value = response.data.data;
+          const faviconElement = document.getElementById('dynamic-favicon');
+          if (academy_details.value.academy_logo && faviconElement) {
+            faviconElement.href = `/backend/images/academy/${academy_details.value.academy_logo}`;
+          }
+        }
+      } catch (error) {
+        console.log('something wrong')
+      }
+    }
+
     onMounted(async () => {
       if (await User.loggedIn()) {
         router.push({ name: "BackHome" });
       }
+      fetchData()
     });
 
     return {
@@ -124,6 +144,7 @@ export default {
       showPassword,
       togglePasswordVisibility,
       login,
+      academy_details,
     };
   },
 };

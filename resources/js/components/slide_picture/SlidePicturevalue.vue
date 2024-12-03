@@ -24,6 +24,7 @@
                                         <input v-if="index < 3" :id="'inputFile' + index" type="file"
                                             class="form-control p-3 px-4" @change="onFileSelect($event, index)" />
                                     </div>
+                                    <span class="text-danger">ছবির সাইজ (899 x 363)px হতে হবে এবং 1024 কিলোবাইটের বেশী হবে না ।</span>
                                 </div>
                                 <div class="col-md-1">
                                     <img :src="image.preview" v-if="image.preview" width="55" height="55" />
@@ -69,20 +70,44 @@ export default {
         const academy_id = ref(1);
 
         // Handle file selection
+        // const onFileSelect = (event, index) => {
+        //     const file = event.target.files[0];
+        //     if (file && file.size <= 1048576) {
+        //         // Max 1 MB
+        //         const reader = new FileReader();
+        //         reader.onload = (event) => {
+        //             images.value[index].preview = event.target.result;
+        //             images.value[index].file = event.target.result;
+        //         };
+        //         reader.readAsDataURL(file);
+        //     } else {
+        //         alert("Image must be less than 1 MB!");
+        //     }
+        // };
+
         const onFileSelect = (event, index) => {
             const file = event.target.files[0];
-            if (file && file.size <= 1048576) {
-                // Max 1 MB
+            if (file && file.size <= 1048576) { // Max 1 MB
                 const reader = new FileReader();
-                reader.onload = (event) => {
-                    images.value[index].preview = event.target.result;
-                    images.value[index].file = event.target.result;
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        if (img.width > 899 || img.height > 363) {
+                            alert("Image width and height must be less than 900px and 364px respectively!");
+                        } else {
+                            // Set the preview and file only if the dimensions are valid
+                            images.value[index].preview = e.target.result;
+                            images.value[index].file = e.target.result;
+                        }
+                    };
+                    img.src = e.target.result;
                 };
                 reader.readAsDataURL(file);
             } else {
                 alert("Image must be less than 1 MB!");
             }
         };
+
 
         // Add image field
         const addImageField = () => {
@@ -188,22 +213,6 @@ export default {
                 loading.value = false;
             }
         };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         const resetImages = () => {
             images.value = [
                 { preview: null, file: null },
