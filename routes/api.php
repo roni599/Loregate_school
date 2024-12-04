@@ -7,11 +7,13 @@ use App\Http\Controllers\MediaLinkController;
 use App\Http\Controllers\SlideController;
 use App\Http\Controllers\StaffDataController;
 use App\Http\Controllers\AcademyHistoryController;
+use App\Http\Controllers\AdmissionAssignController;
 use App\Http\Controllers\BoardNewsController;
 use App\Http\Controllers\BoardNoticeController;
 use App\Http\Controllers\CampusController;
 use App\Http\Controllers\ClassController;
 use App\Http\Controllers\EducationBoardController;
+use App\Http\Controllers\FieldController;
 use App\Http\Controllers\LeftPictureController;
 use App\Http\Controllers\MagazineController;
 use App\Http\Controllers\ManagingCommunityController;
@@ -166,3 +168,9 @@ Route::put('/userSelfUpdaePassword', [AcademyController::class, 'userSelfUpdateP
 Route::get('/classes', [ClassController::class, 'index']);
 Route::post('/classes/store', [ClassController::class, 'store']);
 Route::post('/classes/update-status/{id}', [ClassController::class, 'updateStatus']);
+
+Route::get('/admissionassign',[AdmissionAssignController::class,'index']);
+Route::post('/admissionassign/store',[AdmissionAssignController::class,'store']);
+
+Route::get('/fields',[FieldController::class,'index']);
+Route::post('/fields/store', [FieldController::class, 'store']);

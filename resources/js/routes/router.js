@@ -57,6 +57,8 @@ import MediaLink from '../components/media_link/MediaLink.vue';
 import AdmissionClass from '../components/admissionsetting/addmissionclass/AdmissionClass.vue';
 import AdmissionclassList from '../components/admissionsetting/addmissionclass/AdmissionclassList.vue';
 import AdmissionAssign from '../components/admissionsetting/addmissionclass/AdmissionAssign.vue';
+import AdmissionassignList from '../components/admissionsetting/addmissionclass/AdmissionassignList.vue';
+import StudentInformation from '../components/admissionsetting/addmissionclass/StudentInformation.vue';
 
 
 //route start
@@ -425,6 +427,26 @@ const routes = [
                 components: {
                     default: BackHome,
                     content: AdmissionAssign,
+                },
+                meta: { hideMainContent: true },
+            },
+
+            {
+                path: '/admission_assignlist',
+                name: 'AdmissionassignList',
+                components: {
+                    default: BackHome,
+                    content: AdmissionassignList,
+                },
+                meta: { hideMainContent: true },
+            },
+
+            {
+                path: '/student-information',
+                name: 'StudentInformation',
+                components: {
+                    default: BackHome,
+                    content: StudentInformation,
                 },
                 meta: { hideMainContent: true },
             },

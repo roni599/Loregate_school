@@ -15,20 +15,19 @@
           <td>{{ classItem.class_name }}</td>
 
           <td>
-            <span v-if="classItem.shift">{{ classItem.shift }}</span>
-            <span v-if="classItem.shift && classItem.section"> / </span>
-            <span v-if="classItem.section">{{ classItem.section }}</span>
-            <span v-if="classItem.shift || classItem.section"> / </span>
-            <span v-if="classItem.group">{{ classItem.group }}</span>
-            <span v-if="(classItem.shift || classItem.section || classItem.group) && classItem.session"> / </span>
-            <span v-if="classItem.session">{{ classItem.session }}</span>
+            {{ classItem.shift }}
+            <span v-if="classItem.shift != null">/</span>
+            {{ classItem.section }}
+            <span v-if="classItem.section != null">/</span>
+            {{ classItem.group }}
+            <span v-if="classItem.group != null">/</span>
+            {{ classItem.session }}
           </td>
 
           <td class="text-center">
             <input class="form-check-input" type="radio" :name="`status_${classItem.id}`" value="active"
               v-model="classItem.status" @change="updateStatus(classItem.id, 'active')" />
             <label class="form-check-label" for="active">Active</label>
-
             <input class="form-check-input ms-4" type="radio" :name="`status_${classItem.id}`" value="inactive"
               v-model="classItem.status" @change="updateStatus(classItem.id, 'inactive')" />
             <label class="form-check-label" for="inactive">Inactive</label>
@@ -85,7 +84,6 @@ export default {
   }
 }
 </script>
-
 <style scoped>
 .text-center {
   text-align: center;

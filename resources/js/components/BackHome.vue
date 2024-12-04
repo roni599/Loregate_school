@@ -89,6 +89,7 @@
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <router-link class="nav-link" to="/admission_class">Admission Class</router-link>
                                     <router-link class="nav-link" to="/admission_assign">Admission Assign</router-link>
+                                    <router-link to="/student-information" class="nav-link" href="">Student Information</router-link>
                                     <a class="nav-link" href="">Father,Mothers & Gerdian Info</a>
                                     <a class="nav-link" href="">Previous Academy Information</a>
                                     <a class="nav-link" href="">Payment Gateway</a>
@@ -96,28 +97,6 @@
                                     <a class="nav-link" href="">Application Repot</a>
                                 </nav>
                             </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                             <router-link class="nav-link rounded-end mb-1" to="/header">
                                 <div class="sb-nav-link-icon">
                                     <i class="fa-solid fa-book-open-reader"></i>
