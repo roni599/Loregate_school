@@ -59,8 +59,10 @@ import AdmissionclassList from '../components/admissionsetting/addmissionclass/A
 import AdmissionAssign from '../components/admissionsetting/addmissionclass/AdmissionAssign.vue';
 import AdmissionassignList from '../components/admissionsetting/addmissionclass/AdmissionassignList.vue';
 import StudentInformation from '../components/admissionsetting/addmissionclass/StudentInformation.vue';
-
-
+import PreviousinformationAcademy from '../components/admissionsetting/previousacademyinformation/PreviousinformationAcademy.vue';
+import TermsCondition from '../components/admissionsetting/terms&condition/TermsCondition.vue';
+import Information from '../components/admissionsetting/information/Information.vue';
+import ApplicationReport from '../components/admissionsetting/applicationreport/ApplicationReport.vue';
 //route start
 const routes = [
     //frontend part
@@ -440,13 +442,50 @@ const routes = [
                 },
                 meta: { hideMainContent: true },
             },
-
+            
             {
                 path: '/student-information',
                 name: 'StudentInformation',
                 components: {
                     default: BackHome,
                     content: StudentInformation,
+                },
+                meta: { hideMainContent: true },
+            },
+            {
+                path: '/previousacademy-information',
+                name: 'PreviousinformationAcademy',
+                components: {
+                    default: BackHome,
+                    content: PreviousinformationAcademy,
+                },
+                meta: { hideMainContent: true },
+            },
+            
+            {
+                path: '/terms-condition',
+                name: 'TermsCondition',
+                components: {
+                    default: BackHome,
+                    content: TermsCondition,
+                },
+                meta: { hideMainContent: true },
+            },
+            {
+                path: '/information',
+                name: 'Information',
+                components: {
+                    default: BackHome,
+                    content: Information,
+                },
+                meta: { hideMainContent: true },
+            },
+            {
+                path: '/application-report',
+                name: 'ApplicationReport',
+                components: {
+                    default: BackHome,
+                    content: ApplicationReport,
                 },
                 meta: { hideMainContent: true },
             },

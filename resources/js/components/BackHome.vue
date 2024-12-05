@@ -89,12 +89,17 @@
                                 <nav class="sb-sidenav-menu-nested nav">
                                     <router-link class="nav-link" to="/admission_class">Admission Class</router-link>
                                     <router-link class="nav-link" to="/admission_assign">Admission Assign</router-link>
-                                    <router-link to="/student-information" class="nav-link" href="">Student Information</router-link>
-                                    <a class="nav-link" href="">Father,Mothers & Gerdian Info</a>
-                                    <a class="nav-link" href="">Previous Academy Information</a>
-                                    <a class="nav-link" href="">Payment Gateway</a>
-                                    <a class="nav-link" href="">Information</a>
-                                    <a class="nav-link" href="">Application Repot</a>
+                                    <router-link to="/student-information" class="nav-link" href="">Student
+                                        Information</router-link>
+                                    <!-- <a class="nav-link" href="">Father,Mothers & Gerdian Info</a> -->
+                                    <router-link to="/previousacademy-information" class="nav-link">Previous
+                                        Academy Information</router-link>
+                                    <!-- <a class="nav-link" href="">Payment Gateway</a> -->
+                                    <router-link to="/terms-condition" class="nav-link"> Tarm &
+                                        Conditions</router-link>
+                                    <router-link to="/information" class="nav-link">Information</router-link>
+                                    <router-link to="/application-report" class="nav-link">Application
+                                        Repot</router-link>
                                 </nav>
                             </div>
                             <router-link class="nav-link rounded-end mb-1" to="/header">

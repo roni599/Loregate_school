@@ -2,8 +2,8 @@
     <div class="container-fluid">
         <div class="card mt-4 mb-2">
             <div class="card-header border-bottom-0 p-4">
-                <router-link class="text-decoration-none text-info h5" to="/admin-dashboard">Dashboard</router-link><span
-                    class="text-muted h5"> /
+                <router-link class="text-decoration-none text-info h5"
+                    to="/admin-dashboard">Dashboard</router-link><span class="text-muted h5"> /
                     Education-Board</span>
             </div>
         </div>
@@ -199,6 +199,7 @@ export default {
                 const response = await axios.post('/api/academy/education-board/store-update', formData, {
                     headers: { "Content-Type": "multipart/form-data" },
                 })
+                console.log(response)
                 if (response.data) {
                     findData()
                     Swal.fire({
@@ -207,7 +208,11 @@ export default {
                     });
                 }
             } catch (error) {
-                console.log(error)
+                findData()
+                Swal.fire({
+                    icon: 'warning',
+                    title: response.data.message,
+                });
             } finally {
                 loading.value = false
             }

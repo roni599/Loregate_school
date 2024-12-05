@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('fields', function (Blueprint $table) {
+        Schema::create('class_informations', function (Blueprint $table) {
             $table->id();
-            $table->string('field_name');
-            $table->string('field_type');
-            $table->json('options')->nullable();
-            $table->boolean('required')->default(false);
+            $table->string('class_name');
+            $table->text('information')->nullable();
+            $table->text('date')->nullable();
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('fields');
+        Schema::dropIfExists('class_informations');
     }
 };

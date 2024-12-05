@@ -12,15 +12,19 @@ use App\Http\Controllers\BoardNewsController;
 use App\Http\Controllers\BoardNoticeController;
 use App\Http\Controllers\CampusController;
 use App\Http\Controllers\ClassController;
+use App\Http\Controllers\ClassInformationController;
 use App\Http\Controllers\EducationBoardController;
 use App\Http\Controllers\FieldController;
+use App\Http\Controllers\FormNameController;
 use App\Http\Controllers\LeftPictureController;
 use App\Http\Controllers\MagazineController;
 use App\Http\Controllers\ManagingCommunityController;
+use App\Http\Controllers\PreviousEducationController;
 use App\Http\Controllers\PrimePresedentController;
 use App\Http\Controllers\RightPictureController;
 use App\Http\Controllers\SlidevalueController;
 use App\Http\Controllers\TeacherGalleryController;
+use App\Http\Controllers\TermsConditionController;
 use App\Http\Controllers\WebsitelinkController;
 use App\Http\Controllers\WinnerGalleryController;
 use Illuminate\Support\Facades\Route;
@@ -159,7 +163,6 @@ Route::get('/page-title', function () {
     return response()->json(['title' => 'Dynamic Loregate College']);
 });
 
-
 Route::get('allusers',[AcademyController::class,'allusers']);
 Route::put('/userSelfUpdate', [AcademyController::class, 'userSelfUpdate']);
 Route::put('/userSelfUpdaePassword', [AcademyController::class, 'userSelfUpdatePassword']);
@@ -172,5 +175,20 @@ Route::post('/classes/update-status/{id}', [ClassController::class, 'updateStatu
 Route::get('/admissionassign',[AdmissionAssignController::class,'index']);
 Route::post('/admissionassign/store',[AdmissionAssignController::class,'store']);
 
+Route::get('/form-names',[FormNameController::class,'index']);
+Route::post('/form-names/store', [FormNameController::class, 'store']);
+Route::post('/form-names/update-status/{id}', [FormNameController::class, 'updateStatus']);
+
 Route::get('/fields',[FieldController::class,'index']);
+Route::get('/fields/studentinformation',[FieldController::class,'studentinformation']);
 Route::post('/fields/store', [FieldController::class, 'store']);
+Route::post('/fields/update-status/{id}', [FieldController::class, 'updateStatus']);
+
+Route::get('/previous-educations', [PreviousEducationController::class, 'index']);
+Route::post('/previous-educations/store', [PreviousEducationController::class, 'store']);
+
+Route::get('/', [TermsConditionController::class, 'index']);
+Route::post('/terms-conditions/storeUpdate', [TermsConditionController::class, 'storeUpdate']);
+
+Route::get('/class-information',[ClassInformationController::class,'index']);
+Route::post('/class-information/store', [ClassInformationController::class, 'store']);

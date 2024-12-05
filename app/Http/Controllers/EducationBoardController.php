@@ -18,6 +18,7 @@ class EducationBoardController extends Controller
     }
     public function storeUpdate(Request $request)
     {
+
         $validator = Validator::make($request->all(), [
             'education_minister_name' => 'required|string|max:255',
             'education_minister_designation' => 'required|string|max:255',
