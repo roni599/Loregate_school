@@ -113,6 +113,11 @@
         'driver' => 'jwt',
         'provider' => 'users',
       ),
+      'admissions' => 
+      array (
+        'driver' => 'jwt',
+        'provider' => 'admissions',
+      ),
       'sanctum' => 
       array (
         'driver' => 'sanctum',
@@ -126,6 +131,11 @@
         'driver' => 'eloquent',
         'model' => 'App\\Models\\User',
       ),
+      'admissions' => 
+      array (
+        'driver' => 'eloquent',
+        'model' => 'App\\Models\\Admission',
+      ),
     ),
     'passwords' => 
     array (
@@ -136,12 +146,19 @@
         'expire' => 60,
         'throttle' => 60,
       ),
+      'admissions' => 
+      array (
+        'provider' => 'admissions',
+        'table' => 'password_reset_tokens',
+        'expire' => 60,
+        'throttle' => 60,
+      ),
     ),
     'password_timeout' => 10800,
   ),
   'barcode' => 
   array (
-    'store_path' => 'C:\\Users\\User\\Desktop\\Loregate_school\\public\\/',
+    'store_path' => 'C:\\Users\\Laptop Planet\\OneDrive\\Desktop\\Loregate_school\\public\\/',
   ),
   'broadcasting' => 
   array (
@@ -211,8 +228,8 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'C:\\Users\\User\\Desktop\\Loregate_school\\storage\\framework/cache/data',
-        'lock_path' => 'C:\\Users\\User\\Desktop\\Loregate_school\\storage\\framework/cache/data',
+        'path' => 'C:\\Users\\Laptop Planet\\OneDrive\\Desktop\\Loregate_school\\storage\\framework/cache/data',
+        'lock_path' => 'C:\\Users\\Laptop Planet\\OneDrive\\Desktop\\Loregate_school\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -385,13 +402,13 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\Users\\User\\Desktop\\Loregate_school\\storage\\app',
+        'root' => 'C:\\Users\\Laptop Planet\\OneDrive\\Desktop\\Loregate_school\\storage\\app',
         'throw' => false,
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\Users\\User\\Desktop\\Loregate_school\\storage\\app/public',
+        'root' => 'C:\\Users\\Laptop Planet\\OneDrive\\Desktop\\Loregate_school\\storage\\app/public',
         'url' => 'http://localhost/storage',
         'visibility' => 'public',
         'throw' => false,
@@ -411,7 +428,7 @@
     ),
     'links' => 
     array (
-      'C:\\Users\\User\\Desktop\\Loregate_school\\public\\storage' => 'C:\\Users\\User\\Desktop\\Loregate_school\\storage\\app/public',
+      'C:\\Users\\Laptop Planet\\OneDrive\\Desktop\\Loregate_school\\public\\storage' => 'C:\\Users\\Laptop Planet\\OneDrive\\Desktop\\Loregate_school\\storage\\app/public',
     ),
   ),
   'hashing' => 
@@ -488,14 +505,14 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'C:\\Users\\User\\Desktop\\Loregate_school\\storage\\logs/laravel.log',
+        'path' => 'C:\\Users\\Laptop Planet\\OneDrive\\Desktop\\Loregate_school\\storage\\logs/laravel.log',
         'level' => 'debug',
         'replace_placeholders' => true,
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'C:\\Users\\User\\Desktop\\Loregate_school\\storage\\logs/laravel.log',
+        'path' => 'C:\\Users\\Laptop Planet\\OneDrive\\Desktop\\Loregate_school\\storage\\logs/laravel.log',
         'level' => 'debug',
         'days' => 14,
         'replace_placeholders' => true,
@@ -560,7 +577,7 @@
       ),
       'emergency' => 
       array (
-        'path' => 'C:\\Users\\User\\Desktop\\Loregate_school\\storage\\logs/laravel.log',
+        'path' => 'C:\\Users\\Laptop Planet\\OneDrive\\Desktop\\Loregate_school\\storage\\logs/laravel.log',
       ),
     ),
   ),
@@ -636,7 +653,7 @@
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'C:\\Users\\User\\Desktop\\Loregate_school\\resources\\views/vendor/mail',
+        0 => 'C:\\Users\\Laptop Planet\\OneDrive\\Desktop\\Loregate_school\\resources\\views/vendor/mail',
       ),
     ),
   ),
@@ -749,7 +766,7 @@
     'lifetime' => '120',
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'C:\\Users\\User\\Desktop\\Loregate_school\\storage\\framework/sessions',
+    'files' => 'C:\\Users\\Laptop Planet\\OneDrive\\Desktop\\Loregate_school\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -770,9 +787,9 @@
   array (
     'paths' => 
     array (
-      0 => 'C:\\Users\\User\\Desktop\\Loregate_school\\resources\\views',
+      0 => 'C:\\Users\\Laptop Planet\\OneDrive\\Desktop\\Loregate_school\\resources\\views',
     ),
-    'compiled' => 'C:\\Users\\User\\Desktop\\Loregate_school\\storage\\framework\\views',
+    'compiled' => 'C:\\Users\\Laptop Planet\\OneDrive\\Desktop\\Loregate_school\\storage\\framework\\views',
   ),
   'flare' => 
   array (
@@ -858,7 +875,7 @@
     array (
     ),
     'enable_runnable_solutions' => NULL,
-    'remote_sites_path' => 'C:\\Users\\User\\Desktop\\Loregate_school',
+    'remote_sites_path' => 'C:\\Users\\Laptop Planet\\OneDrive\\Desktop\\Loregate_school',
     'local_sites_path' => '',
     'housekeeping_endpoint_prefix' => '_ignition',
     'settings_file_path' => '',

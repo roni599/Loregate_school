@@ -22,10 +22,10 @@
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label for="classDetails" class="form-label mb-0">Class Details</label>
-                                        <select class="form-select" v-model="form.className">
+                                        <select class="form-select" v-model="form.class_id">
                                             <option selected>Open this select menu</option>
                                             <option v-for="classItem in classes" :key="classItem.id"
-                                                :value="`${classItem.shift}>${classItem.section}>${classItem.group}>${classItem.session}`">
+                                                :value="classItem.id">
                                                 {{ classItem.shift }} <span v-if="classItem.shift != null">></span>{{
                                                     classItem.section }}
                                                 <span v-if="classItem.section != null">></span>{{ classItem.group
@@ -70,13 +70,13 @@ export default {
     setup() {
         const classes = ref([]);
         const form = ref({
-            className: '',
+            class_id: '',
             information: '',
             date: ''
         })
         const submitForm = async () => {
             const formData = new FormData();
-            formData.append('class_name', form.value.className);
+            formData.append('class_id', form.value.class_id);
             formData.append('information', form.value.information);
             formData.append('date', form.value.date);
             try {
@@ -107,7 +107,7 @@ export default {
             }
         };
         const resetForm = () => {
-            form.value.className = '',
+            form.value.class_id = '',
                 form.value.information = '',
                 form.value.date = ''
         }

@@ -18,4 +18,12 @@ class ClassModel extends Model
         'section',
         'status',
     ];
+    public function admissions()
+    {
+        return $this->hasMany(Admission::class, 'class_id');
+    }
+    public function classInformations()
+    {
+        return $this->hasMany(ClassInformation::class, 'class_id');
+    }
 }

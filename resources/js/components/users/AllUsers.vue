@@ -18,13 +18,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(user,index) in users" :key="user.id">
-                                <th>{{ index+1 }}</th>
+                            <tr v-for="(user, index) in users" :key="user.id">
+                                <th>{{ index + 1 }}</th>
                                 <td>{{ user.name }}</td>
                                 <td>{{ user.email }}</td>
                                 <td>
-                                    <img v-if="user.image" :src="`/backend/images/users/${user.image}`"
-                                        alt="User Image" width="55" height="55" />
+                                    <img v-if="user.image" :src="`/backend/images/users/${user.image}`" alt="User Image"
+                                        width="55" height="55" />
                                     <span v-else>User has not provided an image</span>
                                 </td>
                             </tr>
@@ -37,36 +37,38 @@
 </template>
 
 <script>
+import { ref, onMounted } from "vue";
 import axios from "axios";
-import { inject } from "vue";
 
 export default {
     name: "UserList",
-    data() {
-        return {
-            users: [],
-            form: {
-                id: null,
-                name: "",
-                email: "",
-                phone: "",
-                role_id: "",
-                status: "",
-                image: "",
-            },
-            loading: false,
-            errors: {},
+    setup() {
+        const users = ref([]);
+        const loading = ref(false);
+        const errors = ref({});
+
+        const fetchUsers = async () => {
+            try {
+                loading.value = true;
+                const response = await axios.get("/api/allusers");
+                users.value = response.data;
+            } catch (error) {
+                console.error("Error fetching users:", error);
+                errors.value = error.response?.data || {};
+            } finally {
+                loading.value = false;
+            }
         };
-    },
-    methods: {
-        fetchUsers() {
-            axios.get("/api/allusers").then(({ data }) => {
-                this.users = data;
-            });
-        },
-    },
-    created() {
-        this.fetchUsers();
+
+        onMounted(() => {
+            fetchUsers();
+        });
+
+        return {
+            users,
+            loading,
+            errors,
+        };
     },
 };
 </script>

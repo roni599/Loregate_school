@@ -55,6 +55,28 @@
                                 </div>
                             </div>
 
+
+                            <!-- <div class="row mb-2">
+                                <div class="col-md-6">
+                                    <label for="inputSalary">Academy Facebook Link</label>
+                                    <div class="form-floating mb-2 mb-md-0">
+                                        <input v-model="form.academy_facebook_link" class="form-control"
+                                            id="inputSalary" type="text" placeholder="Salary" />
+                                        <small class="text-danger" v-if="errors.academy_facebook_link">{{
+                                            errors.academy_facebook_link[0] }}</small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="inputSalary">Academy YouTube Link</label>
+                                    <div class="form-floating mb-2 mb-md-0">
+                                        <input v-model="form.academy_youtube_link" class="form-control"
+                                            id="inputSalary" type="text" placeholder="Salary" />
+                                        <small class="text-danger" v-if="errors.academy_youtube_link">{{
+                                            errors.academy_youtube_link[0] }}</small>
+                                    </div>
+                                </div>
+                            </div> -->
+
                             <div class="row">
                                 <div class="col-md-11 mb-3">
                                     <label for="inputSalary">Academy Logo</label>
@@ -101,6 +123,8 @@ export default {
             academy_name: "",
             academy_address: "",
             academy_mobile_number: "",
+            // academy_facebook_link:"",
+            // academy_youtube_link:"",
             academy_logo: null,
         });
         const loading = ref(false);
@@ -128,10 +152,9 @@ export default {
             const formData = new FormData();
             formData.append("academy_name", form.value.academy_name);
             formData.append("academy_address", form.value.academy_address);
-            formData.append(
-                "academy_mobile_number",
-                form.value.academy_mobile_number
-            );
+            formData.append("academy_mobile_number",form.value.academy_mobile_number );
+            // formData.append("academy_facebook_link",form.value.academy_facebook_link );
+            // formData.append("academy_youtube_link",form.value.academy_youtube_link );
 
             if (form.value.academy_logo) {
                 formData.append("academy_logo", form.value.academy_logo);
@@ -146,7 +169,6 @@ export default {
                     },
                 })
                 .then((response) => {
-                    console.log(response);
                     Swal.fire({
                         icon: "success",
                         title: response.data.message,
@@ -182,6 +204,8 @@ export default {
                 form.value.academy_address = data.academy_address;
                 form.value.academy_mobile_number = data.academy_mobile_number;
                 form.value.academy_logo = data.academy_logo;
+                // form.value.academy_facebook_link=data.facebook_link;
+                // form.value.academy_youtube_link=data.youtube_link;
                 const imagePath = `/backend/images/academy/${data.academy_logo}`;
                 const imageResponse = await fetch(imagePath);
                 const imageBlob = await imageResponse.blob();

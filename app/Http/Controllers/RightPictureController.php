@@ -39,7 +39,7 @@ class RightPictureController extends Controller
             $rightpicture->designation = $request->designation;
             $rightpicture->academy_id = 1;
             $rightpicture->save();
-            return ResponseHelper::success($rightpicture, 'Leftpictrue updated successfully!');
+            return ResponseHelper::success($rightpicture, 'Rightpicture updated successfully!');
         } else {
 
             if ($request->has('image') && $request->image) {
@@ -60,7 +60,7 @@ class RightPictureController extends Controller
                 'academy_id' => 1
             ]);
 
-            return response()->json('Data saved successfully');
+            return ResponseHelper::success($rightpicture, 'Rightpicture updated successfully!');
         }
     }
 
@@ -88,6 +88,6 @@ class RightPictureController extends Controller
         $rightpicture->designation = $request->designation;
         $rightpicture->academy_id = 1;
         $rightpicture->save();
-        return ResponseHelper::success($rightpicture, 'Leftpictrue updated successfully!');
+        return ResponseHelper::success($rightpicture, 'RightPicture updated successfully!');
     }
 }

@@ -22,14 +22,14 @@
   ),
   'milon/barcode' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Milon\\Barcode\\BarcodeServiceProvider',
-    ),
     'aliases' => 
     array (
       'DNS1D' => 'Milon\\Barcode\\Facades\\DNS1DFacade',
       'DNS2D' => 'Milon\\Barcode\\Facades\\DNS2DFacade',
+    ),
+    'providers' => 
+    array (
+      0 => 'Milon\\Barcode\\BarcodeServiceProvider',
     ),
   ),
   'nesbot/carbon' => 
@@ -55,13 +55,13 @@
   ),
   'spatie/laravel-ignition' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
-    ),
     'aliases' => 
     array (
       'Flare' => 'Spatie\\LaravelIgnition\\Facades\\Flare',
+    ),
+    'providers' => 
+    array (
+      0 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
     ),
   ),
   'tymon/jwt-auth' => 

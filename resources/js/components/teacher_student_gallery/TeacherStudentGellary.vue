@@ -41,8 +41,9 @@
                                     <button class="btn btn-info w-100 mb-2" :disabled="loading">
                                         <span v-if="loading" class="spinner-border spinner-border-sm me-2" role="status"
                                             aria-hidden="true"></span>
-                                        <span v-if="!loading">Update Left-Picture</span>
-                                        <span v-if="loading">Updating Left-Picture...</span>
+                                        <span v-if="!loading">Update Teacher-Student-Qty
+                                        </span>
+                                        <span v-if="loading">Update Teacher-Student-Qty...</span>
                                     </button>
                                 </div>
                             </div>
@@ -97,8 +98,7 @@ export default {
                     teacher_staff_qty: teacherStaffQty.value,
                     student_qty: studentQty.value,
                 });
-                if (response.data) {
-                    console.log(response)
+                if (response.data && response.data.message) {
                     findStaffData()
                     Swal.fire({
                         icon: "success",

@@ -8,6 +8,7 @@ use App\Http\Controllers\SlideController;
 use App\Http\Controllers\StaffDataController;
 use App\Http\Controllers\AcademyHistoryController;
 use App\Http\Controllers\AdmissionAssignController;
+use App\Http\Controllers\AdmissionController;
 use App\Http\Controllers\BoardNewsController;
 use App\Http\Controllers\BoardNoticeController;
 use App\Http\Controllers\CampusController;
@@ -52,6 +53,7 @@ Route::group([
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::get('me', [AuthController::class, 'me']);
+    Route::post('/admissionregister/store',[AdmissionController::class,'signup']);
 });
 
 Route::get('/academy/header', [AcademyController::class, 'index']);
@@ -153,7 +155,8 @@ Route::get('/academy/managingcummunity/{id}',[ManagingCommunityController::class
 
 
 Route::get('/academy/slidevalue',[SlidevalueController::class,'index']);
-Route::post('/slidesvlaue', [SlidevalueController::class, 'store']);
+// Route::post('/slidesvlaue', [SlidevalueController::class, 'store']);
+Route::post('/slidesvlaue', [SlidevalueController::class, 'storeUpdate']);
 Route::get('/academy/slidevalue/{id}',[SlidevalueController::class, 'find']);
 Route::post('/academy/slidevaluepicture/update',[SlidevalueController::class, 'update']);
 Route::post('academy/slides/delete', [SlidevalueController::class, 'deleteImage']);
@@ -192,3 +195,6 @@ Route::post('/terms-conditions/storeUpdate', [TermsConditionController::class, '
 
 Route::get('/class-information',[ClassInformationController::class,'index']);
 Route::post('/class-information/store', [ClassInformationController::class, 'store']);
+
+
+

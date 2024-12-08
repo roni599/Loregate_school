@@ -83,7 +83,6 @@ export default {
                 const response = await axios.post('/api/academy/history/store-update', {
                     history: history.value,
                 })
-                console.log(response)
                 if (response) {
                     findacademyHistory();
                     Swal.fire({

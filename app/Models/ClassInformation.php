@@ -9,5 +9,10 @@ class ClassInformation extends Model
 {
     use HasFactory;
     protected $table = 'class_informations';
-    protected $fillable = ['class_name', 'information', 'status','date'];
+    protected $fillable = ['class_id', 'information', 'status','date'];
+
+    public function class()
+    {
+        return $this->belongsTo(ClassModel::class, 'class_id');
+    }
 }

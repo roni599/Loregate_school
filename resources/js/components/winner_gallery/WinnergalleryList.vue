@@ -16,6 +16,7 @@
                                     <th scope="col">#</th>
                                     <th scope="col">Event Name</th>
                                     <th scope="col">Winner Name</th>
+                                    <th scope="col">Class</th>
                                     <th scope="col">Roll or UID</th>
                                     <th scope="col">Winning Place</th>
                                     <th scope="col">Price</th>
@@ -28,6 +29,7 @@
                                     <td>{{ index + 1 }}</td>
                                     <td>{{ event.event_name }}</td>
                                     <td>{{ event.name }}</td>
+                                    <td>{{ event.class }}</td>
                                     <td>{{ event.roll_or_uid }}</td>
                                     <td>{{ event.winning_place }}</td>
                                     <td>{{ event.price }}</td>

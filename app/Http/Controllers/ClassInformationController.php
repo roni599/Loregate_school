@@ -16,13 +16,13 @@ class ClassInformationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'class_name' => 'required|string|max:255',
+            'class_id' => 'required|integer',
             'information' => 'required|string|max:300',
             'date' => 'required|string|max:300',
         ]);
 
         $classInformation = ClassInformation::create([
-            'class_name' => $request->class_name,
+            'class_id' => $request->class_id,
             'information' => $request->information,
             'date' => $request->date,
         ]);

@@ -1,5 +1,5 @@
 <template>
-    <main-div>
+    <div class="main-div">
         <div class="container-fluid admissionfair">
             <div class="contentload w-100 d-flex justify-content-between align-items-center w-100">
                 <div class="content-image-academy-details w-100 d-flex align-items-center w-75">
@@ -51,7 +51,8 @@
 
                                     <div class="newAccount">
                                         <p class="mb-3">New Account For Admission?</p>
-                                        <router-link to="/admissionregister" class="btn btn-primary createaccount">Create Account</router-link>
+                                        <router-link to="/admissionregister"
+                                            class="btn btn-primary createaccount">Create Account</router-link>
                                     </div>
 
                                 </form>
@@ -61,7 +62,7 @@
                 </div>
             </div>
         </section>
-    </main-div>
+    </div>
 
 </template>
 
@@ -93,9 +94,11 @@ export default {
     background-color: #004aac;
     border: none;
 }
-.onlineadmission{
+
+.onlineadmission {
     color: #5586c7;
 }
+
 .onlineadmission {
     color: #5586c7;
 }

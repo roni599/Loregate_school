@@ -17,10 +17,10 @@
                 </div>
 
                 <div class="education_minister mb-3">
-                    <div class="education_minister_name mb-2 prime_color">
+                    <div class="education_minister_name ms-4 mb-2 prime_color">
                         <p>{{ educationBoard.edesignation }}</p>
                     </div>
-                    <div class="education_minister_picture mb-2">
+                    <div class="education_minister_picture mb-2 me-3">
                         <img v-if="educationBoard.e_image"
                             :src="`/backend/images/educationboard/${educationBoard.e_image}`" width="150"
                             alt="Education Minister">
@@ -79,7 +79,7 @@
     <div class="institutute_history_div container d-flex flex-column align-items-center text-center d-md-none mb-2">
         <div class="d-flex flex-wrap justify-content-between w-100">
             <div class="prime_minister d-flex align-items-center w-50">
-                <div class="prime_minister_name prime_color w-100">
+                <div class="prime_minister_name prime_color w-100 mb-2">
                     <p>{{ primePresedent.prime_minister_designation }}</p>
                 </div>
                 <div class="prime_minister_picture">
@@ -107,12 +107,12 @@
         </div>
         <div class="d-flex flex-wrap justify-content-between w-100 mb-3">
             <div class="education_minister d-flex align-items-center w-50 pe-3">
-                <div class="education_minister_name w-100 prime_color">
+                <div class="education_minister_name mb-2 w-100 prime_color">
                     <p>{{ educationBoard.edesignation }}</p>
                 </div>
                 <div class="education_minister_picture">
                     <img v-if="educationBoard.e_image" :src="`/backend/images/educationboard/${educationBoard.e_image}`"
-                        width="150" alt="Education Minister">
+                        width="140" alt="Education Minister">
                 </div>
                 <div class="education_minister_name_details">
                     <p>{{ educationBoard.eminister_name }}</p>

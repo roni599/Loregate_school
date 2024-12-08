@@ -199,7 +199,6 @@ export default {
                 const response = await axios.post('/api/academy/education-board/store-update', formData, {
                     headers: { "Content-Type": "multipart/form-data" },
                 })
-                console.log(response)
                 if (response.data) {
                     findData()
                     Swal.fire({

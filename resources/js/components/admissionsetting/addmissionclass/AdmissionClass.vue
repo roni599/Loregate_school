@@ -157,6 +157,9 @@ export default {
             Object.keys(form).forEach((key) => {
                 form[key] = '';
             });
+            Object.keys(showFields).forEach((key) => {
+                showFields[key] = false;
+            });
         };
 
         // Watch for changes in `showFields` to reset corresponding form fields

@@ -6,6 +6,7 @@ use App\Helpers\ImageValidator;
 use App\Helpers\ResponseHelper;
 use App\Models\Slidevalue;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 use function Laravel\Prompts\alert;
 
@@ -17,35 +18,78 @@ class SlidevalueController extends Controller
         // return response()->json($slidepicture);
         return ResponseHelper::success($slidepicture, "SlidePicture Data retrive successfully");
     }
-    public function store(Request $request)
+    public function storeUpdate(Request $request)
     {
-        if (!$request->has('images') || !is_array($request->images)) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Invalid or missing images.',
-            ], 400);
-        }
-
-        $data = [];
-        foreach ($request->images as $index => $image) {
-            if ($image) {
-                $saveImage = ImageValidator::saveBase64Image($image, 'backend/images/slidevalue/');
-                if (!$saveImage['status']) {
-                    return response()->json([
-                        'status' => false,
-                        'message' => $saveImage['message'],
-                    ], 400);
-                }
-                $data["image" . ($index + 1)] = $saveImage['image_name'];
-            }
-        }
-        Slidevalue::create($data);
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Images uploaded successfully!',
+        $validatedData = $request->validate([
+            'images' => 'required|array|min:1',
+            'images.*' => 'string',
         ]);
+
+        $academy = Slidevalue::first();
+
+        if ($academy) {
+            $updatedImages = [];
+            foreach ($validatedData['images'] as $index => $base64Image) {
+                $savedImage = ImageValidator::saveBase64Image($base64Image, 'backend/images/slidevalue/');
+
+                if (!$savedImage['status']) {
+                    foreach ($updatedImages as $image) {
+                        ImageValidator::deleteImage('backend/images/slidevalue/' . $image['image_name']);
+                    }
+                    return response()->json(['message' => $savedImage['message']], 422);
+                }
+                $updatedImages[] = $savedImage;
+                $imageKey = "image" . ($index + 1);
+                if ($academy->$imageKey) {
+                    ImageValidator::deleteImage('backend/images/slidevalue/' . $academy->$imageKey);
+                }
+                $academy->$imageKey = $savedImage['image_name'];
+            }
+            $academy->save();
+            return response()->json(['message' => 'Images updated successfully'], 200);
+        } else {
+            if (!$request->has('images') || !is_array($request->images)) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Invalid or missing images.',
+                ], 400);
+            }
+
+            $data = [];
+            foreach ($request->images as $index => $image) {
+                if ($image) {
+                    $saveImage = ImageValidator::saveBase64Image($image, 'backend/images/slidevalue/');
+                    if (!$saveImage['status']) {
+                        return response()->json([
+                            'status' => false,
+                            'message' => $saveImage['message'],
+                        ], 400);
+                    }
+                    $data["image" . ($index + 1)] = $saveImage['image_name'];
+                }
+            }
+            Slidevalue::create($data);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Images uploaded successfully!',
+            ]);
+        }
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function find($id)
     {

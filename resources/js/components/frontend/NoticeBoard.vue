@@ -40,7 +40,7 @@
                         <div class="container notice_view">
                             <h4 class="text-center mb-4 prime_text_color">Notice View</h4>
                             <div class="collage_photo mb-4">
-                                <img v-if="academy_details.logo"
+                                <img v-if="academy_details.academy_logo"
                                     :src="`/backend/images/academy/${academy_details.academy_logo}`" alt="Logo"
                                     class="img-fluid" />
                             </div>
@@ -185,7 +185,6 @@ export default {
 .hr_rule {
     height: 2px;
     background-color: black;
-    /* margin-top: 130px; */
     width: 10%;
     margin-left: auto;
     border-top: 1px solid black;

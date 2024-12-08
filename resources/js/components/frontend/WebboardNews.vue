@@ -24,7 +24,7 @@
         <div class="col-12 col-md-6 d-flex flex-column align-items-center">
             <div class="college_log_notice_bord d-flex gap-3 align-items-center justify-content-center">
                 <div class="college_logo">
-                    <img src="../../../../public/frontend/images/Dhaka_College_Seal.svg.png" width="50px"
+                    <img src="../../../../public/frontend/images/education_board_image.png" width="50px"
                         alt="Board News">
                 </div>
                 <div class="notice_text">

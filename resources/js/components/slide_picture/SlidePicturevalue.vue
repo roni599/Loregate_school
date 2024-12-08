@@ -24,7 +24,7 @@
                                         <input v-if="index < 3" :id="'inputFile' + index" type="file"
                                             class="form-control p-3 px-4" @change="onFileSelect($event, index)" />
                                     </div>
-                                    <span class="text-danger">ছবির সাইজ (899 x 363)px হতে হবে এবং 1024 কিলোবাইটের বেশী হবে না ।</span>
+                                    <span v-if="errors[index]" class="text-danger">{{ errors[index] }}</span>
                                 </div>
                                 <div class="col-md-1">
                                     <img :src="image.preview" v-if="image.preview" width="55" height="55" />
@@ -68,6 +68,7 @@ export default {
 
         const loading = ref(false);
         const academy_id = ref(1);
+        const errors = ref([]);
 
         // Handle file selection
         // const onFileSelect = (event, index) => {
@@ -89,22 +90,22 @@ export default {
             const file = event.target.files[0];
             if (file && file.size <= 1048576) { // Max 1 MB
                 const reader = new FileReader();
-                reader.onload = (e) => {
+                reader.onload = (event) => {
                     const img = new Image();
                     img.onload = () => {
                         if (img.width > 899 || img.height > 363) {
-                            alert("Image width and height must be less than 900px and 364px respectively!");
+                            errors.value[index] = "Image width and height must be 899px and 363px respectively!";
                         } else {
-                            // Set the preview and file only if the dimensions are valid
-                            images.value[index].preview = e.target.result;
-                            images.value[index].file = e.target.result;
+                            errors.value[index] = null;
+                            images.value[index].preview = event.target.result;
+                            images.value[index].file = event.target.result;
                         }
                     };
-                    img.src = e.target.result;
+                    img.src = event.target.result;
                 };
                 reader.readAsDataURL(file);
             } else {
-                alert("Image must be less than 1 MB!");
+                errors.value[index] = "Image must be less than 1 MB!";
             }
         };
 
@@ -150,38 +151,6 @@ export default {
         };
 
         // Submit form data
-        // const handleSubmit = async () => {
-        //     loading.value = true;
-        //     console.log(images.value)
-        //     const formData = new FormData();
-        //     images.value.forEach((image, index) => {
-        //         if (image.file) {
-        //             formData.append(`images[${index}]`, image.file);
-        //         }
-        //     });
-
-        //     try {
-        //         const response = await axios.post("/api/slidesvlaue", formData, {
-        //             headers: { "Content-Type": "multipart/form-data" },
-        //         });
-        //         if (response.data) {
-        //             resetImages();
-        //             Swal.fire({
-        //                 icon: "success",
-        //                 title: "Slide image is successfully uploaded",
-        //             });
-        //         }
-        //     } catch (error) {
-        //         console.error(error);
-        //         Swal.fire({
-        //             icon: "error",
-        //             title: error.response?.data?.message || "An error occurred",
-        //         });
-        //     } finally {
-        //         loading.value = false;
-        //     }
-        // };
-
         const handleSubmit = async () => {
             loading.value = true;
             const formData = new FormData();
@@ -190,14 +159,12 @@ export default {
                     formData.append(`images[${index}]`, image.file);
                 }
             });
-            formData.append('academy_id', academy_id.value);
 
             try {
-                const response = await axios.post("/api/academy/slidevaluepicture/update", formData, {
+                const response = await axios.post("/api/slidesvlaue", formData, {
                     headers: { "Content-Type": "multipart/form-data" },
                 });
                 if (response.data) {
-                    resetImages();
                     Swal.fire({
                         icon: "success",
                         title: "Slide image is successfully uploaded",
@@ -224,12 +191,12 @@ export default {
         // Fetch slide images
         const fetchSlidePictures = async () => {
             try {
-                const response = await axios.get(`/api/academy/slidevalue/${academy_id.value}`);
+                const response = await axios.get(`/api/academy/slidevalue`);
                 const imageKeys = ['image1', 'image2', 'image3'];
-                if (response.data.id) {
+                if (response.data.data.id) {
                     images.value.pop({ preview: null, file: null });
                     imageKeys.forEach((key, index) => {
-                        const imagePath = response.data[key];
+                        const imagePath = response.data.data[key];
                         if (imagePath && imagePath !== 'NULL') {
                             const fullImagePath = `/backend/images/slidevalue/${imagePath}`;
                             images.value.push({ preview: null, file: null });
@@ -274,6 +241,7 @@ export default {
             resetImages,
             academy_id,
             fetchSlidePictures,
+            errors
         };
     },
 };

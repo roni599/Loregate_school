@@ -37,34 +37,34 @@ class MediaLinkController extends Controller
         $academyHistory = AcademyHistory::first();
         $educationBoard = EducationBoard::first();
         $primepresedent = PrimePresedent::first();
-        $managingCummunity=ManagingCommunity::all();
-        $teacherGallery=TeacherGallery::all();
+        $managingCummunity = ManagingCommunity::all();
+        $teacherGallery = TeacherGallery::all();
         $boardNotice = BoardNotice::all();
-        $websitelink=Websitelink::all();
-        $boardNews=BoardNews::all();
-        $winnergallery=WinnerGallery::all();
+        $websitelink = Websitelink::all();
+        $boardNews = BoardNews::all();
+        $winnergallery = WinnerGallery::all();
         $magazine = Magazine::all();
         $campusPicture = Campus::first();
         $heading = Heading::first();
         $data = [
-            'heading'=>$heading,
+            'heading' => $heading,
             'slidepicture' => $slidepicture,
             'academy' => $academy,
-            'leftPicture'=>$leftPicture,
-            'rightPicture'=>$rightPicture,
-            'staffDataId'=>$staffDataId,
-            'academyHistory'=>$academyHistory,
-            'educationBoard'=>$educationBoard,
-            'primepresedent'=>$primepresedent,
-            'managingCummunity'=>$managingCummunity,
-            'teacherGallery'=>$teacherGallery,
-            'boardNotice'=>$boardNotice,
-            'academy'=>$academy,
-            'websitelink'=>$websitelink,
-            'boardNews'=>$boardNews,
-            'winnergallery'=>$winnergallery,
-            'magazine'=>$magazine,
-            'campusPicture'=>$campusPicture,
+            'leftPicture' => $leftPicture,
+            'rightPicture' => $rightPicture,
+            'staffDataId' => $staffDataId,
+            'academyHistory' => $academyHistory,
+            'educationBoard' => $educationBoard,
+            'primepresedent' => $primepresedent,
+            'managingCummunity' => $managingCummunity,
+            'teacherGallery' => $teacherGallery,
+            'boardNotice' => $boardNotice,
+            'academy' => $academy,
+            'websitelink' => $websitelink,
+            'boardNews' => $boardNews,
+            'winnergallery' => $winnergallery,
+            'magazine' => $magazine,
+            'campusPicture' => $campusPicture,
         ];
         return ResponseHelper::success($data, 'HomePage data retrieved successfully');
     }
@@ -76,7 +76,7 @@ class MediaLinkController extends Controller
     public function storeUpdate(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'location_link' => 'nullable|string|max:255',
+            'location' => 'nullable|string|max:255',
             'facebook_link' => 'nullable|url|max:255',
             'youtube_link' => 'nullable|url|max:255',
         ]);
@@ -87,7 +87,7 @@ class MediaLinkController extends Controller
 
         if ($mediaLink) {
             $links = $mediaLink->links ?? [];
-            $links['location_link'] = $request->input('location_link', null);
+            $links['location_link'] = $request->input('location', null);
             $links['facebook_link'] = $request->input('facebook_link', null);
             $links['youtube_link'] = $request->input('youtube_link', null);
 
@@ -101,7 +101,7 @@ class MediaLinkController extends Controller
         } else {
             $mediaLink = new MediaLink();
             $mediaLink->links = [
-                'location_link' => $request['location_link'],
+                'location_link' => $request['location'],
                 'facebook_link' => $request['facebook_link'],
                 'youtube_link' => $request['youtube_link'],
             ];

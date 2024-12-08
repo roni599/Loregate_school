@@ -1,25 +1,5 @@
 <template>
-    <main-div>
-        <!-- <div class="container-fluid admissionfair">
-            <div class="contentload w-100 d-flex justify-content-between align-items-center">
-                <div class="content-image-academy-details w-100 d-flex align-items-center w-75">
-                    <div class="academy-image me-3">
-                        <img src="../../../../../public/frontend/images/efiailogo.png" width="95" height="95" alt="">
-                    </div>
-                    <div class="academy-details" style="line-height: 1;">
-                        <p>Eternal Freedom Institute Al Islamia</p>
-                        <p>Gafargaon, Mymensing , Mymensingh</p>
-                        <p>01711-022734</p>
-                    </div>
-                </div>
-                <div class="admissionfaircontent w-25">
-                    <h1 class="text-white fw-bold">ভর্তি মেলা</h1>
-                </div>
-            </div>
-        </div> -->
-         <!-- <div class="academy-image me-3">
-                        <img src="../../../../../public/frontend/images/efiailogo.png" width="95" height="95" alt="">
-                    </div> -->
+    <div class="main-div">
         <div class="container-fluid admissionfair">
             <div class="contentload w-100 d-flex justify-content-between align-items-center w-100">
                 <div class="content-image-academy-details w-100 d-flex align-items-center w-75">
@@ -48,14 +28,19 @@
                         <div class="card shadow-2-strong addmissionlogin" style="border-radius: 1rem;">
                             <div class="card-body p-5">
                                 <h3 class="mb-5 text-center">Create Account</h3>
-                                <form>
+                                <!-- <form>
                                     <div class="mb-3">
                                         <label for="exampleInputPassword1" class="form-label mb-0">Class Name</label>
                                         <select class="form-select" aria-label="Default select example">
                                             <option selected>Select your class</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                            <option v-for="classItem in admissionClasses" :key="classItem.id"
+                                                :value="`${classItem.class_name}>${classItem.shift}>${classItem.section}>${classItem.group}>${classItem.session}`">
+                                                {{ classItem.class_name }}
+                                                <span v-if="classItem.class_name !=null">></span>{{ classItem.shift }}
+                                                 <span v-if="classItem.shift != null">></span>{{classItem.section }}
+                                                 <span v-if="classItem.section != null">></span>{{ classItem.group
+                                                }}<span v-if="classItem.group != null">></span>{{ classItem.session }}
+                                            </option>
                                         </select>
                                     </div>
                                     <div class="mb-3">
@@ -70,24 +55,92 @@
                                     </div>
                                     <div
                                         class="button-forgate d-flex justify-content-between w-100 align-items-center mb-5">
-                                        <router-link to="/admissionform" class="loginbutton btn btn-sm text-white fw-bold ms-auto">Next</router-link>
+                                        <router-link to="/admissionform"
+                                            class="loginbutton btn btn-sm text-white fw-bold ms-auto">Next</router-link>
+                                    </div>
+                                </form> -->
+                                <form @submit.prevent="submitForm">
+                                    <div class="mb-3">
+                                        <label for="class_name" class="form-label mb-0">Class Name</label>
+                                        <select class="form-select" v-model="registerForm.class_id">
+                                            <option value="" disabled>Select your class</option>
+                                            <option v-for="classItem in admissionClasses" :key="classItem.id"
+                                                :value="`${classItem.id}`">
+                                                {{ classItem.class_name }}
+                                                <span v-if="classItem.class_name != null">></span>{{ classItem.shift }}
+                                                <span v-if="classItem.shift != null">></span>{{ classItem.section }}
+                                                <span v-if="classItem.section != null">></span>{{ classItem.group }}
+                                                <span v-if="classItem.group != null">></span>{{ classItem.session }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email" class="form-label mb-0">Email/Mobile</label>
+                                        <input type="text" class="form-control" id="email"
+                                            placeholder="Enter your Email or mobile" v-model="registerForm.email_mobile">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="password" class="form-label mb-0">Password</label>
+                                        <input type="password" class="form-control" id="password"
+                                            placeholder="Enter your password" v-model="registerForm.password">
+                                    </div>
+                                    <div
+                                        class="button-forgate d-flex justify-content-between w-100 align-items-center mb-5">
+                                        <button type="submit"
+                                            class="loginbutton btn btn-sm text-white fw-bold ms-auto">Next</button>
                                     </div>
                                 </form>
+
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
-    </main-div>
+    </div>
 
 </template>
 
 <script>
+import axios from 'axios';
+import { useRouter } from 'vue-router';
+import { onMounted, ref } from 'vue';
+
 export default {
-    name: "AdmissionLogin",
+    name: "AdmissionRegister",
     setup() {
-        return {}
+        const router = useRouter();
+        const admissionClasses = ref([]);
+        const registerForm = ref({
+            class_id: '',
+            email_mobile: '',
+            password: '',
+        });
+        const fetchAdmissionClass = async () => {
+            const response = await axios.get(`/api/classes`);
+            if (response.data && response.data.message) {
+                admissionClasses.value = response.data.data;
+            }
+        }
+
+        const submitForm = async () => {
+            try {
+                const response = await axios.post('/api/auth/admissionregister/store', registerForm.value);
+                User.responseAfterLogin(response);
+                router.push({ name: 'AdmissionForm' });
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        onMounted(() => {
+            fetchAdmissionClass();
+        })
+        return {
+            admissionClasses,
+            fetchAdmissionClass,
+            registerForm,
+            submitForm
+        }
     }
 }
 </script>

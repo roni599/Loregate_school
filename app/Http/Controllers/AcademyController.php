@@ -33,8 +33,11 @@ class AcademyController extends Controller
             'academy_name' => 'required|string|max:100',
             'academy_address' => 'required|string|max:100',
             'academy_mobile_number' => 'required|string|max:15',
+            // 'facebook_link' => 'nullable|url|max:255',
+            // 'youtube_link' => 'nullable|url|max:255',
             'academy_logo' => 'nullable|string',
         ]);
+        
         if ($validator->fails()) {
             return ResponseHelper::unprocessableEntity('Validation Error', $validator->errors());
         }
@@ -58,6 +61,8 @@ class AcademyController extends Controller
             $academy_heading->academy_name = $request->academy_name;
             $academy_heading->academy_address = $request->academy_address;
             $academy_heading->academy_mobile_number = $request->academy_mobile_number;
+            // $academy_heading->facebook_link = $request->academy_facebook_link;
+            // $academy_heading->youtube_link = $request->academy_youtube_link;
             $academy_heading->save();
             return ResponseHelper::success($academy_heading, 'Academy Header updated successfully!');
         } else {
@@ -75,6 +80,8 @@ class AcademyController extends Controller
             $academy->academy_name = $request->academy_name;
             $academy->academy_address = $request->academy_address;
             $academy->academy_mobile_number = $request->academy_mobile_number;
+            // $academy->facebook_link = $request->academy_facebook_link;
+            // $academy->youtube_link = $request->academy_youtube_link;
             $academy->save();
             return ResponseHelper::success($academy, 'Academy Header saved successfully!');
         }
@@ -98,8 +105,6 @@ class AcademyController extends Controller
         return response()->json($allusers);
     }
 
-
-    
     public function userSelfUpdate(Request $request)
     {
         $request->validate([

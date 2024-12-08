@@ -44,6 +44,10 @@ return [
             'driver' => 'jwt',
             'provider' => 'users',
         ],
+        'admissions' => [
+            'driver' => 'jwt',
+            'provider' => 'admissions', // For Admission model
+        ],
     ],
 
     /*
@@ -67,6 +71,10 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\Models\User::class,
+        ],
+        'admissions' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admission::class, // Model for admissions
         ],
 
         // 'users' => [
@@ -98,6 +106,12 @@ return [
         'users' => [
             'provider' => 'users',
             'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'admissions' => [
+            'provider' => 'admissions',
+            'table' => 'password_reset_tokens', // You can create a separate table if needed
             'expire' => 60,
             'throttle' => 60,
         ],

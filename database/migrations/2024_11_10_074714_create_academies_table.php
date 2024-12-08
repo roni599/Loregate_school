@@ -16,6 +16,9 @@ return new class extends Migration
             $table->string('academy_name');
             $table->text('academy_address');
             $table->string('academy_mobile_number');
+            $table->string('full_address')->nullable();
+            $table->string('facebook_link')->nullable();
+            $table->string('youtube_link')->nullable();
             $table->string('academy_logo')->nullable();
             $table->timestamps();
         });

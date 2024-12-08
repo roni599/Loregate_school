@@ -11,7 +11,7 @@ class AdmissionAssignController extends Controller
     public function index()
     {
         $admissionassign = AdmissionAssign::all();
-        return ResponseHelper::success($admissionassign,"Admission Assign data retrive successfully");
+        return ResponseHelper::success($admissionassign, "Admission Assign data retrive successfully");
     }
     public function store(Request $request)
     {
@@ -44,6 +44,10 @@ class AdmissionAssignController extends Controller
 
         // Return success response
         return response()->json(['message' => 'Admission successfully assigned', 'data' => $admissionAssign], 201);
+        return response()->json($request->all());
+    }
+    public function admissionstore(Request $request)
+    {
         return response()->json($request->all());
     }
 }
