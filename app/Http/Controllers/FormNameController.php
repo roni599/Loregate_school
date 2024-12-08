@@ -25,7 +25,7 @@ class FormNameController extends Controller
 
         return ResponseHelper::success($formname, "Form Name assign successfully");
     }
-    
+
     public function updateStatus(Request $request, $id)
     {
         $validated = $request->validate([
@@ -37,5 +37,10 @@ class FormNameController extends Controller
         $form->save();
 
         return response()->json(['message' => 'Form status updated successfully!']);
+    }
+    public function statusIndex()
+    {
+        $formName = FormName::where('status', 1)->get();
+        return ResponseHelper::success($formName, "FormName data retrieved successfully");
     }
 }

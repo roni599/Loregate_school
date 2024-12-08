@@ -67,17 +67,14 @@
                                             <option v-for="classItem in admissionClasses" :key="classItem.id"
                                                 :value="`${classItem.id}`">
                                                 {{ classItem.class_name }}
-                                                <span v-if="classItem.class_name != null">></span>{{ classItem.shift }}
-                                                <span v-if="classItem.shift != null">></span>{{ classItem.section }}
-                                                <span v-if="classItem.section != null">></span>{{ classItem.group }}
-                                                <span v-if="classItem.group != null">></span>{{ classItem.session }}
+                                                <span v-if="classItem.class_name != null">></span>{{ classItem.class_details }}
                                             </option>
                                         </select>
                                     </div>
                                     <div class="mb-3">
                                         <label for="email" class="form-label mb-0">Email/Mobile</label>
                                         <input type="text" class="form-control" id="email"
-                                            placeholder="Enter your Email or mobile" v-model="registerForm.email_mobile">
+                                            placeholder="Enter your Email or mobile" v-model="registerForm.email">
                                     </div>
                                     <div class="mb-3">
                                         <label for="password" class="form-label mb-0">Password</label>
@@ -113,11 +110,11 @@ export default {
         const admissionClasses = ref([]);
         const registerForm = ref({
             class_id: '',
-            email_mobile: '',
+            email: '',
             password: '',
         });
         const fetchAdmissionClass = async () => {
-            const response = await axios.get(`/api/classes`);
+            const response = await axios.get(`/api/admissionassign`);
             if (response.data && response.data.message) {
                 admissionClasses.value = response.data.data;
             }
@@ -126,8 +123,11 @@ export default {
         const submitForm = async () => {
             try {
                 const response = await axios.post('/api/auth/admissionregister/store', registerForm.value);
-                User.responseAfterLogin(response);
-                router.push({ name: 'AdmissionForm' });
+                if (response.data) {
+                    localStorage.setItem('access_token', response.data.access_token);
+                    localStorage.setItem('user_id', response.data.admission.id);
+                    router.push({ name: 'AdmissionForm' });
+                }
             } catch (error) {
                 console.error(error);
             }

@@ -50,4 +50,16 @@ class AdmissionAssignController extends Controller
     {
         return response()->json($request->all());
     }
+    public function findassign()
+    {
+        $admission = auth('admissions')->user();
+
+        if (!$admission) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+
+        // Fetch the related class using the relationship
+        $class = $admission->admissionAssign;
+        return response()->json($class);
+    }
 }

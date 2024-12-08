@@ -15,16 +15,16 @@ class Admission extends Authenticatable implements JWTSubject
      *
      * @var array<int, string>
      */
-    protected $fillable = ['class_id', 'email_mobile','password'];
+    protected $fillable = ['assigned_class_id', 'email', 'password'];
 
     /**
      * Define the relationship to the ClassModel.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function class()
+    public function admissionAssign()
     {
-        return $this->belongsTo(ClassModel::class, 'class_id');
+        return $this->belongsTo(AdmissionAssign::class, 'assigned_class_id');
     }
 
     /**

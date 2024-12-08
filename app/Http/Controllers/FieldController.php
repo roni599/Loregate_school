@@ -26,7 +26,7 @@ class FieldController extends Controller
             'options'    => 'nullable|array',
             'options.*'  => 'string|max:255',
             'required'   => 'boolean',
-            'formname'  =>'required|integer'
+            'formname'  => 'required|integer'
         ]);
 
         $field = Field::create([
@@ -46,5 +46,11 @@ class FieldController extends Controller
         $field->save();
 
         return ResponseHelper::success($field, 'Field updated successfully!', 201);
+    }
+
+    public function statusIndex()
+    {
+        $fields = Field::where('status', 1)->get();
+        return ResponseHelper::success($fields, 'Student information input fields data retrieved successfully');
     }
 }

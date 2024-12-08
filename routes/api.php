@@ -54,6 +54,7 @@ Route::group([
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::get('me', [AuthController::class, 'me']);
     Route::post('/admissionregister/store',[AdmissionController::class,'signup']);
+    Route::post('/admissionregister/login',[AdmissionController::class,'login']);
 });
 
 Route::get('/academy/header', [AcademyController::class, 'index']);
@@ -175,14 +176,18 @@ Route::get('/classes', [ClassController::class, 'index']);
 Route::post('/classes/store', [ClassController::class, 'store']);
 Route::post('/classes/update-status/{id}', [ClassController::class, 'updateStatus']);
 
+
 Route::get('/admissionassign',[AdmissionAssignController::class,'index']);
 Route::post('/admissionassign/store',[AdmissionAssignController::class,'store']);
+Route::get('/admissionassign/findassign', [AdmissionAssignController::class, 'findassign']);
 
 Route::get('/form-names',[FormNameController::class,'index']);
+Route::get('/form-names/status/index',[FormNameController::class,'statusIndex']);
 Route::post('/form-names/store', [FormNameController::class, 'store']);
 Route::post('/form-names/update-status/{id}', [FormNameController::class, 'updateStatus']);
 
 Route::get('/fields',[FieldController::class,'index']);
+Route::get('/fields/status/index',[FieldController::class,'statusIndex']);
 Route::get('/fields/studentinformation',[FieldController::class,'studentinformation']);
 Route::post('/fields/store', [FieldController::class, 'store']);
 Route::post('/fields/update-status/{id}', [FieldController::class, 'updateStatus']);
@@ -190,7 +195,7 @@ Route::post('/fields/update-status/{id}', [FieldController::class, 'updateStatus
 Route::get('/previous-educations', [PreviousEducationController::class, 'index']);
 Route::post('/previous-educations/store', [PreviousEducationController::class, 'store']);
 
-Route::get('/', [TermsConditionController::class, 'index']);
+Route::get('/terms-condition', [TermsConditionController::class, 'index']);
 Route::post('/terms-conditions/storeUpdate', [TermsConditionController::class, 'storeUpdate']);
 
 Route::get('/class-information',[ClassInformationController::class,'index']);

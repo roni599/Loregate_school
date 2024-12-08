@@ -28,15 +28,16 @@
                         <div class="card shadow-2-strong addmissionlogin" style="border-radius: 1rem;">
                             <div class="card-body p-5">
                                 <h3 class="mb-5 text-center">Login Form</h3>
-                                <form>
+                                <form @submit.prevent="submitLogin">
                                     <div class="mb-3">
                                         <label for="exampleInputEmail1" class="form-label mb-0">Email/Mobile</label>
-                                        <input type="email" class="form-control" id="exampleInputEmail1"
-                                            aria-describedby="emailHelp">
+                                        <input type="email" v-model="loginForm.email" class="form-control"
+                                            id="exampleInputEmail1" aria-describedby="emailHelp">
                                     </div>
                                     <div class="mb-3">
                                         <label for="exampleInputPassword1" class="form-label mb-0">Password</label>
-                                        <input type="password" class="form-control" id="exampleInputPassword1">
+                                        <input v-model="loginForm.password" type="password" class="form-control"
+                                            id="exampleInputPassword1">
                                     </div>
                                     <div
                                         class="button-forgate d-flex justify-content-between w-100 align-items-center mb-5">
@@ -44,8 +45,7 @@
                                             <router-link to="/admissionforget">Forgot Password?</router-link>
                                         </div>
                                         <div class="w-50 text-end">
-                                            <router-link to="/admissionform" type="submit"
-                                                class="loginbutton btn btn-sm text-white fw-bold">Login</router-link>
+                                            <button class="loginbutton btn btn-sm text-white fw-bold">Login</button>
                                         </div>
                                     </div>
 
@@ -54,7 +54,6 @@
                                         <router-link to="/admissionregister"
                                             class="btn btn-primary createaccount">Create Account</router-link>
                                     </div>
-
                                 </form>
                             </div>
                         </div>
@@ -67,12 +66,31 @@
 </template>
 
 <script>
-import router from '../../../routes/router';
-
+import { ref } from 'vue';
+import axios from 'axios';
+import { useRouter } from 'vue-router';
 export default {
     name: "AdmissionLogin",
     setup() {
-        return {}
+        const router = useRouter();
+        const loginForm = ref({
+            email: '',
+            password: ''
+        })
+
+        const submitLogin = async () => {
+            const response = await axios.post(`/api/auth/admissionregister/login`, loginForm.value);
+            console.log(response)
+            if (response.data) {
+                localStorage.setItem('token', response.data.access_token);
+                localStorage.setItem('user_id', response.data.user_id);
+                router.push({ name: 'AdmissionForm' });
+            }
+        }
+        return {
+            loginForm,
+            submitLogin
+        }
     }
 }
 </script>

@@ -50,4 +50,6 @@ class ClassController extends Controller
 
         return ResponseHelper::success($class, 'Class updated successfully!', 201);
     }
+
+    
 }

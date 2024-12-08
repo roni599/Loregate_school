@@ -13,11 +13,11 @@ return new class extends Migration
     {
         Schema::create('admissions', function (Blueprint $table) {
             $table->id();
-            $table->string('email_mobile')->unique();
+            $table->string('email')->unique();
             $table->string('password');
-            $table->unsignedBigInteger('class_id');
+            $table->unsignedBigInteger('assigned_class_id');
+            $table->foreign('assigned_class_id')->references('id')->on('admissionassigns')->onDelete('cascade');
             $table->timestamps();
-            $table->foreign('class_id')->references('id')->on('classes')->onDelete('cascade');
         });
     }
 
