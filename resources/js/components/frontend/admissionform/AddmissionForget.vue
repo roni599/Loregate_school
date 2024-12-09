@@ -1,22 +1,34 @@
 <template>
-    <main-div>
-        <div class="container-fluid admissionfair">
-            <div class="contentload w-100 d-flex justify-content-between align-items-center w-100">
-                <div class="content-image-academy-details w-100 d-flex align-items-center w-75">
-                    <router-link to="/" class="academy-image me-3">
-                        <img src="../../../../../public/frontend/images/efiailogo.png" width="95" height="95"
-                            alt="Eternal Freedom Institute Logo">
-                    </router-link>
-
-                    <div class="academy-details" style="line-height: 1;">
-                        <p>Eternal Freedom Institute Al Islamia</p>
-                        <p>Gafargaon, Mymensing , Mymensingh</p>
-                        <p>01711-022734</p>
+    <div class="main-div">
+        <div class="container-fluid admissionfair mb-4">
+            <div class="contentload w-100 d-flex justify-content-between align-items-center mt-lg-2">
+                <div class="content-image-academy-details d-flex align-items-center">
+                    <button class="btn btn-transparent p-0 border-0 academy-image" @click="Gohome">
+                        <img :src="`/backend/images/academy/${academy_details.academy_logo}`" width="45" height="45"
+                            class="rounded-circle me-2" alt="Academy Logo">
+                    </button>
+                    <div class="academy-details text-white" style="line-height: 1">
+                        <template v-if="isMobile && isLongName">
+                            <marquee class="m-0 education_font_size">
+                                {{ academy_details.academy_name || "Loregate School and College" }}
+                            </marquee>
+                        </template>
+                        <template v-else>
+                            <p class="m-0 education_font_size">
+                                {{ academy_details.academy_name || "Loregate School and College" }}
+                            </p>
+                        </template>
+                        <span class="d-block education_font">
+                            <span
+                                v-html="formatAddress(academy_details.academy_address || 'Address not available')"></span>
+                        </span>
+                        <span class="d-block education_font">
+                            {{ academy_details.academy_mobile_number || "Phone not available" }}
+                        </span>
                     </div>
                 </div>
-                <!-- Align this div to the right end -->
-                <div class="admissionfaircontent d-flex justify-content-end align-items-center w-25">
-                    <h1 class="text-white fw-bold me-4">ভর্তি মেলা</h1>
+                <div class="admissionfaircontent d-flex justify-content-end align-items-center mt-2 ms-4">
+                    <h1 class="text-white fw-bold">ভর্তি মেলা</h1>
                 </div>
             </div>
         </div>
@@ -41,9 +53,9 @@
                                     <div class="newAccount">
                                         <p class="mb-3">New Account For Admission?</p>
                                         <router-link to="/admissionregister"
-                                            class="btn btn-primary createaccount">Create Account</router-link>
+                                            class="btn btn-primary createaccount">Create
+                                            Account</router-link>
                                     </div>
-
                                 </form>
                             </div>
                         </div>
@@ -51,17 +63,67 @@
                 </div>
             </div>
         </section>
-    </main-div>
+    </div>
 
 </template>
 
 <script>
-import router from '../../../routes/router';
-
+import { onMounted, ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
 export default {
     name: "AdmissionLogin",
     setup() {
-        return {}
+        const router = useRouter();
+        const academy_details = ref({});
+        const isMobile = ref(false);
+        const fetchAcademy = async () => {
+            try {
+                const response = await axios.get(`/api/academy/header`);
+                if (response.data?.data) {
+                    academy_details.value = response.data.data;
+                    document.title = academy_details.value.academy_name || "Loregate School and College";
+                    if (academy_details.value.academy_logo) {
+                        const faviconElement = document.getElementById('dynamic-favicon');
+                        if (faviconElement) {
+                            faviconElement.href = `/backend/images/academy/${academy_details.value.academy_logo}`;
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error("Error fetching academy details:", error.message);
+            }
+        };
+        const isLongName = computed(() =>
+            (academy_details.value.academy_name || "Loregate School and College").length > 26
+        );
+        const formatAddress = (address) => {
+            let formattedAddress = '';
+            let i = 0;
+            while (i < address.length) {
+                formattedAddress += address.substring(i, i + 50) + '<br>';
+                i += 50;
+            }
+            return formattedAddress;
+        };
+        const checkScreenSize = () => {
+            isMobile.value = window.innerWidth <= 768; // Mobile breakpoint
+        };
+        onMounted(() => {
+            fetchAcademy();
+            window.addEventListener("resize", checkScreenSize);
+        })
+        const Gohome = () => {
+            router.push({ name: "HomeFront" })
+        }
+        return {
+            Gohome,
+            fetchAcademy,
+            isLongName,
+            formatAddress,
+            checkScreenSize,
+            academy_details,
+            isMobile
+        }
     }
 }
 </script>
@@ -90,15 +152,16 @@ export default {
 
 .admissionfair {
     width: 100%;
-    height: 10vh;
+    height: 12vh;
     background-color: #d00473;
 }
 
 .academy-details p {
-    line-height: 0.2;
+    line-height: 0.9;
     color: white;
 }
-.submitbutton{
+
+.submitbutton {
     background-color: #004aac;
     border: none;
 }

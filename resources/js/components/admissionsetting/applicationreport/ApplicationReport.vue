@@ -24,10 +24,27 @@
 </template>
 
 <script>
+import axios from 'axios';
+import { onMounted, ref } from 'vue';
+
 export default {
     name: "ApplicationReport",
     setup() {
+        const admissionReport=ref([]);
+        const fetchAdmissionData=async()=>{
+            try {
+                const response=await axios.get(`/api/studentadmissions`);
+                console.log(response)
+            } catch (error) {
+                
+            }
+        }
+        onMounted(()=>{
+            fetchAdmissionData();
+        })
         return {
+            admissionReport,
+            fetchAdmissionData
 
         }
     }

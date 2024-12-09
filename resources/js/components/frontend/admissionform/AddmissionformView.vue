@@ -1,18 +1,36 @@
 <template>
     <div class="main-div">
-        <div class="container-fluid admissionfair ">
-            <div class="contentload w-100 d-flex justify-content-between align-items-center w-100">
-                <div class="content-image-academy-details w-100 d-flex align-items-center w-75">
-                    <router-link to="/" class="academy-image me-3">
-                        <img src="../../../../../public/frontend/images/efiailogo.png" width="95" height="95"
-                            alt="Eternal Freedom Institute Logo" />
-                    </router-link>
-
-                    <div class="academy-details" style="line-height: 1">
-                        <h5 class="font">Eternal Freedom Institute Al Islamia</h5>
-                        <h6 class="font">Gafargaon, Mymensing , Mymensingh</h6>
-                        <h6 class="font">01711-022734</h6>
+        <div class="container-fluid admissionfair">
+            <div class="contentload w-100 d-flex justify-content-between align-items-center mt-lg-3">
+                <!-- Left Content -->
+                <div class="content-image-academy-details d-flex align-items-center">
+                    <button class="btn btn-transparent p-0 border-0 academy-image" @click="Gohome">
+                        <img :src="`/backend/images/academy/${academy_details.academy_logo}`" width="45" height="45"
+                            class="rounded-circle me-2" alt="Academy Logo">
+                    </button>
+                    <div class="academy-details text-black" style="line-height: 1">
+                        <template v-if="isMobile && isLongName">
+                            <marquee class="m-0 education_font_size">
+                                {{ academy_details.academy_name || "Loregate School and College" }}
+                            </marquee>
+                        </template>
+                        <template v-else>
+                            <p class="m-0 education_font_size">
+                                {{ academy_details.academy_name || "Loregate School and College" }}
+                            </p>
+                        </template>
+                        <span class="d-block education_font">
+                            <span
+                                v-html="formatAddress(academy_details.academy_address || 'Address not available')"></span>
+                        </span>
+                        <span class="d-block education_font">
+                            {{ academy_details.academy_mobile_number || "Phone not available" }}
+                        </span>
                     </div>
+                </div>
+                <!-- Right Content -->
+                <div class="admissionfaircontent d-flex justify-content-end align-items-center ms-4">
+                    <h1 class="text-black fw-bold">ভর্তি মেলা</h1>
                 </div>
             </div>
         </div>
@@ -20,7 +38,8 @@
         <div class="container my-5 border p-4">
             <div class="text-center mb-5 addmissionform">
                 <p class="text-white admissionform d-inline-block h6 p-2 rounded-pill">Admission Form</p>
-                <small class="float-end me-2 align-items-center py-2">Date: 11/12/2024</small>
+                <small class="float-end me-2 align-items-center py-2" v-if="studentInformationAll.created_at">Date:
+                    {{ formattedDate }}</small>
             </div>
             <div class="row mb-3 w-100">
                 <div class="notice col-12 col-md-6 col-lg-3 mb-3 mb-lg-0">
@@ -31,39 +50,42 @@
                 </div>
                 <div
                     class="student_image col-12 col-md-6 col-lg-3 d-flex justify-content-center align-items-center mb-3 mb-lg-0">
-                    <img src="../../../../../public/frontend/images/user2.png" class="rounded-circle" width="95"
-                        height="95" alt="Eternal Freedom Institute Logo" />
+                    <img :src="`/backend/images/StudentsInformation/${studentInformationAll.st_picture}`" width="190"
+                        height="170" alt="Eternal Freedom Institute Logo" />
                 </div>
                 <div class="admissionName col-12 col-md-6 col-lg-3 mb-3 mb-lg-0">
-                    <table class="table table-bordered">
-                        <tr>
-                            <th>Admission Class</th>
-                            <td>Nine</td>
-                        </tr>
-                        <tr>
-                            <th>Group</th>
-                            <td>Commerce</td>
-                        </tr>
-                        <tr>
-                            <th>Session</th>
-                            <td>2024</td>
-                        </tr>
-                        <tr>
-                            <th>Shift</th>
-                            <td>Morning</td>
-                        </tr>
-                        <tr>
-                            <th>Section</th>
-                            <td>A</td>
-                        </tr>
+                    <table class="table table-bordered  text-center">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Admission Class</th>
+                                <td>{{ studentadmissionClassName.class_name }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Group</th>
+                                <td>{{ studentadmissionsClassDetails.group }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Session</th>
+                                <td>{{ studentadmissionsClassDetails.session }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Shift</th>
+                                <td>{{ studentadmissionsClassDetails.shift }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Section</th>
+                                <td>{{ studentadmissionsClassDetails.section }}</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
+
                 <div class="contact_person col-12 col-md-6 col-lg-3">
-                    <p><strong>Contact Person:</strong> Nine</p>
-                    <p><strong>Father</strong></p>
-                    <p><strong>Md.Fazlur Rahman</strong></p>
-                    <p><strong>0158469485</strong></p>
-                    <p><strong>fazlur@gmail.com</strong> A</p>
+                    <p><strong>Contact Person</strong></p>
+                    <p><strong>{{ studentInformationAll.st_guardian_contact_person }}</strong></p>
+                    <p><strong>{{ studentInformationAll.st_guardian_name }}</strong></p>
+                    <p><strong>{{ studentInformationAll.st_guardian_mobile }}</strong></p>
+                    <p><strong>{{ studentInformationAll.st_guardian_email }}</strong></p>
                 </div>
             </div>
 
@@ -72,66 +94,68 @@
                 <div class="col-md-8">
                     <h5>Student Information</h5>
                     <table class="table table-bordered">
-                        <tr>
-                            <th>Name</th>
-                            <td>Md. Jasim Uddin Nizami</td>
-                        </tr>
-                        <tr>
-                            <th>Gender</th>
-                            <td>Male</td>
-                        </tr>
-                        <tr>
-                            <th>Religion</th>
-                            <td>Islam</td>
-                        </tr>
-                        <tr>
-                            <th>Age</th>
-                            <td>15</td>
-                        </tr>
-                        <tr>
-                            <th>Date of Birth</th>
-                            <td>01.01.2011</td>
-                        </tr>
-                        <tr>
-                            <th>Birth Certificate</th>
-                            <td>321654654546</td>
-                        </tr>
-                        <tr>
-                            <th>NID No</th>
-                            <td>32163416+5</td>
-                        </tr>
-                        <tr>
-                            <th>Passport No</th>
-                            <td>N/A</td>
-                        </tr>
-                        <tr>
-                            <th>Nationality</th>
-                            <td>Bangladeshi</td>
-                        </tr>
-                        <tr>
-                            <th>Mail</th>
-                            <td>jasim5816@gmail.com</td>
-                        </tr>
-                        <tr>
-                            <th>Mobile</th>
-                            <td>01778344090</td>
-                        </tr>
+                        <tbody>
+                            <tr>
+                                <th>Name</th>
+                                <td>{{ studentInformationAll.st_name }}</td>
+                            </tr>
+                            <tr>
+                                <th>Gender</th>
+                                <td>{{ studentInformationAll.st_gender }}</td>
+                            </tr>
+                            <tr>
+                                <th>Religion</th>
+                                <td>{{ studentInformationAll.st_religion }}</td>
+                            </tr>
+                            <tr>
+                                <th>Age</th>
+                                <td>{{ studentInformationAll.st_age }}</td>
+                            </tr>
+                            <tr>
+                                <th>Date of Birth</th>
+                                <td>{{ studentInformationAll.st_dob }}</td>
+                            </tr>
+                            <tr>
+                                <th>Birth Certificate</th>
+                                <td>{{ studentInformationAll.st_birth_certificate_no }}</td>
+                            </tr>
+                            <tr>
+                                <th>NID No</th>
+                                <td>{{ studentInformationAll.st_nid_no }}</td>
+                            </tr>
+                            <tr>
+                                <th>Passport No</th>
+                                <td>{{ studentInformationAll.st_passport_no }}</td>
+                            </tr>
+                            <tr>
+                                <th>Nationality</th>
+                                <td>{{ studentInformationAll.st_nationality }}</td>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <td>{{ studentInformationAll.st_email }}</td>
+                            </tr>
+                            <tr>
+                                <th>Mobile</th>
+                                <td>{{ studentInformationAll.st_mobile }}</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
                 <div class="col-md-4 d-flex flex-column align-items-center justify-content-center">
                     <div class="present_address mb-5">
                         <p><strong>Present Address</strong></p>
-                        <p>Gazirpar,Pos-Dokkin Chandpor,Laksam,Cumilla</p>
-                        <p>Division: Chacttagram</p>
-                        <p>District: Cumilla</p>
-                        <p>Sub-District: Laksam</p>
+                        <p>{{ studentInformationAll.st_pre_sub_district }}</p>
+                        <p>Division: {{ studentInformationAll.st_pre_division }}</p>
+                        <p>District: {{ studentInformationAll.st_pre_district }}</p>
+                        <p>Sub-District: {{ studentInformationAll.st_pre_sub_district }}</p>
                     </div>
                     <div class="permanent_address">
                         <p><strong> Permanent Address</strong></p>
-                        <p>Gazirpar,Pos-Dokkin Chandpor,Laksam,Cumilla</p>
-                        <p>Division: Chacttagram</p>
-                        <p>District: Cumilla</p>
-                        <p>Sub-District: Laksam</p>
+                        <p>{{ studentInformationAll.st_per_sub_district }}</p>
+                        <p>Division: {{ studentInformationAll.st_per_division }}</p>
+                        <p>District: {{ studentInformationAll.st_per_district }}</p>
+                        <p>Sub-District: {{ studentInformationAll.st_per_sub_district }}</p>
                     </div>
                 </div>
 
@@ -140,104 +164,112 @@
             <div class="row mb-2">
                 <div class="col-md-6">
                     <h5>Father's Information</h5>
-                    <table class="table table-bordered">
-                        <tr>
-                            <th>Name</th>
-                            <td>Md.Fazlur Rahman</td>
-                        </tr>
-                        <tr>
-                            <th>NID No</th>
-                            <td>32136515616</td>
-                        </tr>
-                        <tr>
-                            <th>Passport No</th>
-                            <td>1234584665</td>
-                        </tr>
-                        <tr>
-                            <th>Nationalaty</th>
-                            <td>Bangladeshi</td>
-                        </tr>
-                        <tr>
-                            <th>Mail</th>
-                            <td>fazlur@gmail.com</td>
-                        </tr>
-                        <tr>
-                            <th>Mobile</th>
-                            <td>01885614526</td>
-                        </tr>
+                    <table class="table table-bordered ">
+                        <tbody>
+                            <tr>
+                                <th>Name</th>
+                                <td>{{ studentInformationAll.st_father_name }}</td>
+                            </tr>
+                            <tr>
+                                <th>NID No</th>
+                                <td>{{ studentInformationAll.st_father_nid_no }}</td>
+                            </tr>
+                            <tr>
+                                <th>Passport No</th>
+                                <td>{{ studentInformationAll.st_father_passport_no }}</td>
+                            </tr>
+                            <tr>
+                                <th>Nationality</th>
+                                <td>{{ studentInformationAll.st_father_nationality }}</td>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <td>{{ studentInformationAll.st_father_email }}</td>
+                            </tr>
+                            <tr>
+                                <th>Mobile</th>
+                                <td>{{ studentInformationAll.st_father_mobile }}</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
+
                 <div class="col-md-6">
                     <h5>Mother's Information</h5>
-                    <table class="table table-bordered">
-                        <tr>
-                            <th>Name</th>
-                            <td>Nazma Akter</td>
-                        </tr>
-                        <tr>
-                            <th>NID No</th>
-                            <td>32163416+5</td>
-                        </tr>
-                        <tr>
-                            <th>Passport No</th>
-                            <td>1234584665</td>
-                        </tr>
-                        <tr>
-                            <th>Nationality</th>
-                            <td>Bangladeshi</td>
-                        </tr>
-                        <tr>
-                            <th>Mail</th>
-                            <td>nazma@gmail.com</td>
-                        </tr>
-                        <tr>
-                            <th>Mobile</th>
-                            <td> 01758945621</td>
-                        </tr>
+                    <table class="table table-bordered ">
+                        <tbody>
+                            <tr>
+                                <th>Name</th>
+                                <td>{{ studentInformationAll.st_mother_name }}</td>
+                            </tr>
+                            <tr>
+                                <th>NID No</th>
+                                <td>{{ studentInformationAll.st_mother_nid_no }}</td>
+                            </tr>
+                            <tr>
+                                <th>Passport No</th>
+                                <td>{{ studentInformationAll.st_mother_passport_no }}</td>
+                            </tr>
+                            <tr>
+                                <th>Nationality</th>
+                                <td>{{ studentInformationAll.st_mother_nationality }}</td>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <td>{{ studentInformationAll.st_mother_email }}</td>
+                            </tr>
+                            <tr>
+                                <th>Mobile</th>
+                                <td>{{ studentInformationAll.st_mother_mobile }}</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
+
 
             </div>
 
             <div class="row mb-2">
                 <div class="col-md-8">
-                    <h5>Mother's Information</h5>
+                    <h5>Guardian's Information</h5>
                     <table class="table table-bordered">
-                        <tr>
-                            <th>Name</th>
-                            <td>Nazma Akter</td>
-                        </tr>
-                        <tr>
-                            <th>NID No</th>
-                            <td>32163416+5</td>
-                        </tr>
-                        <tr>
-                            <th>Passport No</th>
-                            <td>1234584665</td>
-                        </tr>
-                        <tr>
-                            <th>Nationality</th>
-                            <td>Bangladeshi</td>
-                        </tr>
-                        <tr>
-                            <th>Mail</th>
-                            <td>nazma@gmail.com</td>
-                        </tr>
-                        <tr>
-                            <th>Mobile</th>
-                            <td> 01758945621</td>
-                        </tr>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Name</th>
+                                <td>{{ studentInformationAll.st_guardian_name }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">NID No</th>
+                                <td>{{ studentInformationAll.st_guardian_nid_no }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Passport No</th>
+                                <td>{{ studentInformationAll.st_guardian_passport_no }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Nationality</th>
+                                <td>{{ studentInformationAll.st_guardian_nationality }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Mail</th>
+                                <td>{{ studentInformationAll.st_guardian_email }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Mobile</th>
+                                <td>{{ studentInformationAll.st_guardian_mobile }}</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
+
                 <div class="col-md-4 d-flex flex-column align-items-start justify-content-center">
                     <div class="mainaddress mb-5 w-100">
-                        <p class="fw-bold mb-2">Address</p>
-                        <p class="mb-1">4A, 374 House, Pokorpar, Domino Galli,</p>
-                        <p class="mb-1">Hatiorpol, Dhanmondi, Dhaka</p>
+                        <p class="fw-bold mb-1">Address</p>
+                        <p class="mb-1">{{ formattedAddress }}</p>
                     </div>
                     <div class="studentrelation w-100">
                         <p class="fw-bold mb-2">Relation of Student</p>
-                        <p class="mb-0">Brother</p>
+                        <p class="mb-0">{{ studentInformationAll.st_guardian_contact_person }}</p>
                     </div>
                 </div>
             </div>
@@ -257,23 +289,14 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Madrasha</td>
-                                <td>Narayonpur Dakhil Madrasha</td>
-                                <td>2027</td>
-                                <td>Five</td>
-                                <td>No</td>
-                                <td>01</td>
-                                <td>02</td>
-                            </tr>
-                            <tr>
-                                <td>School</td>
-                                <td>Asirpar High School</td>
-                                <td>2021</td>
-                                <td>Six</td>
-                                <td>No</td>
-                                <td>15</td>
-                                <td>20</td>
+                            <tr v-for="education in studentEducations" :key="education">
+                                <td>{{ education.education }}</td>
+                                <td>{{ education.academy_name }}</td>
+                                <td>{{ education.year }}</td>
+                                <td>{{ education.class }}</td>
+                                <td>{{ education.group }}</td>
+                                <td>{{ education.roll }}</td>
+                                <td>{{ education.result }}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -286,11 +309,9 @@
                     <p class="fw-bold">Terms & Conditions</p>
                     <div class="terms-content">
                         <ul class="terms-list">
-                            <li>Every admission requires some paperwork. You need to check your</li>
-                            <li>eligibility for admission as an article-ship student at a CA Firm in</li>
-                            <li>Bangladesh first. ICAB has made an equal opportunity for both</li>
-                            <li>students from National Curriculum and English medium in</li>
-                            <li>Bangladesh. So, no worry since it’s easier now than any other time.</li>
+                            <li v-for="(item, index) in splitTermsAndConditions" :key="index">
+                                {{ item }}
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -315,8 +336,8 @@
                 </div>
             </div>
             <div class="row container mb-2">
-                <div class="col-md-2">
-                    <h3 class="fw-bold">Fee: <span class="text-danger">520</span></h3>
+                <div class="col-md-4">
+                    <h4 class="fw-bold">Fee: <span class="text-danger">{{ admissionFee.fee }}</span></h4>
                 </div>
             </div>
 
@@ -342,14 +363,156 @@
 </template>
 
 <script>
+import { onMounted, ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
 export default {
     name: "AddmissionfromView",
     setup() {
+        const router = useRouter();
+        const token = localStorage.getItem("token");
+        const studentadmissionsClassDetails = ref({});
+        const studentadmissionClassName = ref('');
+        const studentInformationAll = ref({});
+        const studentEducations = ref([]);
+        const termsAndConditions = ref('');
+        const admissionFee = ref('');
+        const academy_details = ref({});
+        const isMobile = ref(false);
+
+        const fetchStudentAdmissions = async () => {
+            try {
+                const response = await axios.get("/api/studentadmission/find", {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                if (response.data && response.data.message) {
+
+                    studentInformationAll.value = response.data.data;
+                    let jsonString = response.data.data.education;
+                    studentEducations.value = JSON.parse(jsonString);
+                    const fullString = response.data.data.admission.admission_assign.class_details
+                    studentadmissionClassName.value = response.data.data.admission.admission_assign;
+                    admissionFee.value = response.data.data.admission.admission_assign;
+
+                    studentadmissionsClassDetails.value = Object.assign({}, fullString.split('>').reduce((acc, curr, index) => {
+                        const keys = ['shift', 'section', 'group', 'session'];
+                        acc[keys[index]] = curr;
+                        return acc;
+                    }, {}));
+
+                    console.log(response.data.data);
+                }
+            } catch (error) {
+                console.error("Error fetching class data:", error);
+            }
+        };
         const printPage = () => {
             window.print();
         };
+
+        const formattedAddress = computed(() => {
+            if (studentInformationAll.value.st_guardian_address) {
+                const addressParts = studentInformationAll.value.st_guardian_address.split(',');
+                return addressParts.length >= 6
+                    ? `${addressParts[0]}, ${addressParts[1]}${addressParts[2]}, ${addressParts[3]}${addressParts[4]}, ${addressParts[5]}`
+                    : studentInformationAll.value.st_guardian_address;
+            }
+            return null;
+        });
+        const conditions = async () => {
+            try {
+                const response = await axios.get(`api/terms-condition`);
+                if (response.data && response.data.message) {
+                    termsAndConditions.value = response.data.data.content
+                }
+            } catch (error) {
+
+            }
+        }
+        const formattedDate = computed(() => {
+            const date = new Date(studentInformationAll.value.created_at);
+            const day = ("0" + date.getDate()).slice(-2);
+            const month = ("0" + (date.getMonth() + 1)).slice(-2);
+            const year = date.getFullYear();
+
+            return `${day}/${month}/${year}`;
+        });
+        const splitTermsAndConditions = computed(() => {
+            return termsAndConditions.value.split('.').filter(item => item.trim() !== '');
+        });
+
+        const fetchAcademy = async () => {
+            try {
+                const response = await axios.get(`/api/academy/header`);
+                if (response.data?.data) {
+                    academy_details.value = response.data.data;
+                    document.title = academy_details.value.academy_name || "Loregate School and College";
+                    if (academy_details.value.academy_logo) {
+                        const faviconElement = document.getElementById('dynamic-favicon');
+                        if (faviconElement) {
+                            faviconElement.href = `/backend/images/academy/${academy_details.value.academy_logo}`;
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error("Error fetching academy details:", error.message);
+            }
+        };
+
+        const isLongName = computed(() =>
+            (academy_details.value.academy_name || "Loregate School and College").length > 26
+        );
+
+        const formatAddress = (address) => {
+            let formattedAddress = '';
+            let i = 0;
+            while (i < address.length) {
+                formattedAddress += address.substring(i, i + 50) + '<br>';
+                i += 50;
+            }
+            return formattedAddress;
+        };
+        const checkScreenSize = () => {
+            isMobile.value = window.innerWidth <= 768; // Mobile breakpoint
+        };
+
+        onMounted(async () => {
+            if (!token) {
+                router.push({ name: "HomeFront" });
+            } else {
+                try {
+                    await Promise.all([fetchStudentAdmissions(), conditions(), fetchAcademy()]);
+                    window.addEventListener("resize", checkScreenSize);
+                } catch (error) {
+                    console.error("Error during onMounted execution:", error);
+                }
+            }
+        });
+        const Gohome = () => {
+            localStorage.clear('token');
+            localStorage.clear('student_id');
+            router.push({ name: "HomeFront" })
+        }
         return {
-            printPage
+            Gohome,
+            printPage,
+            fetchStudentAdmissions,
+            studentadmissionClassName,
+            studentadmissionsClassDetails,
+            studentInformationAll,
+            formattedAddress,
+            studentEducations,
+            conditions,
+            splitTermsAndConditions,
+            admissionFee,
+            formattedDate,
+            fetchAcademy,
+            academy_details,
+            isLongName,
+            formatAddress,
+            checkScreenSize,
+            isMobile
         }
     }
 }
@@ -358,7 +521,7 @@ export default {
 <style scoped>
 .admissionfair {
     width: 100%;
-    height: 10vh;
+    height: 12vh;
     background-color: #f7fa87;
 }
 
@@ -375,7 +538,8 @@ h6 {
 .present_address p {
     line-height: 0.5;
 }
-.contact_person p{
+
+.contact_person p {
     line-height: 0.5;
 }
 
@@ -384,7 +548,7 @@ h6 {
 }
 
 .mainaddress p {
-    line-height: .5;
+    line-height: 1;
 }
 
 .studentrelation p {
@@ -407,6 +571,7 @@ body {
     font-size: 14px;
     /* Adjust this as needed */
 }
+
 
 /* Styles for printing */
 @media print {

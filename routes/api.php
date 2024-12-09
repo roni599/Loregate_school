@@ -24,11 +24,13 @@ use App\Http\Controllers\PreviousEducationController;
 use App\Http\Controllers\PrimePresedentController;
 use App\Http\Controllers\RightPictureController;
 use App\Http\Controllers\SlidevalueController;
+use App\Http\Controllers\StudentController;
 use App\Http\Controllers\TeacherGalleryController;
 use App\Http\Controllers\TermsConditionController;
 use App\Http\Controllers\WebsitelinkController;
 use App\Http\Controllers\WinnerGalleryController;
 use Illuminate\Support\Facades\Route;
+use Whoops\Run;
 
 /*
 |--------------------------------------------------------------------------
@@ -202,4 +204,6 @@ Route::get('/class-information',[ClassInformationController::class,'index']);
 Route::post('/class-information/store', [ClassInformationController::class, 'store']);
 
 
-
+Route::get('/studentadmissions',[StudentController::class, 'index']);
+Route::get('/studentadmission/find',[StudentController::class, 'studentadmissionfind']);
+Route::post('/studentadmission/store', [StudentController::class, 'store']);

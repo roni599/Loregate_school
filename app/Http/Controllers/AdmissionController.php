@@ -62,7 +62,7 @@ class AdmissionController extends Controller
             'access_token' => $token,
             'token_type' => 'bearer',
             'expires_in' => $ttl * 60,
-            'user_id' => auth('admissions')->user()->id,
+            'student_id' => auth('admissions')->user()->id,
             'email' => auth('admissions')->user()->email,
         ]);
     }

@@ -46,4 +46,8 @@ class Admission extends Authenticatable implements JWTSubject
     {
         return [];
     }
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
 }

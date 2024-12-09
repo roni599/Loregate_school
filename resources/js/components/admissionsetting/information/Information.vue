@@ -26,6 +26,8 @@
                                             <option selected>Open this select menu</option>
                                             <option v-for="classItem in classes" :key="classItem.id"
                                                 :value="classItem.id">
+                                                {{ classItem.class_name }}
+                                                <span v-if="classItem.class_name != null">></span>
                                                 {{ classItem.shift }} <span v-if="classItem.shift != null">></span>{{
                                                     classItem.section }}
                                                 <span v-if="classItem.section != null">></span>{{ classItem.group
