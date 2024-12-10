@@ -207,3 +207,4 @@ Route::post('/class-information/store', [ClassInformationController::class, 'sto
 Route::get('/studentadmissions',[StudentController::class, 'index']);
 Route::get('/studentadmission/find',[StudentController::class, 'studentadmissionfind']);
 Route::post('/studentadmission/store', [StudentController::class, 'store']);
+Route::get('/studentadmission/classinformation/find',[StudentController::class, 'studentadmissionClassInformationfind']);

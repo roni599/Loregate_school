@@ -66,7 +66,8 @@
                                     <div class="newAccount">
                                         <p class="mb-3">New Account For Admission?</p>
                                         <router-link to="/admissionregister"
-                                            class="btn btn-primary createaccount">Create Account</router-link>
+                                            class="btn btn-primary createaccount">Create
+                                            Account</router-link>
                                     </div>
                                 </form>
                             </div>
@@ -80,14 +81,14 @@
 </template>
 
 <script>
-import { onMounted, ref,computed } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 export default {
     name: "AdmissionLogin",
     setup() {
         const router = useRouter();
-        const academy_details=ref({});
+        const academy_details = ref({});
         const isMobile = ref(false);
         const loginForm = ref({
             email: '',
@@ -95,12 +96,23 @@ export default {
         })
 
         const submitLogin = async () => {
-            const response = await axios.post(`/api/auth/admissionregister/login`, loginForm.value);
-            if (response.data) {
-                localStorage.setItem('token', response.data.access_token);
-                localStorage.setItem('student_id', response.data.student_id);
-                router.push({ name: 'AdmissionForm' });
+            try {
+                const response = await axios.post(`/api/auth/admissionregister/login`, loginForm.value);
+                if (response.data) {
+                    localStorage.setItem('token', response.data.access_token);
+                    localStorage.setItem('student_id', response.data.student_id);
+                    router.push({ name: 'AdmissionForm' });
+                }
+            } catch (error) {
+                if (error.response && error.response.status === 401) {
+                    const errorMessage = error.response.data.error || 'Unauthorized';
+                    Swal.fire({
+                        icon: "error",
+                        title: errorMessage,
+                    });
+                }
             }
+
         }
         const fetchAcademy = async () => {
             try {
@@ -137,7 +149,7 @@ export default {
             }
             return formattedAddress;
         };
-        onMounted(()=>{
+        onMounted(() => {
             fetchAcademy();
         })
 

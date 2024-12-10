@@ -9,10 +9,14 @@ class ClassInformation extends Model
 {
     use HasFactory;
     protected $table = 'class_informations';
-    protected $fillable = ['class_id', 'information', 'status','date'];
+    protected $fillable = ['assign_class_id', 'information', 'status', 'date'];
 
-    public function class()
+    // public function class()
+    // {
+    //     return $this->belongsTo(ClassModel::class, 'class_id');
+    // }
+    public function admissionAssign()
     {
-        return $this->belongsTo(ClassModel::class, 'class_id');
+        return $this->belongsTo(AdmissionAssign::class, 'assign_class_id');
     }
 }

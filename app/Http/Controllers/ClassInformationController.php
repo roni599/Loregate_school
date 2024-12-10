@@ -18,14 +18,15 @@ class ClassInformationController extends Controller
     }
     public function store(Request $request)
     {
+        // return response()->json($request->all());
         $request->validate([
             'class_id' => 'required|integer',
             'information' => 'required|string|max:300',
-            'date' => 'required|string|max:300',
+            // 'date' => 'required|string|max:300',
         ]);
 
         $classInformation = ClassInformation::create([
-            'class_id' => $request->class_id,
+            'assign_class_id' => $request->class_id,
             'information' => $request->information,
             'date' => $request->date,
         ]);

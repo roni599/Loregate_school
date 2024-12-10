@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ImageValidator;
 use App\Helpers\ResponseHelper;
+use App\Models\ClassInformation;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class StudentController extends Controller
 {
@@ -17,6 +19,7 @@ class StudentController extends Controller
 
     public function store(Request $request)
     {
+        $uuid = rand(100000, 999999);
         $admission = auth('admissions')->user();
         if (!$admission) {
             return response()->json(['error' => 'Unauthorized'], 401);
@@ -93,8 +96,10 @@ class StudentController extends Controller
             'st_picture' => $imagePath,
             'st_signature' => $imagePath2,
             'education' => json_encode($educationData),
-            'admission_id' => $admission->id
+            'admission_id' => $admission->id,
+            'student_id' => $uuid,
         ];
+        
         $student = Student::create($data);
 
         return response()->json([
@@ -113,5 +118,14 @@ class StudentController extends Controller
             ->with('admission.admissionAssign')
             ->first();
         return ResponseHelper::success($studentAdmission, 'Student data retrive successfully');
+    }
+    public function studentadmissionClassInformationfind(){
+        $admission = auth('admissions')->user();
+        if (!$admission) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
+        $studentAdmission = Student::where('admission_id', $admission->id)->first();
+        $admissionClassInformation=ClassInformation::where('assign_class_id',$studentAdmission->id)->first();
+        return ResponseHelper::success($admissionClassInformation,"Admission Class Information data retrive successfully");
     }
 }

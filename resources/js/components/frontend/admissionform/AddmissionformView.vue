@@ -43,13 +43,10 @@
             </div>
             <div class="row mb-3 w-100">
                 <div class="notice col-12 col-md-6 col-lg-3 mb-3 mb-lg-0">
-                    <p>আগামী01/12/2024তািরেখের
-                        মে অিফেস এেস অনলাইেন
-                        ফরনকত ফরম ি কের যমা
-                        িদেত অন দ করা হেলা।</p>
+                    <p>{{ studentClassInformation.information }}</p>
                 </div>
                 <div
-                    class="student_image col-12 col-md-6 col-lg-3 d-flex justify-content-center align-items-center mb-3 mb-lg-0">
+                    class="student_image col-12 col-md-6 col-lg-3 d-flex justify-content-center  mb-3 mb-lg-0">
                     <img :src="`/backend/images/StudentsInformation/${studentInformationAll.st_picture}`" width="190"
                         height="170" alt="Eternal Freedom Institute Logo" />
                 </div>
@@ -329,7 +326,7 @@
 
             <div class="row container mb-2">
                 <div class="col-md-2">
-                    <p class="idno">ID No: 452164</p>
+                    <p class="idno">ID No: {{ studentInformationAll.student_id }}</p>
                 </div>
                 <div class="col-md-10">
                     <img src="../../../../../public/frontend/images/unpaid.jpg" width="50" height="50" alt="">
@@ -363,6 +360,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import { onMounted, ref, computed } from 'vue';
 import { useRouter } from 'vue-router';
 export default {
@@ -378,6 +376,7 @@ export default {
         const admissionFee = ref('');
         const academy_details = ref({});
         const isMobile = ref(false);
+        const studentClassInformation = ref({});
 
         const fetchStudentAdmissions = async () => {
             try {
@@ -400,8 +399,6 @@ export default {
                         acc[keys[index]] = curr;
                         return acc;
                     }, {}));
-
-                    console.log(response.data.data);
                 }
             } catch (error) {
                 console.error("Error fetching class data:", error);
@@ -410,6 +407,21 @@ export default {
         const printPage = () => {
             window.print();
         };
+
+        const admissionClassInformation = async () => {
+            try {
+                const response = await axios.get(`/api/studentadmission/classinformation/find`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                if (response.data && response.data.message) {
+                    studentClassInformation.value = response.data.data
+                }
+            } catch (error) {
+
+            }
+        }
 
         const formattedAddress = computed(() => {
             if (studentInformationAll.value.st_guardian_address) {
@@ -482,7 +494,7 @@ export default {
                 router.push({ name: "HomeFront" });
             } else {
                 try {
-                    await Promise.all([fetchStudentAdmissions(), conditions(), fetchAcademy()]);
+                    await Promise.all([fetchStudentAdmissions(), conditions(), fetchAcademy(), admissionClassInformation()]);
                     window.addEventListener("resize", checkScreenSize);
                 } catch (error) {
                     console.error("Error during onMounted execution:", error);
@@ -512,7 +524,9 @@ export default {
             isLongName,
             formatAddress,
             checkScreenSize,
-            isMobile
+            isMobile,
+            admissionClassInformation,
+            studentClassInformation
         }
     }
 }

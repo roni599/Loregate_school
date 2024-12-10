@@ -22,7 +22,7 @@
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label for="classDetails" class="form-label mb-0">Class Details</label>
-                                        <select class="form-select" v-model="form.class_id">
+                                        <!-- <select class="form-select" v-model="form.class_id">
                                             <option selected>Open this select menu</option>
                                             <option v-for="classItem in classes" :key="classItem.id"
                                                 :value="classItem.id">
@@ -33,16 +33,24 @@
                                                 <span v-if="classItem.section != null">></span>{{ classItem.group
                                                 }}<span v-if="classItem.group != null">></span>{{ classItem.session }}
                                             </option>
+                                        </select> -->
+                                        <select class="form-select" v-model="form.class_id">
+                                            <option selected>Open this select menu</option>
+                                            <option v-for="classItem in classes" :key="classItem.id"
+                                                :value="classItem.id">
+                                                {{ classItem.class_details.split('>').filter(part => part !==
+                                                    'null').join('>') }}
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mb-2">
+                            <!-- <div class="row mb-2">
                                 <div class="col-md-12">
                                     <label for="termscondition" class="mb-1">Information</label>
                                     <input type="date" v-model="form.date" class="form-control mb-3">
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="row mb-2">
                                 <div class="col-md-12">
                                     <label for="termscondition" class="mb-1">Information</label>
@@ -74,13 +82,13 @@ export default {
         const form = ref({
             class_id: '',
             information: '',
-            date: ''
+            // date: ''
         })
         const submitForm = async () => {
             const formData = new FormData();
             formData.append('class_id', form.value.class_id);
             formData.append('information', form.value.information);
-            formData.append('date', form.value.date);
+            // formData.append('date', form.value.date);
             try {
                 const response = await axios.post('/api/class-information/store', formData, {
                     headers: {
@@ -100,7 +108,7 @@ export default {
         }
         const fetchData = async () => {
             try {
-                const response = await axios.get(`/api/classes`);
+                const response = await axios.get(`/api/admissionassign`);
                 if (response.data && response.data.message) {
                     classes.value = response.data.data;
                 }

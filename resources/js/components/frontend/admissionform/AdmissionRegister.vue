@@ -46,12 +46,18 @@
                                     <div class="mb-3">
                                         <label for="class_name" class="form-label mb-0">Class Name</label>
                                         <select class="form-select" v-model="registerForm.class_id">
-                                            <option value="" disabled>Select your class</option>
+                                            <!-- <option value="" disabled>Select your class</option>
                                             <option v-for="classItem in admissionClasses" :key="classItem.id"
                                                 :value="`${classItem.id}`">
                                                 {{ classItem.class_name }}
                                                 <span v-if="classItem.class_name != null">></span>{{
                                                     classItem.class_details }}
+                                            </option> -->
+                                            <option value="" disabled>Open this select menu</option>
+                                            <option v-for="classItem in admissionClasses" :key="classItem.id"
+                                                :value="classItem.id">
+                                                {{ classItem.class_details.split('>').filter(part => part !==
+                                                    'null').join('>') }}
                                             </option>
                                         </select>
                                     </div>
@@ -85,7 +91,7 @@
 <script>
 import axios from 'axios';
 import { useRouter } from 'vue-router';
-import { onMounted, ref,computed } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 
 export default {
     name: "AdmissionRegister",
