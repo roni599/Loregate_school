@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid">
+    <div class="container-fluid pp">
         <div class="card mt-4 mb-3">
             <div class="card-header border-bottom-0 p-4">
                 <router-link class="text-decoration-none text-info h5" to="/admin-dashboard">Dashboard</router-link>
@@ -54,7 +54,7 @@
                                         <td>N/A</td>
                                         <td>
                                             <div class="d-flex">
-                                                <button
+                                                <button @click="jsPDF(admission.id)"
                                                     class="btn btn-sm btn-primary me-2 bg-transparent text-black border-0 fs-5">
                                                     <i class="fa-solid fa-download"></i>
                                                 </button>
@@ -82,14 +82,14 @@
                         aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <div class="container my-5 border p-4">
-                        <div class="text-center mb-5 addmissionform">
+                    <div class="container px-4 py-2 border" ref="document" id="element-to-convert">
+                        <div class="text-center mt-3  mb-2 addmissionform">
                             <p class="text-white admissionform d-inline-block h6 p-2 rounded-pill">Admission Form</p>
                             <small class="float-end me-2 align-items-center py-2"
                                 v-if="studentInformationAll.created_at">Date:
                                 {{ formattedDate }}</small>
                         </div>
-                        <div class="row mb-3 w-100">
+                        <div class="row mt-3 mb-2 w-100">
                             <div class="notice col-12 col-md-6 col-lg-3 mb-3 mb-lg-0">
                                 <p>{{ studentClassInformation.information }}</p>
                             </div>
@@ -319,7 +319,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="mt-4">
+                        <div class="">
                             <h5>Previous Academy Information</h5>
                             <div class="table-responsive">
                                 <table class="table table-bordered text-center">
@@ -348,9 +348,7 @@
                                 </table>
                             </div>
                         </div>
-
-
-                        <div class="container mt-4">
+                        <div class="container">
                             <div class="terms-container">
                                 <p class="fw-bold">Terms & Conditions</p>
                                 <div class="terms-content">
@@ -363,10 +361,9 @@
                             </div>
                         </div>
 
-
                         <div class="row container mb-3">
                             <div class="col-md-6">
-                                <div class="mb-3 form-check">
+                                <div class=" form-check">
                                     <input type="checkbox" class="form-check-input" id="exampleCheck1">
                                     <label class="form-check-label" for="exampleCheck1"> I’m Agree Tram &
                                         Condition</label>
@@ -419,7 +416,7 @@
 <script>
 import axios from 'axios';
 import { onMounted, ref, computed } from 'vue';
-
+import html2pdf from 'html2pdf.js';
 export default {
     name: "ApplicationReport",
     setup() {
@@ -440,6 +437,62 @@ export default {
             const modal = new bootstrap.Modal(document.getElementById('exampleModalToggle'));
             modal.show();
         }
+
+        const jsPDF = async (id) => {
+            try {
+                // Make all API requests concurrently using Promise.all
+                const [studentResponse, classInfoResponse, termsResponse] = await Promise.all([
+                    axios.get(`/api/studentadmission/finddata/${id}`),
+                    axios.get(`/api/studentadmission/classinformation/finddata/${id}`),
+                    axios.get(`api/terms-condition`)
+                ]);
+
+                // Handle student data response
+                if (studentResponse.data && studentResponse.data.message) {
+                    console.log(studentResponse)
+                    const studentData = studentResponse.data.data;
+                    studentInformationAll.value = studentData;
+
+                    // Parse and set education information
+                    let jsonString = studentData.education;
+                    studentEducations.value = JSON.parse(jsonString);
+
+                    // Set admission class and fee details
+                    const classDetails = studentData.admissionassign.class_details;
+                    studentadmissionClassName.value = studentData.admissionassign;
+                    admissionFee.value = studentData.admissionassign;
+
+                    // Split class details into individual values
+                    studentadmissionsClassDetails.value = Object.assign({}, classDetails.split('>')
+                        .reduce((acc, curr, index) => {
+                            const keys = ['shift', 'section', 'group', 'session'];
+                            acc[keys[index]] = curr;
+                            return acc;
+                        }, {}));
+                }
+
+                // Handle class information response
+                if (classInfoResponse.data && classInfoResponse.data.message) {
+                    console.log(classInfoResponse)
+                    studentClassInformation.value = classInfoResponse.data.data;
+                }
+
+                // Handle terms and conditions response
+                if (termsResponse.data && termsResponse.data.message) {
+                    console.log(termsResponse)
+                    termsAndConditions.value = termsResponse.data.data.content;
+                }
+
+                html2pdf(document.getElementById('element-to-convert'),{
+                    margin:1,
+                    filename:'okey2-html.pdf'
+                })
+
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+
 
         const formatDateTime = (dateString) => {
             const date = new Date(dateString.replace(" ", "T")); // Ensure ISO format
@@ -569,7 +622,8 @@ export default {
             termsAndConditions,
             formattedDate,
             conditions,
-            printPage
+            printPage,
+            jsPDF
         }
     }
 }
@@ -591,55 +645,61 @@ export default {
     border: 1px solid #ddd;
     margin-bottom: 12px;
 }
+
 .loginbutton {
     background-color: #2865b8;
     border-radius: 15px;
     padding: 5px 15px;
 }
 
+.admissionform {
+    background-color: #004aac;
+}
+
+
+body {
+    overflow: auto;
+}
 
 @media print {
-    .admissionfair {
-        width: 100%;
-        height: 5vh;
-        background-color: #f7fa87;
+    body {
+        overflow: hidden;
+        height: 100vh;
+
     }
 
     .admissionform {
-        background-color: #004aac;
+        background-color: #004aac !important;
+        color: black;
+        font-weight: bold;
     }
 
-    .present_address p {
-        line-height: 0.5;
+    #exampleModalToggle .modal-body {
+        overflow: hidden;
     }
 
-    .permanent_address p {
-        line-height: 0.5;
+    #exampleModalToggle .modal-header,
+    #exampleModalToggle .modal-footer {
+        border: none;
     }
 
-    .mainaddress p {
-        line-height: .5;
-    }
-
-    .studentrelation p {
-        line-height: 0.5;
-    }
-
-    .idno {
-        color: #ac8af2;
-    }
-
-    .loginbutton {
-        background-color: #2865b8;
-        border-radius: 15px;
-        padding: 5px 15px;
-    }
-
-    /* General styling */
+    html,
     body {
-        font-family: Arial, sans-serif;
-        font-size: 20px;
-        /* Adjust this as needed */
+        width: 100%;
+        margin: 0;
+        padding: 0;
+
     }
+
+    .page-content {
+        page-break-before: always;
+        overflow: visible;
+    }
+
+    .modal-content {
+        border: none !important;
+    }
+
+
 }
 </style>
