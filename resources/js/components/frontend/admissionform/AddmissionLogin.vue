@@ -5,7 +5,7 @@
                 <!-- Left Content -->
                 <div class="content-image-academy-details d-flex align-items-center">
                     <button class="btn btn-transparent p-0 border-0 academy-image" @click="Gohome">
-                        <img :src="`/backend/images/academy/${academy_details.academy_logo}`" width="45" height="45"
+                        <img v-if="academy_details.academy_logo" :src="`/backend/images/academy/${academy_details.academy_logo}`" width="45" height="45"
                             class="rounded-circle me-2" alt="Academy Logo">
                     </button>
                     <div class="academy-details text-white" style="line-height: 1">
@@ -45,13 +45,13 @@
                                 <form @submit.prevent="submitLogin">
                                     <div class="mb-3">
                                         <label for="exampleInputEmail1" class="form-label mb-0">Email/Mobile</label>
-                                        <input type="email" v-model="loginForm.email" class="form-control"
-                                            id="exampleInputEmail1" aria-describedby="emailHelp">
+                                        <input type="text" v-model="loginForm.email" class="form-control"
+                                            id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter your email or mobile">
                                     </div>
                                     <div class="mb-3">
                                         <label for="exampleInputPassword1" class="form-label mb-0">Password</label>
                                         <input v-model="loginForm.password" type="password" class="form-control"
-                                            id="exampleInputPassword1">
+                                            id="exampleInputPassword1" placeholder="Enter your password">
                                     </div>
                                     <div
                                         class="button-forgate d-flex justify-content-between w-100 align-items-center mb-5">

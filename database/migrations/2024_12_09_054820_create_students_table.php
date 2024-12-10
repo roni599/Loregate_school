@@ -58,7 +58,9 @@ return new class extends Migration
             $table->string('st_signature')->nullable();
             $table->json('education')->nullable();
             $table->unsignedBigInteger('admission_id');
+            $table->unsignedBigInteger('admission_assign_id');
             $table->foreign('admission_id')->references('id')->on('admissions')->onDelete('cascade');
+            $table->foreign('admission_assign_id')->references('id')->on('admissionassigns')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -53,7 +53,8 @@ class Student extends Model
         'st_picture',
         'st_signature',
         'education',
-        'admission_id'
+        'admission_id',
+        'admission_assign_id'
     ];
     protected $casts = [
         'education' => 'json',
@@ -61,5 +62,9 @@ class Student extends Model
     public function admission()
     {
         return $this->belongsTo(Admission::class);
+    }
+    public function admissionAssign()
+    {
+        return $this->belongsTo(AdmissionAssign::class, 'admission_assign_id');
     }
 }

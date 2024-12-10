@@ -5,7 +5,8 @@
                 <!-- Left Content -->
                 <div class="content-image-academy-details d-flex align-items-center">
                     <button class="btn btn-transparent p-0 border-0 academy-image" @click="Gohome">
-                        <img :src="`/backend/images/academy/${academy_details.academy_logo}`" width="45" height="45"
+                        <img v-if="academy_details.academy_logo"
+                            :src="`/backend/images/academy/${academy_details.academy_logo}`" width="45" height="45"
                             class="rounded-circle me-2" alt="Academy Logo">
                     </button>
                     <div class="academy-details text-white" style="line-height: 1">
@@ -59,12 +60,13 @@
         <div class="container mb-5">
             <div class="card">
                 <div class="card-body">
-                    <p class="mb-2">
+                    <p v-if="classData && classData.class_details" class="mb-2">
                         <span class="addmissionclass fw-bold">Admission Class </span> :
-                        {{ classData.class_name }}>{{ classData.class_details }}
+                        {{ classData.class_name }}> {{ cleanedClassDetails }}
                     </p>
                     <p class="fee fw-bold mb-4">Fee: {{ classData.fee }}</p>
                     <form action="" class="" @submit.prevent="submitForm">
+                        <input type="hidden" v-model="classData.id" />
                         <div class="formName mb-3" v-for="form in Formnames" :key="form.id">
                             <p class="studentinformation">{{ form.name }}</p>
                             <div class="row">
@@ -251,6 +253,7 @@ export default {
         const Picture = ref(null);
         const isChecked = ref(false);
 
+
         const onFileSelect = (event) => {
             const file = event.target.files[0];
             if (file.size > 1048576) {
@@ -415,12 +418,17 @@ export default {
             return formattedAddress;
         };
         const checkScreenSize = () => {
-            isMobile.value = window.innerWidth <= 768; // Mobile breakpoint
+            isMobile.value = window.innerWidth <= 768;
         };
 
         const submitForm = async () => {
+
             const fieldValues = fields.value.map(field => field.value);
             const dynamicVariables = {};
+
+            const customKey = 'class_id';
+            dynamicVariables[customKey] = classData.value.id;
+
             if (signature.value !== undefined) {
                 dynamicVariables.signature = signature.value;
             }
@@ -445,6 +453,7 @@ export default {
                     result: row.result,
                 };
             });
+
 
             try {
                 const response = await axios.post('/api/studentadmission/store', dynamicVariables,
@@ -481,6 +490,10 @@ export default {
             localStorage.clear('student_id');
             router.push({ name: "HomeFront" })
         }
+        const cleanedClassDetails = computed(() => {
+            return classData.value.class_details
+                ? classData.value.class_details.replace(/null>/g, '').replace(/>{2,}/g, '>').replace(/^>|>$/g, '') : '';
+        });
 
         onMounted(() => {
             if (!token) {
@@ -528,7 +541,8 @@ export default {
             formatAddress,
             isLongName,
             academy_details,
-            isMobile
+            isMobile,
+            cleanedClassDetails,
         };
     },
 };

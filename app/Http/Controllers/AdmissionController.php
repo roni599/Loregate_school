@@ -11,9 +11,18 @@ class AdmissionController extends Controller
 {
     public function signup(Request $request)
     {
+        // $validated = $request->validate([
+        //     'class_id' => 'required|integer',
+        //     'email' => 'required|email|unique:admissions',
+        //     'password' => 'required|min:8',
+        // ]);
         $validated = $request->validate([
             'class_id' => 'required|integer',
-            'email' => 'required|email|unique:admissions',
+            'email' => [
+                'required',
+                'regex:/^(\d+|[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/',
+                'unique:admissions,email',
+            ],
             'password' => 'required|min:8',
         ]);
 
@@ -27,7 +36,7 @@ class AdmissionController extends Controller
 
         return response()->json([
             'access_token' => $token,
-            'admission' => $admission
+            'student_id' => $admission
         ]);
     }
 

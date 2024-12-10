@@ -23,13 +23,12 @@ class AdmissionAssign extends Model
         'fee',
         'payment_type',
     ];
-    // public function admissions()
-    // {
-    //     return $this->hasMany(Admission::class, 'assigned_class_id');
-    // }
-
     public function classInformations()
     {
         return $this->hasMany(ClassInformation::class, 'assign_class_id');
+    }
+    public function students()
+    {
+        return $this->hasMany(Student::class);
     }
 }

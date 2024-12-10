@@ -22,10 +22,7 @@ class Admission extends Authenticatable implements JWTSubject
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function admissionAssign()
-    {
-        return $this->belongsTo(AdmissionAssign::class, 'assigned_class_id');
-    }
+
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
@@ -49,5 +46,10 @@ class Admission extends Authenticatable implements JWTSubject
     public function students()
     {
         return $this->hasMany(Student::class);
+    }
+    
+    public function admissionAssign()
+    {
+        return $this->belongsTo(AdmissionAssign::class, 'assigned_class_id');
     }
 }

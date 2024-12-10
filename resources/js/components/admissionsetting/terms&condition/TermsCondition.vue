@@ -55,7 +55,7 @@ export default {
 
         const fetchtermscondition = async () => {
             try {
-                const response = await axios.get(`/api/terms-conditions`);
+                const response = await axios.get(`/api/terms-condition`);
                 if (response.data && response.data.message) {
                     newItem.value = response.data.data.content
                 }

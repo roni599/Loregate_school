@@ -5,7 +5,8 @@
                 <!-- Left Content -->
                 <div class="content-image-academy-details d-flex align-items-center">
                     <button class="btn btn-transparent p-0 border-0 academy-image" @click="Gohome">
-                        <img :src="`/backend/images/academy/${academy_details.academy_logo}`" width="45" height="45"
+                        <img v-if="academy_details.academy_logo"
+                            :src="`/backend/images/academy/${academy_details.academy_logo}`" width="45" height="45"
                             class="rounded-circle me-2" alt="Academy Logo">
                     </button>
                     <div class="academy-details text-white" style="line-height: 1">
@@ -55,21 +56,30 @@
                                             </option> -->
                                             <option value="" disabled>Open this select menu</option>
                                             <option v-for="classItem in admissionClasses" :key="classItem.id"
-                                                :value="classItem.id">
-                                                {{ classItem.class_details.split('>').filter(part => part !==
-                                                    'null').join('>') }}
+                                                :value="classItem.id">{{ classItem.class_name }}>{{
+                                                    classItem.class_details.split('>').filter(part => part !==
+                                                        'null').join('>') }}
                                             </option>
                                         </select>
+                                        <small class="text-danger" v-if="errors.class_id">{{
+                                            errors.class_id[0]
+                                        }}</small>
                                     </div>
                                     <div class="mb-3">
                                         <label for="email" class="form-label mb-0">Email/Mobile</label>
                                         <input type="text" class="form-control" id="email"
                                             placeholder="Enter your Email or mobile" v-model="registerForm.email">
+                                        <small class="text-danger" v-if="errors.email">{{
+                                            errors.email[0]
+                                        }}</small>
                                     </div>
                                     <div class="mb-3">
                                         <label for="password" class="form-label mb-0">Password</label>
                                         <input type="password" class="form-control" id="password"
                                             placeholder="Enter your password" v-model="registerForm.password">
+                                        <small class="text-danger" v-if="errors.password">{{
+                                            errors.password[0]
+                                        }}</small>
                                     </div>
                                     <div
                                         class="button-forgate d-flex justify-content-between w-100 align-items-center mb-5">
@@ -105,6 +115,7 @@ export default {
             email: '',
             password: '',
         });
+        const errors = ref({});
         const fetchAdmissionClass = async () => {
             const response = await axios.get(`/api/admissionassign`);
             if (response.data && response.data.message) {
@@ -116,12 +127,12 @@ export default {
             try {
                 const response = await axios.post('/api/auth/admissionregister/store', registerForm.value);
                 if (response.data) {
-                    localStorage.setItem('access_token', response.data.access_token);
-                    localStorage.setItem('student_id', response.data.admission.id);
-                    router.push({ name: 'AdmissionForm' });
+                    // localStorage.setItem('access_token', response.data);
+                    // localStorage.setItem('student_id', response.data.student_id.id);
+                    router.push({ name: 'AddmissionLogin' });
                 }
             } catch (error) {
-                console.error(error);
+                errors.value = error.response.data.errors;
             }
         };
         const fetchAcademy = async () => {
@@ -176,7 +187,8 @@ export default {
             isLongName,
             fetchAcademy,
             academy_details,
-            isMobile
+            isMobile,
+            errors
         }
     }
 }

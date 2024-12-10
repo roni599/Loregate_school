@@ -5,7 +5,8 @@
                 <!-- Left Content -->
                 <div class="content-image-academy-details d-flex align-items-center">
                     <button class="btn btn-transparent p-0 border-0 academy-image" @click="Gohome">
-                        <img :src="`/backend/images/academy/${academy_details.academy_logo}`" width="45" height="45"
+                        <img v-if="academy_details.academy_logo"
+                            :src="`/backend/images/academy/${academy_details.academy_logo}`" width="45" height="45"
                             class="rounded-circle me-2" alt="Academy Logo">
                     </button>
                     <div class="academy-details text-black" style="line-height: 1">
@@ -45,10 +46,10 @@
                 <div class="notice col-12 col-md-6 col-lg-3 mb-3 mb-lg-0">
                     <p>{{ studentClassInformation.information }}</p>
                 </div>
-                <div
-                    class="student_image col-12 col-md-6 col-lg-3 d-flex justify-content-center  mb-3 mb-lg-0">
-                    <img :src="`/backend/images/StudentsInformation/${studentInformationAll.st_picture}`" width="190"
-                        height="170" alt="Eternal Freedom Institute Logo" />
+                <div class="student_image col-12 col-md-6 col-lg-3 d-flex justify-content-center  mb-3 mb-lg-0">
+                    <img v-if="studentInformationAll.st_picture"
+                        :src="`/backend/images/StudentsInformation/${studentInformationAll.st_picture}`" width="190"
+                        height="205" alt="Eternal Freedom Institute Logo" />
                 </div>
                 <div class="admissionName col-12 col-md-6 col-lg-3 mb-3 mb-lg-0">
                     <table class="table table-bordered  text-center">
@@ -447,7 +448,6 @@ export default {
             const day = ("0" + date.getDate()).slice(-2);
             const month = ("0" + (date.getMonth() + 1)).slice(-2);
             const year = date.getFullYear();
-
             return `${day}/${month}/${year}`;
         });
         const splitTermsAndConditions = computed(() => {
@@ -486,7 +486,7 @@ export default {
             return formattedAddress;
         };
         const checkScreenSize = () => {
-            isMobile.value = window.innerWidth <= 768; // Mobile breakpoint
+            isMobile.value = window.innerWidth <= 768;
         };
 
         onMounted(async () => {
@@ -631,7 +631,5 @@ body {
         font-size: 20px;
         /* Adjust this as needed */
     }
-
-
 }
 </style>

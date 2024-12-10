@@ -4,21 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Helpers\ImageValidator;
 use App\Helpers\ResponseHelper;
+use App\Models\Admission;
 use App\Models\ClassInformation;
 use App\Models\Student;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class StudentController extends Controller
 {
     public function index()
     {
-        $student = Student::all();
-        return response($student);
+        // $student = Student::all();
+        $student=Student::with(['admission','admissionassign'])->get();
+        return ResponseHelper::success($student,"Student data retrive successfully");
     }
 
     public function store(Request $request)
     {
+        // return response()->json($request->all());
         $uuid = rand(100000, 999999);
         $admission = auth('admissions')->user();
         if (!$admission) {
@@ -98,6 +100,7 @@ class StudentController extends Controller
             'education' => json_encode($educationData),
             'admission_id' => $admission->id,
             'student_id' => $uuid,
+            'admission_assign_id'=>$request->class_id
         ];
         
         $student = Student::create($data);
@@ -118,6 +121,16 @@ class StudentController extends Controller
             ->with('admission.admissionAssign')
             ->first();
         return ResponseHelper::success($studentAdmission, 'Student data retrive successfully');
+    }
+
+    public function finddata($id){
+        $studentAdmission = Student::with(['admission','admissionassign'])->find($id);
+        return ResponseHelper::success($studentAdmission, 'Student data retrive successfully');
+    }
+    public function studentadmissionClassInformationfinddata($id){
+        $student=Student::findOrFail($id);
+        $admissionClassInformation=ClassInformation::where('assign_class_id',$student->admission_assign_id)->first();
+        return ResponseHelper::success($admissionClassInformation,'Admission Class Information data retrive successfully');
     }
     public function studentadmissionClassInformationfind(){
         $admission = auth('admissions')->user();
