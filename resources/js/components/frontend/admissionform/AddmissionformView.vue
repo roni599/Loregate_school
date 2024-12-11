@@ -37,12 +37,12 @@
         </div>
 
         <div class="container my-5 border p-4">
-            <div class="text-center mb-5 addmissionform">
+            <div class="text-center mb-3 addmissionform">
                 <p class="text-white admissionform d-inline-block h6 p-2 rounded-pill">Admission Form</p>
                 <small class="float-end me-2 align-items-center py-2" v-if="studentInformationAll.created_at">Date:
                     {{ formattedDate }}</small>
             </div>
-            <div class="row mb-3 w-100">
+            <div class="row mb-1 w-100">
                 <div class="notice col-12 col-md-6 col-lg-3 mb-3 mb-lg-0">
                     <p>{{ studentClassInformation.information }}</p>
                 </div>
@@ -60,7 +60,10 @@
                             </tr>
                             <tr>
                                 <th scope="row">Group</th>
-                                <td>{{ studentadmissionsClassDetails.group }}</td>
+                                <td>
+                                    <span v-if="studentadmissionsClassDetails.group == null">N/A</span>
+                                    <span v-else>{{ studentadmissionsClassDetails.group }}</span>
+                                </td>
                             </tr>
                             <tr>
                                 <th scope="row">Session</th>
@@ -88,7 +91,7 @@
             </div>
 
 
-            <div class="row mb-2">
+            <div class="row">
                 <div class="col-md-8">
                     <h5>Student Information</h5>
                     <table class="table table-bordered">
@@ -159,7 +162,7 @@
 
             </div>
 
-            <div class="row mb-2">
+            <div class="row">
                 <div class="col-md-6">
                     <h5>Father's Information</h5>
                     <table class="table table-bordered ">
@@ -227,7 +230,7 @@
 
             </div>
 
-            <div class="row mb-2">
+            <div class="row">
                 <div class="col-md-8">
                     <h5>Guardian's Information</h5>
                     <table class="table table-bordered">
@@ -271,7 +274,7 @@
                     </div>
                 </div>
             </div>
-            <div class="mt-4">
+            <div class="mt-1">
                 <h5>Previous Academy Information</h5>
                 <div class="table-responsive">
                     <table class="table table-bordered text-center">
@@ -302,7 +305,7 @@
             </div>
 
 
-            <div class="container mt-4">
+            <div class="container mt-1">
                 <div class="terms-container">
                     <p class="fw-bold">Terms & Conditions</p>
                     <div class="terms-content">
@@ -315,8 +318,7 @@
                 </div>
             </div>
 
-
-            <div class="row container mb-3">
+            <div class="row container mb-1">
                 <div class="col-md-6">
                     <div class="mb-3 form-check">
                         <input type="checkbox" class="form-check-input" id="exampleCheck1">
@@ -325,7 +327,7 @@
                 </div>
             </div>
 
-            <div class="row container mb-2">
+            <div class="row container">
                 <div class="col-md-2">
                     <p class="idno">ID No: {{ studentInformationAll.student_id }}</p>
                 </div>
@@ -333,13 +335,13 @@
                     <img src="../../../../../public/frontend/images/unpaid.jpg" width="50" height="50" alt="">
                 </div>
             </div>
-            <div class="row container mb-2">
+            <div class="row container">
                 <div class="col-md-4">
                     <h4 class="fw-bold">Fee: <span class="text-danger">{{ admissionFee.fee }}</span></h4>
                 </div>
             </div>
 
-            <div class="row container mb-3 align-items-center">
+            <div class="row container mb-1 align-items-center">
                 <div class="col-md-3 d-flex align-items-center">
                     <p class="mb-0">Please Payment Online</p>
                 </div>
@@ -352,7 +354,7 @@
                 </div>
             </div>
 
-            <div class="button-forgate d-flex justify-content-between w-100 align-items-center">
+            <div class="button-forgate d-flex justify-content-between w-100 align-items-center printbuttondiv">
                 <button class="loginbutton btn btn-sm text-white fw-bold ms-auto" @click="printPage">Save &
                     Download</button>
             </div>
@@ -395,11 +397,21 @@ export default {
                     studentadmissionClassName.value = response.data.data.admission.admission_assign;
                     admissionFee.value = response.data.data.admission.admission_assign;
 
-                    studentadmissionsClassDetails.value = Object.assign({}, fullString.split('>').reduce((acc, curr, index) => {
-                        const keys = ['shift', 'section', 'group', 'session'];
-                        acc[keys[index]] = curr;
-                        return acc;
-                    }, {}));
+                    // studentadmissionsClassDetails.value = Object.assign({}, fullString.split('>').reduce((acc, curr, index) => {
+                    //     const keys = ['shift', 'section', 'group', 'session'];
+                    //     acc[keys[index]] = curr;
+                    //     return acc;
+                    // }, {}));
+
+                    const keys = ['shift', 'section', 'group', 'session'];
+                    studentadmissionsClassDetails.value = Object.assign(
+                        {},
+                        fullString.split('>').reduce((acc, curr, index) => {
+                            acc[keys[index]] = (curr === 'null' || !curr.trim()) ? 'N/A' : curr.trim();
+                            return acc;
+                        }, {})
+                    );
+                    
                 }
             } catch (error) {
                 console.error("Error fetching class data:", error);
@@ -587,14 +599,9 @@ body {
 }
 
 
+
 /* Styles for printing */
 @media print {
-    .admissionfair {
-        width: 100%;
-        height: 5vh;
-        background-color: #f7fa87;
-    }
-
     .admissionform {
         background-color: #004aac;
     }
@@ -619,17 +626,19 @@ body {
         color: #ac8af2;
     }
 
-    .loginbutton {
-        background-color: #2865b8;
-        border-radius: 15px;
-        padding: 5px 15px;
-    }
-
     /* General styling */
     body {
         font-family: Arial, sans-serif;
         font-size: 20px;
         /* Adjust this as needed */
+    }
+
+    .admissionfair {
+        display: none !important;
+    }
+
+    .printbuttondiv {
+        display: none !important;
     }
 }
 </style>

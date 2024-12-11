@@ -77,6 +77,9 @@
                                             <input :type="field.field_type" :id="field.field_name"
                                                 :name="field.field_name" :required="field.required === 1"
                                                 class="form-control" v-model="field.value" />
+                                            <span v-if="field.required === 1 && !field.value" class="text-danger">
+                                                This field is required.
+                                            </span>
                                         </div>
                                         <div v-else-if="field.field_type === 'select'">
                                             <select :id="field.field_name" :name="field.field_name"
@@ -87,16 +90,25 @@
                                                     {{ option }}
                                                 </option>
                                             </select>
+                                            <span v-if="field.required === 1 && !field.value" class="text-danger">
+                                                This field is required.
+                                            </span>
                                         </div>
                                         <div v-else-if="field.field_type === 'date'">
                                             <input :type="field.field_type" :id="field.field_name"
                                                 :name="field.field_name" :required="field.required === 1"
                                                 class="form-control" v-model="field.value" />
+                                            <span v-if="field.required === 1 && !field.value" class="text-danger">
+                                                This field is required.
+                                            </span>
                                         </div>
                                         <div v-else-if="field.field_type === 'email'">
                                             <input :type="field.field_type" :id="field.field_name"
                                                 :name="field.field_name" :required="field.required === 1"
                                                 class="form-control" v-model="field.value" />
+                                            <span v-if="field.required === 1 && !field.value" class="text-danger">
+                                                This field is required.
+                                            </span>
                                         </div>
                                         <div v-else-if="field.field_type === 'file'">
                                             <!-- Picture Input -->
@@ -108,6 +120,10 @@
                                                                 name="signature" :required="field.required === 1"
                                                                 @change="onFileSelect2" class="form-control"
                                                                 ref="fileInput" />
+                                                            <span v-if="field.required === 1 && !field.value"
+                                                                class="text-danger">
+                                                                This field is required.
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -122,6 +138,10 @@
                                                                 name="signature" :required="field.required === 1"
                                                                 class="form-control" @change="onFileSelect"
                                                                 ref="fileInput" />
+                                                            <span v-if="field.required === 1 && !field.value"
+                                                                class="text-danger">
+                                                                This field is required.
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -252,7 +272,7 @@ export default {
         const signature = ref(null);
         const Picture = ref(null);
         const isChecked = ref(false);
-
+        const formSubmitted = ref(false);
 
         const onFileSelect = (event) => {
             const file = event.target.files[0];
@@ -422,7 +442,7 @@ export default {
         };
 
         const submitForm = async () => {
-
+            formSubmitted.value = true;
             const fieldValues = fields.value.map(field => field.value);
             const dynamicVariables = {};
 
@@ -543,6 +563,7 @@ export default {
             academy_details,
             isMobile,
             cleanedClassDetails,
+            formSubmitted
         };
     },
 };

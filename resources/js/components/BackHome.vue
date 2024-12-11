@@ -312,15 +312,31 @@ export default {
             loading.value = false;
         };
 
+        // onMounted(async () => {
+        //     if (!(await User.loggedIn())) {
+        //         router.push({ name: "Login" });
+        //     }
+        //     else {
+        //         userdataFetch();
+        //         fetchData()
+        //     }
+        // });
         onMounted(async () => {
-            if (!(await User.loggedIn())) {
+            const token = localStorage.getItem('token');
+
+            if (token) {
+                if (!sessionStorage.getItem('hasReloaded')) {
+                    sessionStorage.setItem('hasReloaded', 'true');
+                    window.location.reload();
+                } else {
+                    userdataFetch();
+                    fetchData();
+                }
+            } else {
                 router.push({ name: "Login" });
             }
-            else {
-                userdataFetch();
-                fetchData()
-            }
         });
+
         return {
             usersProfile,
             handleImageLoad,
@@ -339,7 +355,6 @@ export default {
 .input-group .input-group-text {
     position: absolute;
     left: 10px;
-    /* Adjust position */
     top: 50%;
     transform: translateY(-50%);
     pointer-events: none;
@@ -347,7 +362,6 @@ export default {
 
 .input-group .form-control {
     padding-left: 35px;
-    /* Adjust padding to make room for the icon */
 }
 
 .pc-container {
@@ -356,8 +370,6 @@ export default {
 
 .pc-container .pc-content {
     padding-left: 35px;
-    /* padding-right: 35px; */
-    /* padding-top: 35px; */
 }
 
 .custom-style {
@@ -440,8 +452,6 @@ export default {
         margin: 0;
         padding: 0;
     }
-
-    /* Ensure the content you want to print is visible */
     #print-area {
         display: block;
     }
