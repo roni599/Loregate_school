@@ -56,11 +56,15 @@ return new class extends Migration
             $table->string('st_guardian_contact_person')->nullable();
             $table->string('st_picture')->nullable();
             $table->string('st_signature')->nullable();
+            $table->boolean('terms_condition')->default(true);
+            $table->boolean('status')->default(true);
+            $table->string('payment_data')->nullable();
+            $table->string('payment_type')->nullable();
             $table->json('education')->nullable();
-            $table->unsignedBigInteger('admission_id');
-            $table->unsignedBigInteger('admission_assign_id');
-            $table->foreign('admission_id')->references('id')->on('admissions')->onDelete('cascade');
-            $table->foreign('admission_assign_id')->references('id')->on('admissionassigns')->onDelete('cascade');
+            $table->unsignedBigInteger('admission_id')->nullable();
+            $table->unsignedBigInteger('admission_assign_id')->nullable();
+            $table->foreign('admission_id')->references('id')->on('admissions')->onDelete('set null');
+            $table->foreign('admission_assign_id')->references('id')->on('admissionassigns')->onDelete('set null');
             $table->timestamps();
         });
     }

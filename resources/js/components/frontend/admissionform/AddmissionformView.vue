@@ -35,46 +35,77 @@
                 </div>
             </div>
         </div>
+        <div class="container-fluid page-break-avoid forprint">
+            <div class="contentload w-100 d-flex justify-content-center align-items-center">
+                <!-- Left Content -->
+                <div class="content-image-academy-details d-flex align-items-center">
+                    <button class="btn btn-transparent p-0 border-0 academy-image" @click="Gohome">
+                        <img v-if="academy_details.academy_logo"
+                            :src="`/backend/images/academy/${academy_details.academy_logo}`" width="45" height="45"
+                            class="rounded-circle me-2" alt="Academy Logo">
+                    </button>
+                    <div class="academy-details text-black" style="line-height: 1">
+                        <template v-if="isMobile && isLongName">
+                            <marquee class="m-0 education_font_size">
+                                {{ academy_details.academy_name || "Loregate School and College" }}
+                            </marquee>
+                        </template>
+                        <template v-else>
+                            <p class="m-0 education_font_size">
+                                {{ academy_details.academy_name || "Loregate School and College" }}
+                            </p>
+                        </template>
+                        <span class="d-block education_font">
+                            <span
+                                v-html="formatAddress(academy_details.academy_address || 'Address not available')"></span>
+                        </span>
+                        <span class="d-block education_font">
+                            {{ academy_details.academy_mobile_number || "Phone not available" }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <div class="container my-5 border p-4">
+        <div class="container my-2  border p-4">
             <div class="text-center mb-3 addmissionform">
-                <p class="text-white admissionform d-inline-block h6 p-2 rounded-pill">Admission Form</p>
+                <p class="text-white admissionform d-inline-block p-2 rounded-pill">Admission Form</p>
                 <small class="float-end me-2 align-items-center py-2" v-if="studentInformationAll.created_at">Date:
                     {{ formattedDate }}</small>
             </div>
-            <div class="row mb-1 w-100">
+            <div class="row w-100">
                 <div class="notice col-12 col-md-6 col-lg-3 mb-3 mb-lg-0">
                     <p>{{ studentClassInformation.information }}</p>
                 </div>
-                <div class="student_image col-12 col-md-6 col-lg-3 d-flex justify-content-center  mb-3 mb-lg-0">
+                <div class="student_image col-12 col-md-6 col-lg-3 d-flex justify-content-center mb-lg-0">
                     <img v-if="studentInformationAll.st_picture"
                         :src="`/backend/images/StudentsInformation/${studentInformationAll.st_picture}`" width="190"
-                        height="205" alt="Eternal Freedom Institute Logo" />
+                        height="190" alt="Eternal Freedom Institute Logo" />
                 </div>
                 <div class="admissionName col-12 col-md-6 col-lg-3 mb-3 mb-lg-0">
                     <table class="table table-bordered  text-center">
                         <tbody>
                             <tr>
-                                <th scope="row">Admission Class</th>
+                                <td scope="row">Admission Class</td>
                                 <td>{{ studentadmissionClassName.class_name }}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Group</th>
+                                <td scope="row">Group</td>
                                 <td>
                                     <span v-if="studentadmissionsClassDetails.group == null">N/A</span>
                                     <span v-else>{{ studentadmissionsClassDetails.group }}</span>
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row">Session</th>
+                                <td scope="row">Session</td>
                                 <td>{{ studentadmissionsClassDetails.session }}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Shift</th>
+                                <td scope="row">Shift</td>
                                 <td>{{ studentadmissionsClassDetails.shift }}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Section</th>
+                                <td scope="row">Section</td>
                                 <td>{{ studentadmissionsClassDetails.section }}</td>
                             </tr>
                         </tbody>
@@ -82,62 +113,62 @@
                 </div>
 
                 <div class="contact_person col-12 col-md-6 col-lg-3">
-                    <p><strong>Contact Person</strong></p>
-                    <p><strong>{{ studentInformationAll.st_guardian_contact_person }}</strong></p>
-                    <p><strong>{{ studentInformationAll.st_guardian_name }}</strong></p>
-                    <p><strong>{{ studentInformationAll.st_guardian_mobile }}</strong></p>
-                    <p><strong>{{ studentInformationAll.st_guardian_email }}</strong></p>
+                    <p>Contact Person</p>
+                    <p>{{ studentInformationAll.st_guardian_contact_person }}</p>
+                    <p>{{ studentInformationAll.st_guardian_name }}</p>
+                    <p>{{ studentInformationAll.st_guardian_mobile }}</p>
+                    <p>{{ studentInformationAll.st_guardian_email }}</p>
                 </div>
             </div>
 
 
             <div class="row">
                 <div class="col-md-8">
-                    <h5>Student Information</h5>
+                    <p class="fw-bold">Student Information</p>
                     <table class="table table-bordered">
                         <tbody>
                             <tr>
-                                <th>Name</th>
+                                <td>Name</td>
                                 <td>{{ studentInformationAll.st_name }}</td>
                             </tr>
                             <tr>
-                                <th>Gender</th>
+                                <td>Gender</td>
                                 <td>{{ studentInformationAll.st_gender }}</td>
                             </tr>
                             <tr>
-                                <th>Religion</th>
+                                <td>Religion</td>
                                 <td>{{ studentInformationAll.st_religion }}</td>
                             </tr>
                             <tr>
-                                <th>Age</th>
+                                <td>Age</td>
                                 <td>{{ studentInformationAll.st_age }}</td>
                             </tr>
                             <tr>
-                                <th>Date of Birth</th>
+                                <td>Date of Birth</td>
                                 <td>{{ studentInformationAll.st_dob }}</td>
                             </tr>
                             <tr>
-                                <th>Birth Certificate</th>
+                                <td>Birth Certificate</td>
                                 <td>{{ studentInformationAll.st_birth_certificate_no }}</td>
                             </tr>
                             <tr>
-                                <th>NID No</th>
+                                <td>NID No</td>
                                 <td>{{ studentInformationAll.st_nid_no }}</td>
                             </tr>
                             <tr>
-                                <th>Passport No</th>
+                                <td>Passport No</td>
                                 <td>{{ studentInformationAll.st_passport_no }}</td>
                             </tr>
                             <tr>
-                                <th>Nationality</th>
+                                <td>Nationality</td>
                                 <td>{{ studentInformationAll.st_nationality }}</td>
                             </tr>
                             <tr>
-                                <th>Email</th>
+                                <td>Email</td>
                                 <td>{{ studentInformationAll.st_email }}</td>
                             </tr>
                             <tr>
-                                <th>Mobile</th>
+                                <td>Mobile</td>
                                 <td>{{ studentInformationAll.st_mobile }}</td>
                             </tr>
                         </tbody>
@@ -164,31 +195,31 @@
 
             <div class="row">
                 <div class="col-md-6">
-                    <h5>Father's Information</h5>
+                    <p class="fw-bold">Father's Information</p>
                     <table class="table table-bordered ">
                         <tbody>
                             <tr>
-                                <th>Name</th>
+                                <td>Name</td>
                                 <td>{{ studentInformationAll.st_father_name }}</td>
                             </tr>
                             <tr>
-                                <th>NID No</th>
+                                <td>NID No</td>
                                 <td>{{ studentInformationAll.st_father_nid_no }}</td>
                             </tr>
                             <tr>
-                                <th>Passport No</th>
+                                <td>Passport No</td>
                                 <td>{{ studentInformationAll.st_father_passport_no }}</td>
                             </tr>
                             <tr>
-                                <th>Nationality</th>
+                                <td>Nationality</td>
                                 <td>{{ studentInformationAll.st_father_nationality }}</td>
                             </tr>
                             <tr>
-                                <th>Email</th>
+                                <td>Email</td>
                                 <td>{{ studentInformationAll.st_father_email }}</td>
                             </tr>
                             <tr>
-                                <th>Mobile</th>
+                                <td>Mobile</td>
                                 <td>{{ studentInformationAll.st_father_mobile }}</td>
                             </tr>
                         </tbody>
@@ -196,31 +227,31 @@
                 </div>
 
                 <div class="col-md-6">
-                    <h5>Mother's Information</h5>
+                    <p class="fw-bold">Mother's Information</p>
                     <table class="table table-bordered ">
                         <tbody>
                             <tr>
-                                <th>Name</th>
+                                <td>Name</td>
                                 <td>{{ studentInformationAll.st_mother_name }}</td>
                             </tr>
                             <tr>
-                                <th>NID No</th>
+                                <td>NID No</td>
                                 <td>{{ studentInformationAll.st_mother_nid_no }}</td>
                             </tr>
                             <tr>
-                                <th>Passport No</th>
+                                <td>Passport No</td>
                                 <td>{{ studentInformationAll.st_mother_passport_no }}</td>
                             </tr>
                             <tr>
-                                <th>Nationality</th>
+                                <td>Nationality</td>
                                 <td>{{ studentInformationAll.st_mother_nationality }}</td>
                             </tr>
                             <tr>
-                                <th>Email</th>
+                                <td>Email</td>
                                 <td>{{ studentInformationAll.st_mother_email }}</td>
                             </tr>
                             <tr>
-                                <th>Mobile</th>
+                                <td>Mobile</td>
                                 <td>{{ studentInformationAll.st_mother_mobile }}</td>
                             </tr>
                         </tbody>
@@ -232,38 +263,38 @@
 
             <div class="row">
                 <div class="col-md-8">
-                    <h5>Guardian's Information</h5>
+                    <p class="fw-bold">Guardian's Information</p>
                     <table class="table table-bordered">
                         <tbody>
                             <tr>
-                                <th scope="row">Name</th>
+                                <td scope="row">Name</td>
                                 <td>{{ studentInformationAll.st_guardian_name }}</td>
                             </tr>
                             <tr>
-                                <th scope="row">NID No</th>
+                                <td scope="row">NID No</td>
                                 <td>{{ studentInformationAll.st_guardian_nid_no }}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Passport No</th>
+                                <td scope="row">Passport No</td>
                                 <td>{{ studentInformationAll.st_guardian_passport_no }}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Nationality</th>
+                                <td scope="row">Nationality</td>
                                 <td>{{ studentInformationAll.st_guardian_nationality }}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Mail</th>
+                                <td scope="row">Mail</td>
                                 <td>{{ studentInformationAll.st_guardian_email }}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Mobile</th>
+                                <td scope="row">Mobile</td>
                                 <td>{{ studentInformationAll.st_guardian_mobile }}</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <div class="col-md-4 d-flex flex-column align-items-start justify-content-center">
+                <div class="col-md-4 d-flex flex-column align-items-start mb-2 justify-content-center">
                     <div class="mainaddress mb-5 w-100">
                         <p class="fw-bold mb-1">Address</p>
                         <p class="mb-1">{{ formattedAddress }}</p>
@@ -274,8 +305,8 @@
                     </div>
                 </div>
             </div>
-            <div class="mt-1">
-                <h5>Previous Academy Information</h5>
+            <div class="">
+                <p class="fw-bold">Previous Academy Information</p>
                 <div class="table-responsive">
                     <table class="table table-bordered text-center">
                         <thead>
@@ -305,7 +336,7 @@
             </div>
 
 
-            <div class="container mt-1">
+            <div class="container">
                 <div class="terms-container">
                     <p class="fw-bold">Terms & Conditions</p>
                     <div class="terms-content">
@@ -318,14 +349,19 @@
                 </div>
             </div>
 
-            <div class="row container mb-1">
+            <div class="row container">
                 <div class="col-md-6">
-                    <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                        <label class="form-check-label" for="exampleCheck1"> I’m Agree Tram & Condition</label>
+                    <div class="mb-1 form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1"
+                            v-model="studentInformationAll.terms_condition"
+                            :checked="studentInformationAll.terms_condition === 1">
+                        <label class="form-check-label" for="exampleCheck1">
+                            I’m Agree Tram & Condition
+                        </label>
                     </div>
                 </div>
             </div>
+
 
             <div class="row container">
                 <div class="col-md-2">
@@ -337,19 +373,19 @@
             </div>
             <div class="row container">
                 <div class="col-md-4">
-                    <h4 class="fw-bold">Fee: <span class="text-danger">{{ admissionFee.fee }}</span></h4>
+                    <h5 class="fw-bold">Fee: <span class="text-danger">{{ admissionFee.fee }}</span></h5>
                 </div>
             </div>
 
-            <div class="row container mb-1 align-items-center">
+            <div class="row container  align-items-center">
                 <div class="col-md-3 d-flex align-items-center">
                     <p class="mb-0">Please Payment Online</p>
                 </div>
                 <div class="col-md-3">
                     <div class="payment_image d-flex justify-content-center gap-4">
-                        <img src="../../../../../public/frontend/images/bkash.webp" width="100" height="50" alt="">
-                        <img src="../../../../../public/frontend/images/visa2.webp" width="100" height="50" alt="">
-                        <img src="../../../../../public/frontend/images/ssl.png" width="100" height="50" alt="">
+                        <img src="../../../../../public/frontend/images/bkash.webp" width="100" height="40" alt="">
+                        <img src="../../../../../public/frontend/images/visa2.webp" width="100" height="40" alt="">
+                        <img src="../../../../../public/frontend/images/ssl.png" width="100" height="40" alt="">
                     </div>
                 </div>
             </div>
@@ -411,7 +447,7 @@ export default {
                             return acc;
                         }, {})
                     );
-                    
+
                 }
             } catch (error) {
                 console.error("Error fetching class data:", error);
@@ -428,6 +464,7 @@ export default {
                         Authorization: `Bearer ${token}`,
                     },
                 });
+                console.log(response)
                 if (response.data && response.data.message) {
                     studentClassInformation.value = response.data.data
                 }
@@ -591,46 +628,39 @@ h6 {
     padding: 5px 15px;
 }
 
-/* General styling */
 body {
     font-family: Arial, sans-serif;
     font-size: 14px;
-    /* Adjust this as needed */
 }
 
+.forprint {
+    display: none;
+}
 
-
-/* Styles for printing */
 @media print {
-    .admissionform {
-        background-color: #004aac;
-    }
-
-    .present_address p {
-        line-height: 0.5;
-    }
-
-    .permanent_address p {
-        line-height: 0.5;
-    }
-
-    .mainaddress p {
-        line-height: .5;
-    }
-
-    .studentrelation p {
-        line-height: 0.5;
-    }
-
-    .idno {
-        color: #ac8af2;
-    }
-
-    /* General styling */
     body {
-        font-family: Arial, sans-serif;
-        font-size: 20px;
-        /* Adjust this as needed */
+        margin: 0;
+        padding: 0;
+    }
+
+    .container-fluid,
+    .container {
+        margin-bottom: 20px;
+    }
+
+    table {
+        page-break-inside: avoid;
+    }
+
+    .notice {
+        line-height: 1.2;
+    }
+
+
+    .main-div {
+        background-color: white;
+        font-size: 25px;
+        line-height: 0.9;
     }
 
     .admissionfair {
@@ -639,6 +669,20 @@ body {
 
     .printbuttondiv {
         display: none !important;
+    }
+
+    .forprint {
+        display: block !important;
+    }
+
+    body {
+        transform: scale(0.9);
+        transform-origin: top left;
+    }
+
+    .education_font_size {
+        font-size: 30px !important;
+        font-weight: bold !important;
     }
 }
 </style>

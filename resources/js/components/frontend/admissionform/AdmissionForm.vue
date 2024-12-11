@@ -124,6 +124,9 @@
                                                                 class="text-danger">
                                                                 This field is required.
                                                             </span>
+                                                            <p v-if="errors2" class="error-message text-danger">{{
+                                                                errors2
+                                                                }}</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -142,6 +145,8 @@
                                                                 class="text-danger">
                                                                 This field is required.
                                                             </span>
+                                                            <p v-if="errors" class="error-message text-danger">{{ errors
+                                                                }}</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -273,37 +278,93 @@ export default {
         const Picture = ref(null);
         const isChecked = ref(false);
         const formSubmitted = ref(false);
+        const errors = ref("");
+        const errors2 = ref("");
 
+        // const onFileSelect = (event) => {
+        //     const file = event.target.files[0];
+        //     if (file.size > 1048576) {
+        //         Toast.fire({
+        //             icon: "warning",
+        //             title: "Image must be less than 1 MB!",
+        //         });
+        //     } else {
+        //         const reader = new FileReader();
+        //         reader.onload = (e) => {
+        //             signature.value = e.target.result;
+        //         };
+        //         reader.readAsDataURL(file);
+        //     }
+        // };
         const onFileSelect = (event) => {
             const file = event.target.files[0];
-            if (file.size > 1048576) {
-                Toast.fire({
-                    icon: "warning",
-                    title: "Image must be less than 1 MB!",
-                });
-            } else {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    signature.value = e.target.result;
-                };
-                reader.readAsDataURL(file);
+            if (!file) {
+                errors.value = "No file selected!";
+                return;
             }
+            errors.value = "";
+            if (file.size > 1048576) {
+                errors.value = "Image must be less than 1 MB!";
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    if (img.width === 450 && img.height === 600) {
+                        signature.value = e.target.result;
+                        errors.value = "";
+                    } else {
+                        errors.value = "Image must be 450px by 450px!";
+                    }
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
         };
+
+        // const onFileSelect2 = (event) => {
+        //     const file = event.target.files[0];
+        //     if (file.size > 1048576) {
+        //         Toast.fire({
+        //             icon: "warning",
+        //             title: "Image must be less than 1 MB!",
+        //         });
+        //     } else {
+        //         const reader = new FileReader();
+        //         reader.onload = (e) => {
+        //             Picture.value = e.target.result;
+        //         };
+        //         reader.readAsDataURL(file);
+        //     }
+        // };
 
         const onFileSelect2 = (event) => {
             const file = event.target.files[0];
-            if (file.size > 1048576) {
-                Toast.fire({
-                    icon: "warning",
-                    title: "Image must be less than 1 MB!",
-                });
-            } else {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    Picture.value = e.target.result;
-                };
-                reader.readAsDataURL(file);
+            if (!file) {
+                errors2.value = "No file selected!";
+                return;
             }
+            errors2.value = "";
+
+            if (file.size > 1048576) {
+                errors2.value = "Image must be less than 1 MB!";
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    if (img.width === 450 && img.height === 600) {
+                        Picture.value = e.target.result;
+                        errors2.value = "";
+                    } else {
+                        errors2.value = "Image must be 450px by 450px!";
+                    }
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
         };
 
         const fetchAcademy = async () => {
@@ -563,7 +624,9 @@ export default {
             academy_details,
             isMobile,
             cleanedClassDetails,
-            formSubmitted
+            formSubmitted,
+            errors,
+            errors2
         };
     },
 };

@@ -54,7 +54,11 @@ class Student extends Model
         'st_signature',
         'education',
         'admission_id',
-        'admission_assign_id'
+        'admission_assign_id',
+        'terms_condition',
+        'status',
+        'payment_data',
+        'payment_type'
     ];
     protected $casts = [
         'education' => 'json',

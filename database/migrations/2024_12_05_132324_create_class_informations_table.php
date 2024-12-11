@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('date')->nullable();
             $table->unsignedBigInteger('assign_class_id')->nullable();
             $table->boolean('status')->default(true);
-            $table->foreign('assign_class_id')->references('id')->on('admissionassigns')->onDelete('cascade');
+            $table->foreign('assign_class_id')->references('id')->on('admissionassigns')->onDelete('set null');
             $table->timestamps();
         });
     }

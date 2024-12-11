@@ -138,7 +138,7 @@ class StudentController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
         $studentAdmission = Student::where('admission_id', $admission->id)->first();
-        $admissionClassInformation=ClassInformation::where('assign_class_id',$studentAdmission->id)->first();
+        $admissionClassInformation=ClassInformation::where('assign_class_id',$studentAdmission->admission_assign_id)->first();
         return ResponseHelper::success($admissionClassInformation,"Admission Class Information data retrive successfully");
     }
 }

@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('email')->unique();
             $table->string('password');
-            $table->unsignedBigInteger('assigned_class_id');
-            $table->foreign('assigned_class_id')->references('id')->on('admissionassigns')->onDelete('cascade');
+            $table->unsignedBigInteger('assigned_class_id')->nullable();
+            $table->foreign('assigned_class_id')->references('id')->on('admissionassigns')->onDelete('set null');
             $table->timestamps();
         });
     }
