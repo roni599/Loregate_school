@@ -46,7 +46,7 @@
                     <router-link :to="`/home-magazinelistview/${magazine.id}`" class="text-decoration-none">
                         <div class="new_education text-center">
                             <img :src="`/backend/images/magazine/${magazine.image}`" :alt="magazine.name"
-                                class="img-fluid" width="308" height="120" />
+                                class="img-fluid magazine-img" />
                             <p class="text-black fw-bold mt-3">{{ magazine.heading }}</p>
                             <p class="description pp">
                                 {{ truncateDescription(magazine.description) }} <br />
@@ -146,5 +146,10 @@ export default {
 
 .cursor-pointer {
     cursor: pointer;
+}
+
+.magazine-img {
+    width: 308px;
+    height: 120px;
 }
 </style>

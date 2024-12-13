@@ -97,11 +97,12 @@ export default {
 
         const submitLogin = async () => {
             try {
-                const response = await axios.post(`/api/auth/admissionregister/login`, loginForm.value);
+                const response = await axios.post(`/api/admissionregister/login`, loginForm.value);
                 if (response.data) {
                     localStorage.setItem('token', response.data.access_token);
                     localStorage.setItem('student_id', response.data.student_id);
-                    router.push({ name: 'AdmissionForm' });
+                    // router.push({ name: 'AdmissionForm' });
+                    router.push({ name: 'StudentProfile' });
                 }
             } catch (error) {
                 if (error.response && error.response.status === 401) {

@@ -25,6 +25,9 @@ import AdmissionRegister from '../components/frontend/admissionform/AdmissionReg
 import AddmissionForget from '../components/frontend/admissionform/AddmissionForget.vue';
 import AdmissionForm from '../components/frontend/admissionform/AdmissionForm.vue';
 import AddmissionformView from '../components/frontend/admissionform/AddmissionformView.vue';
+import StudentProfile from '../components/frontend/admissionform/StudentProfile.vue';
+import AdmissionformTable from '../components/frontend/admissionform/AdmissionformTable.vue';
+
 
 // login components
 import Login from '../components/auth/Login.vue';
@@ -217,6 +220,10 @@ const routes = [
     { name: 'AddmissionForget', component: AddmissionForget, path: '/admissionforget' },
     { name: 'AdmissionForm', component: AdmissionForm, path: '/admissionform' },
     { name: 'AddmissionformView', component: AddmissionformView, path: '/admissionformview' },
+    { name: 'StudentProfile', component: StudentProfile, path: '/student-profile' },
+    { name: 'AdmissionformTable', component: AdmissionformTable, path: '/studentadmission-table' },
+    
+
 
     //backend part
     {

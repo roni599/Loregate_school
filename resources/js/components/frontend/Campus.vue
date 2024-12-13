@@ -5,7 +5,7 @@
             class="campus_image row justify-content-center align-items-center">
             <div v-for="(picture, picIndex) in extractPictures(campuspicture)" :key="`picture-${index}-${picIndex}`"
                 class="col-12 col-sm-6 col-md-6 d-flex justify-content-center">
-                    <img :src="`/backend/images/campus/${picture}`" class="img-fixed" alt="Campus Picture" />
+                <img :src="`/backend/images/campus/${picture}`" class="img-fixed" alt="Campus Picture" />
             </div>
         </div>
     </div>
@@ -34,24 +34,26 @@ export default {
 </script>
 
 <style scoped>
-.textcolor{
-    color: rgb(52,110,253);
+.textcolor {
+    color: rgb(52, 110, 253);
 }
+
 .img-fixed {
-  width: 600px;
-  height: 300px;
-  object-fit: cover;
-  display: block;
+    width: 600px;
+    height: 300px;
+    object-fit: cover;
+    display: block;
 }
+
 @media (max-width: 768px) {
-  .img-fixed {
-    width: 100%; /* Full width of the container */
-    height: auto; /* Maintain aspect ratio */
-    margin-bottom: 15px; /* Add gap between images */
-  }
-  
-  .campus_image {
-    gap: 5px; /* Add a gap between rows */
-  }
+    .img-fixed {
+        width: 100%;
+        height: auto;
+        margin-bottom: 15px;
+    }
+
+    .campus_image {
+        gap: 5px;
+    }
 }
 </style>

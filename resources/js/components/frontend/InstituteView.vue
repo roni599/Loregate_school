@@ -9,7 +9,7 @@
                     <div class="prime_minister_picture mb-2">
                         <img v-if="primePresedent.prime_minister_image"
                             :src="`/backend/images/primepresedent/${primePresedent.prime_minister_image}`" width="150"
-                            alt="Prime Minister">
+                            height="200px" alt="Prime Minister">
                     </div>
                     <div class="education_minister_name_details">
                         <p>{{ primePresedent.prime_minister_name }}</p>
@@ -22,7 +22,7 @@
                     </div>
                     <div class="education_minister_picture mb-2 me-3">
                         <img v-if="educationBoard.e_image"
-                            :src="`/backend/images/educationboard/${educationBoard.e_image}`" width="150"
+                            :src="`/backend/images/educationboard/${educationBoard.e_image}`" width="150" height="200px"
                             alt="Education Minister">
                     </div>
                     <div class="education_minister_name_details">
@@ -33,13 +33,14 @@
 
             <div class="col-md-6">
                 <div class="institute_history mb-3">
-                <div class="institute_history_heading mt-4 fw-bold fs-5">
+                    <div class="institute_history_heading mt-4 fw-bold fs-5">
                         <a href="#" class="text-dark">প্রতিষ্ঠানের ইতিহাস</a>
                     </div>
                     <div class="institute_history_details">
                         <p class="">
                             {{ history }}
-                            <button v-if="fullHistory.length > 10" class="btn btn-link p-0 ms-2 showmore" @click="toggleModal">
+                            <button v-if="fullHistory.length > 10" class="btn btn-link p-0 ms-2 showmore"
+                                @click="toggleModal">
                                 Show More
                             </button>
                         </p>
@@ -54,7 +55,7 @@
                     <div class="prime_minister_picture mb-2">
                         <img v-if="primePresedent.president_image"
                             :src="`/backend/images/primepresedent/${primePresedent.president_image}`" width="150"
-                            alt="President">
+                            height="200px" alt="President">
                     </div>
                     <div class="education_minister_name_details">
                         <p>{{ primePresedent.president_name }}</p>
@@ -66,7 +67,7 @@
                     </div>
                     <div class="education_minister_picture mb-2">
                         <img v-if="educationBoard.b_image"
-                            :src="`/backend/images/educationboard/${educationBoard.b_image}`" width="150"
+                            :src="`/backend/images/educationboard/${educationBoard.b_image}`" width="150" height="200px"
                             alt="Board Chairman">
                     </div>
                     <div class="education_minister_name_details">
@@ -85,20 +86,20 @@
                 <div class="prime_minister_picture">
                     <img v-if="primePresedent.prime_minister_image"
                         :src="`/backend/images/primepresedent/${primePresedent.prime_minister_image}`" width="150"
-                        alt="Prime Minister">
+                        height="200px" alt="Prime Minister">
                 </div>
                 <div class="education_minister_name_details w-10">
                     <p>{{ primePresedent.prime_minister_name }}</p>
                 </div>
             </div>
             <div class="prime_minister d-flex align-items-center w-50 mb-3 ps-3">
-                <div class="prime_minister_name mb-3 w-100 prime_color">
+                <div class="prime_minister_name mb-2 w-100 prime_color">
                     <p>{{ primePresedent.president_designation }}</p>
                 </div>
                 <div class="prime_minister_picture">
                     <img v-if="primePresedent.president_image"
                         :src="`/backend/images/primepresedent/${primePresedent.president_image}`" width="134"
-                        alt="President">
+                        height="200px" alt="President">
                 </div>
                 <div class="education_minister_name_details">
                     <p>{{ primePresedent.president_name }}</p>
@@ -112,19 +113,19 @@
                 </div>
                 <div class="education_minister_picture">
                     <img v-if="educationBoard.e_image" :src="`/backend/images/educationboard/${educationBoard.e_image}`"
-                        width="140" alt="Education Minister">
+                        width="140" height="200px" alt="Education Minister">
                 </div>
                 <div class="education_minister_name_details">
                     <p>{{ educationBoard.eminister_name }}</p>
                 </div>
             </div>
             <div class="education_minister d-flex align-items-center w-50 mb-3">
-                <div class="education_minister_name mb-3 w-100 prime_color">
+                <div class="education_minister_name mb-2 w-100 prime_color">
                     <p>{{ educationBoard.bdesignation }}</p>
                 </div>
                 <div class="education_minister_picture">
                     <img v-if="educationBoard.b_image" :src="`/backend/images/educationboard/${educationBoard.b_image}`"
-                        width="134" alt="Board Chairman">
+                        width="134" height="200px" alt="Board Chairman">
                 </div>
                 <div class="education_minister_name_details">
                     <p>{{ educationBoard.bminister_name }}</p>
@@ -220,11 +221,13 @@ export default {
 .texttag {
     text-align: justify;
 }
-.prime_color{
-    background-color: rgb(6,168,225);
+
+.prime_color {
+    background-color: rgb(6, 168, 225);
     border-radius: 5px;
 }
-.showmore{
-    color: rgb(6,168,225);
+
+.showmore {
+    color: rgb(6, 168, 225);
 }
 </style>

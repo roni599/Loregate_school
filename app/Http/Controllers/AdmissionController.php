@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ResponseHelper;
 use App\Models\Admission;
+use App\Models\Student;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -51,9 +53,14 @@ class AdmissionController extends Controller
         return $this->respondWithToken($token);
     }
 
-    public function me()
+    public function studentme()
     {
-        return response()->json(auth('admissions')->user());
+        $admission = auth('admissions')->user();
+        $students = Student::with(['admission', 'admissionassign'])
+            ->where('admission_id', $admission->id)
+            ->get();
+
+        return ResponseHelper::success($students, 'studentd admission data retrive successfully');
     }
 
     public function logout()

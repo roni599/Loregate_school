@@ -1,11 +1,13 @@
 <template>
-    <div class="academy_propitor_teacher_gallary container d-flex flex-column flex-lg-row align-items-center gap-4 mb-5">
+    <div
+        class="academy_propitor_teacher_gallary container d-flex flex-column flex-lg-row align-items-center gap-4 mb-5">
         <div class="all col-12 col-lg-4 px-5">
             <p class="text-center mb-3 fw-bold fs-6"> Academy Proprietor</p>
             <div class="academy_propitor gap-3 d-flex justify-content-center mb-3">
                 <div v-for="(item) in displayedData" :key="item.id" class="img_academy_propitor">
-                    <img v-if="item.image" :src="`/backend/images/managingcummunity/${item.image}`" width="100px"
-                        :alt="item.name" />
+                    <img v-if="item.image" :src="`/backend/images/managingcummunity/${item.image}`" :alt="item.name"
+                        class="community-img" />
+
                 </div>
             </div>
             <router-link to="/home-managingcommunity" class="text-decoration-none">
@@ -14,7 +16,7 @@
             <p class="text-center fw-bold fs-6">Teacher Gallery</p>
             <div class="academy_propitor gap-3 d-flex justify-content-center mb-3">
                 <div v-for="(item) in displayedData2" :key="item.id" class="img_academy_propitor">
-                    <img v-if="item.image" :src="`/backend/images/teachergallery/${item.image}`" width="100px"
+                    <img v-if="item.image" :src="`/backend/images/teachergallery/${item.image}`" class="community-img"
                         :alt="item.name" />
                 </div>
             </div>
@@ -218,6 +220,11 @@ export default {
     width: 10%;
     margin-left: auto;
     border-top: 1px solid black;
+}
+
+.community-img {
+    width: 130px;
+    height: 140px;
 }
 
 @media print {

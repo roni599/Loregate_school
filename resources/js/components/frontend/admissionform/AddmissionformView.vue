@@ -79,8 +79,9 @@
                 </div>
                 <div class="student_image col-12 col-md-6 col-lg-3 d-flex justify-content-center mb-lg-0">
                     <img v-if="studentInformationAll.st_picture"
-                        :src="`/backend/images/StudentsInformation/${studentInformationAll.st_picture}`" width="190"
-                        height="190" alt="Eternal Freedom Institute Logo" />
+                        :src="`/backend/images/StudentsInformation/${studentInformationAll.st_picture}`"
+                        alt="Eternal Freedom Institute Logo" class="passport-img" />
+
                 </div>
                 <div class="admissionName col-12 col-md-6 col-lg-3 mb-3 mb-lg-0">
                     <table class="table table-bordered  text-center">
@@ -636,6 +637,12 @@ body {
 .forprint {
     display: none;
 }
+
+.passport-img {
+    width: 180px;
+    height: 190px;
+}
+
 
 @media print {
     body {

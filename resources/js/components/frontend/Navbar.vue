@@ -1,12 +1,12 @@
 <template>
     <div class="header mb-2">
         <nav class="navbar navbar-expand-lg navbar-light nav_color">
-            <div class="container-fluid d-flex justify-content-between align-items-center">
+            <div class="container-fluid px-2 d-flex justify-content-between align-items-center">
                 <!-- Left Section: Logo and Academy Details -->
                 <div class="loragate d-flex align-items-center text-white w-75">
                     <img v-if="academy_details.academy_logo"
-                        :src="`/backend/images/academy/${academy_details.academy_logo}`" width="45" height="45"
-                        class="rounded-circle me-2" alt="Academy Logo">
+                        :src="`/backend/images/academy/${academy_details.academy_logo}`" width="40" height="40"
+                        class="rounded-circle me-1" alt="Academy Logo">
 
                     <div class="no-line-height w-100">
                         <template v-if="isMobile && isLongName">
@@ -31,7 +31,7 @@
                         </span>
                     </div>
                 </div>
-                <button class="navbar-toggler w-25" type="button" data-bs-toggle="collapse"
+                <button class="navbar-toggler  w-25" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>

@@ -125,7 +125,7 @@ export default {
 
         const submitForm = async () => {
             try {
-                const response = await axios.post('/api/auth/admissionregister/store', registerForm.value);
+                const response = await axios.post('/api/admissionregister/store', registerForm.value);
                 if (response.data) {
                     // localStorage.setItem('access_token', response.data);
                     // localStorage.setItem('student_id', response.data.student_id.id);

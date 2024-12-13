@@ -55,9 +55,11 @@ Route::group([
     Route::post('logout', [AuthController::class, 'logout']);
     Route::post('refresh', [AuthController::class, 'refresh']);
     Route::get('me', [AuthController::class, 'me']);
-    Route::post('/admissionregister/store',[AdmissionController::class,'signup']);
-    Route::post('/admissionregister/login',[AdmissionController::class,'login']);
 });
+
+Route::post('/admissionregister/store',[AdmissionController::class,'signup']);
+Route::post('/admissionregister/login',[AdmissionController::class,'login']);
+Route::get('/admissionregister/studentme',[AdmissionController::class,'studentme']);
 
 Route::get('/academy/header', [AcademyController::class, 'index']);
 Route::post('/academy/header/store-update', [AcademyController::class, 'storeUpdate']);

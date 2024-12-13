@@ -323,7 +323,6 @@ export default {
         // });
         onMounted(async () => {
             const token = localStorage.getItem('token');
-
             if (token) {
                 if (!sessionStorage.getItem('hasReloaded')) {
                     sessionStorage.setItem('hasReloaded', 'true');
