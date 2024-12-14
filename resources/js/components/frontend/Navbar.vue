@@ -64,8 +64,6 @@
     </div>
 </template>
 
-
-
 <script>
 import axios from 'axios';
 import { onMounted, ref, computed } from 'vue';
@@ -164,17 +162,17 @@ export default {
 }
 .marquee {
     display: block;
-    white-space: nowrap; /* Prevent text from wrapping */
-    overflow: hidden; /* Hide text outside the container */
-    width: 100%; /* Ensure it spans the full width of the parent container */
+    white-space: nowrap; 
+    overflow: hidden; 
+    width: 100%;
     box-sizing: border-box;
     position: relative;
 }
 
 .marquee span {
     display: inline-block;
-    padding-left: 100%; /* Start off-screen */
-    animation: scroll-left 10s linear infinite;
+    padding-left: 100%;
+    animation: scroll-left 20s linear infinite;
 }
 
 @keyframes scroll-left {

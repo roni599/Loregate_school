@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('field_name');
             $table->string('field_type');
-            $table->json('options')->nullable();
+            // $table->json('options')->nullable();
             $table->boolean('required')->default(false);
             $table->boolean('status')->default(true);
             $table->unsignedBigInteger('form_name_id');

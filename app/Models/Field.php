@@ -11,7 +11,7 @@ class Field extends Model
     protected $fillable = [
         'field_name',
         'field_type',
-        'options',
+        // 'options',
         'required',
         'status',
         'form_name_id'

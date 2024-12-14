@@ -23,8 +23,8 @@ class FieldController extends Controller
         $validatedData = $request->validate([
             'field_name' => 'required|string|max:255',
             'field_type' => 'required|string|in:text,password,email,select,date,textarea,file,button,number,radio,checkbox',
-            'options'    => 'nullable|array',
-            'options.*'  => 'string|max:255',
+            // 'options'    => 'nullable|array',
+            // 'options.*'  => 'string|max:255',
             'required'   => 'boolean',
             'formname'  => 'required|integer'
         ]);
@@ -32,7 +32,7 @@ class FieldController extends Controller
         $field = Field::create([
             'field_name' => $validatedData['field_name'],
             'field_type' => $validatedData['field_type'],
-            'options'    => $validatedData['options'] ?? [],
+            // 'options'    => $validatedData['options'] ?? [],
             'required' => $validatedData['required'],
             'form_name_id' => $validatedData['formname'],
         ]);

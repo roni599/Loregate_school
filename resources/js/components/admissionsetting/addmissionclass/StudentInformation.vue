@@ -6,7 +6,7 @@
                 <span class="text-muted h5"> / Student-information</span>
             </div>
         </div>
-        <div class="row mb-3">
+        <!-- <div class="row mb-3">
             <div class="buttonalign d-flex justify-content-md-start justify-content-center gap-2">
                 <div>
                     <button @click="componentLoad('AdmissionassignformType')" class="btn btn-info px-5">Form Name
@@ -19,7 +19,26 @@
                     <button @click="componentLoad('StudentinformationList')" class="btn btn-info px-5">List</button>
                 </div>
             </div>
+        </div> -->
+        <div class="row mb-3">
+            <div
+                class="buttonalign d-flex flex-column flex-md-row justify-content-md-start justify-content-center gap-2">
+                <div class="w-100">
+                    <button @click="componentLoad('AdmissionassignformType')" class="btn btn-info px-5 w-100">Form Name
+                        Assign</button>
+                </div>
+                <div class="w-100">
+                    <button @click="anotherLoad" class="btn btn-info px-5 w-100">Student Information Field
+                        Create</button>
+                </div>
+                <div class="w-100">
+                    <button @click="componentLoad('StudentinformationList')"
+                        class="btn btn-info px-5 w-100">List</button>
+                </div>
+            </div>
         </div>
+
+
         <div v-show="!currentComponent" class="row">
             <div class="col-lg-12">
                 <div class="card mb-3">
@@ -54,11 +73,11 @@
                                     <option value="checkbox">checkbox</option>
                                 </select>
 
-                                <div v-if="field.field_type === 'select'" class="form-group mb-4">
+                                <!-- <div v-if="field.field_type === 'select'" class="form-group mb-4">
                                     <label for="options">Options (comma separated)</label>
                                     <input v-model="field.options" type="text" class="form-control mb-3 p-3"
                                         placeholder="e.g., Option 1, Option 2, Option 3" />
-                                </div>
+                                </div> -->
 
                                 <div class="form-check mb-4">
                                     <input v-model="field.required" id="required" type="checkbox"
@@ -93,7 +112,7 @@ export default {
         const field = ref({
             field_name: '',
             field_type: '',
-            options: '',
+            // options: '',
             formname: '',
             required: false
         });
@@ -109,7 +128,7 @@ export default {
                 field_name: field.value.field_name,
                 field_type: field.value.field_type,
                 formname: field.value.formname,
-                options: field.value.options ? field.value.options.split(',') : [],
+                // options: field.value.options ? field.value.options.split(',') : [],
                 required: field.value.required
             };
 
