@@ -271,6 +271,7 @@
 <script>
 import { useRouter } from 'vue-router';
 import { onMounted, ref } from 'vue';
+import User from '../Helpers/User';
 export default {
     name: "App",
     setup() {
@@ -313,28 +314,40 @@ export default {
         };
 
         // onMounted(async () => {
-        //     if (!(await User.loggedIn())) {
+        //     const hasReloaded = sessionStorage.getItem('hasReloaded');
+        //     if (!(User.loggedIn())) {
         //         router.push({ name: "Login" });
+        //         return;
         //     }
-        //     else {
-        //         userdataFetch();
-        //         fetchData()
+
+        //     if (!hasReloaded) {
+        //         sessionStorage.setItem('hasReloaded', 'true');
+        //         window.location.reload();
+        //     } else {
+        //         sessionStorage.removeItem('hasReloaded');
+        //         await userdataFetch();
+        //         await fetchData();
         //     }
         // });
+
         onMounted(async () => {
             const token = localStorage.getItem('token');
-            if (token) {
-                if (!sessionStorage.getItem('hasReloaded')) {
+            const user = localStorage.getItem('user');
+            const hasReloaded = sessionStorage.getItem('hasReloaded');
+            if (token && user) {
+                if (!hasReloaded) {
                     sessionStorage.setItem('hasReloaded', 'true');
                     window.location.reload();
                 } else {
-                    userdataFetch();
-                    fetchData();
+                    sessionStorage.removeItem('hasReloaded');
+                    await userdataFetch();
+                    await fetchData();
                 }
             } else {
                 router.push({ name: "Login" });
             }
         });
+
 
         return {
             usersProfile,
@@ -451,6 +464,7 @@ export default {
         margin: 0;
         padding: 0;
     }
+
     #print-area {
         display: block;
     }

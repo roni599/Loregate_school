@@ -23,7 +23,7 @@
     <router-view name="content"></router-view>
   </div>
   <div class="footer_details footer">
-      <Footer ></Footer>
+    <Footer></Footer>
   </div>
 </template>
 
@@ -126,9 +126,20 @@ export default {
           loading.value = false;
         })
     })
+    // onMounted(async () => {
+    //   if (await User.loggedIn()) {
+    //     router.push({ name: "BackHome" });
+    //   }
+    // });
     onMounted(async () => {
-      if (await User.loggedIn()) {
+      const token = localStorage.getItem('token');
+      const user = localStorage.getItem('user');
+      const student_id = localStorage.getItem('student_id');
+      if (token && user) {
         router.push({ name: "BackHome" });
+      }
+      else if (token && student_id) {
+        router.push({ name: 'StudentProfile' })
       }
     });
     return {
