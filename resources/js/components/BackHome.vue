@@ -333,6 +333,7 @@ export default {
         onMounted(async () => {
             const token = localStorage.getItem('token');
             const user = localStorage.getItem('user');
+            const student_id = localStorage.getItem('student_id')
             const hasReloaded = sessionStorage.getItem('hasReloaded');
             if (token && user) {
                 if (!hasReloaded) {
@@ -343,6 +344,9 @@ export default {
                     await userdataFetch();
                     await fetchData();
                 }
+            }
+            else if (token && student_id) {
+                router.push({ name: 'StudentProfile' })
             } else {
                 router.push({ name: "Login" });
             }

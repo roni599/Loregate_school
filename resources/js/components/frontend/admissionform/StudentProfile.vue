@@ -34,7 +34,8 @@
             </div>
         </div>
         <div class="position-absolute top-50 start-50 translate-middle d-flex flex-column align-items-center w-50">
-            <router-link to="/studentadmission-table" class="btn btn-sm btn-success w-100 mb-3 p-2">View Your Admission Form</router-link>
+            <router-link to="/studentadmission-table" class="btn btn-sm btn-success w-100 mb-3 p-2">View Your Admission
+                Form</router-link>
             <router-link to="/admissionform" class="btn btn-sm btn-info w-100">Apply Admission</router-link>
         </div>
 
@@ -77,6 +78,8 @@ export default {
             isMobile.value = window.innerWidth <= 768;
         };
         const Gohome = () => {
+            localStorage.clear('token');
+            localStorage.clear('student_id');
             router.push({ name: "HomeFront" })
         }
         const formatAddress = (address) => {
@@ -89,7 +92,18 @@ export default {
             return formattedAddress;
         };
         onMounted(() => {
-            fetchAcademy();
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+            const student_id = localStorage.getItem('student_id');
+            if (token && user) {
+                router.push({ name: "BackHome" });
+            }
+            else if (token && student_id) {
+                fetchAcademy();
+            }
+            else {
+                router.push({ name: "HomeFront" });
+            }
         })
 
         return {

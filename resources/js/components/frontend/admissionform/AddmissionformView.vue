@@ -540,15 +540,22 @@ export default {
         };
 
         onMounted(async () => {
-            if (!token) {
-                router.push({ name: "HomeFront" });
-            } else {
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+            const student_id = localStorage.getItem('student_id');
+            if (token && user) {
+                router.push({ name: "BackHome" });
+            }
+            else if (token && student_id) {
                 try {
                     await Promise.all([fetchStudentAdmissions(), conditions(), fetchAcademy(), admissionClassInformation()]);
                     window.addEventListener("resize", checkScreenSize);
                 } catch (error) {
                     console.error("Error during onMounted execution:", error);
                 }
+            }
+            else {
+                router.push({ name: "HomeFront" });
             }
         });
         const Gohome = () => {

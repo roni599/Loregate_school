@@ -966,10 +966,13 @@ export default {
         });
 
         onMounted(() => {
-            if (!token) {
-                router.push({ name: "HomeFront" })
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+            const student_id = localStorage.getItem('student_id');
+            if (token && user) {
+                router.push({ name: "BackHome" });
             }
-            else {
+            else if (token && student_id) {
                 fetchClassData();
                 fetchForm();
                 fetchData();
@@ -978,6 +981,10 @@ export default {
                 fetchAcademy(),
                     window.addEventListener("resize", checkScreenSize);
             }
+            else {
+                router.push({ name: "HomeFront" });
+            }
+
         });
 
         const getFieldOptions = (field, form_Address) => {
