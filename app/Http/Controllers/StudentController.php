@@ -14,8 +14,8 @@ class StudentController extends Controller
     public function index()
     {
         // $student = Student::all();
-        $student=Student::with(['admission','admissionassign'])->get();
-        return ResponseHelper::success($student,"Student data retrive successfully");
+        $student = Student::with(['admission', 'admissionassign'])->get();
+        return ResponseHelper::success($student, "Student data retrive successfully");
     }
 
     public function store(Request $request)
@@ -100,9 +100,9 @@ class StudentController extends Controller
             'education' => json_encode($educationData),
             'admission_id' => $admission->id,
             'student_id' => $uuid,
-            'admission_assign_id'=>$request->class_id
+            'admission_assign_id' => $request->class_id
         ];
-        
+
         $student = Student::create($data);
 
         return response()->json([
@@ -117,28 +117,35 @@ class StudentController extends Controller
         if (!$admission) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
+        // $studentAdmission = Student::where('admission_id', $admission->id)
+        //     ->with('admission.admissionAssign')
+        //     ->first();
         $studentAdmission = Student::where('admission_id', $admission->id)
-            ->with('admission.admissionAssign')
+            ->with(['admission.admissionAssign']) // Load the related data
+            ->latest('created_at') // Order by the latest `created_at`
             ->first();
         return ResponseHelper::success($studentAdmission, 'Student data retrive successfully');
     }
 
-    public function finddata($id){
-        $studentAdmission = Student::with(['admission','admissionassign'])->find($id);
+    public function finddata($id)
+    {
+        $studentAdmission = Student::with(['admission', 'admissionassign'])->find($id);
         return ResponseHelper::success($studentAdmission, 'Student data retrive successfully');
     }
-    public function studentadmissionClassInformationfinddata($id){
-        $student=Student::findOrFail($id);
-        $admissionClassInformation=ClassInformation::where('assign_class_id',$student->admission_assign_id)->first();
-        return ResponseHelper::success($admissionClassInformation,'Admission Class Information data retrive successfully');
+    public function studentadmissionClassInformationfinddata($id)
+    {
+        $student = Student::findOrFail($id);
+        $admissionClassInformation = ClassInformation::where('assign_class_id', $student->admission_assign_id)->first();
+        return ResponseHelper::success($admissionClassInformation, 'Admission Class Information data retrive successfully');
     }
-    public function studentadmissionClassInformationfind(){
+    public function studentadmissionClassInformationfind()
+    {
         $admission = auth('admissions')->user();
         if (!$admission) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
         $studentAdmission = Student::where('admission_id', $admission->id)->first();
-        $admissionClassInformation=ClassInformation::where('assign_class_id',$studentAdmission->admission_assign_id)->first();
-        return ResponseHelper::success($admissionClassInformation,"Admission Class Information data retrive successfully");
+        $admissionClassInformation = ClassInformation::where('assign_class_id', $studentAdmission->admission_assign_id)->first();
+        return ResponseHelper::success($admissionClassInformation, "Admission Class Information data retrive successfully");
     }
 }

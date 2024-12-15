@@ -20,7 +20,7 @@
             jwtTTL: @json(env('JWT_TTL', 1440))
         };
     </script>
-     @vite('resources/css/app.css')
+     <link rel="stylesheet" href="./build/assets/app-qVdkaXUb.css">
 </head>
 <body class="sb-nav-fixed">
 
